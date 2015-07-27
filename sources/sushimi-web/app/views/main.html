@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>#{get 'title' /} </title>
+		
+		%{ if (get('metaContent') != null && !get('metaContent').empty) { }%
+		<meta content="#{get 'metaContent' /}"></meta>
+		%{ } }%
+		%{ if (get('metaTitle') != null && !get('metaTitle').empty) { }%
+		<meta name="title"  content="#{get 'metaTitle' /}"></meta>
+		%{ } }%
+		%{ if (get('metaDescription') != null && !get('metaDescription').empty) { }%
+		<meta name="description" content="#{get 'metaDescription' /}">
+		%{ } }%
+		%{ if (get('metaKeywords') != null && !get('metaKeywords').empty) { }%
+		<meta name="keywords" content="#{get 'metaKeywords' /}">
+		%{ } }%
+		<meta name="google-site-verification" content="Uk_5GMO9Mw4nB0Kp3ZCSwjhuQQup-O3kANXZwr71puo" />
+		<meta name="robots" content="noyaca" />
+		<meta name="robots" content="noodp" />
+		<meta name="robots" content="index,follow" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+		<script>(function(){var s='devicePixelRatio',r=window[s],d=document,c=d.cookie;if(r>0&&c.indexOf(s)<0)d.cookie=s+'='+r+';'+c})()</script>
+		<link href="/public/stylesheets/min.css" rel="stylesheet" type="text/css" />
+		<!--[if lt IE 9]>
+		<script src="/public/javascripts/html5.js"></script>
+		<link href="/public/stylesheets/pie.css" rel="stylesheet" type="text/css" />
+		<link href="/public/stylesheets/fix.css" rel="stylesheet" type="text/css" />
+		<![endif]-->
+		<link rel="shortcut icon" href="/public/images/favicon.ico" />
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/images/icon/apple-touch-icon-144x144-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/public/images/icon/apple-touch-icon-114x114-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/public/images/icon/apple-touch-icon-72x72-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" href="/public/images/icon/apple-touch-icon-precomposed.png">
+		<script src="/public/javascripts/commonjs.js"></script>
+		<script type="text/javascript" src="/public/javascripts/waypoints.min.js"></script>
+		#{get 'moreStyles' /}
+		#{get 'moreScripts' /}
+	</head>
+	<body class="#{get 'body_class'/}">
+	    <!--[if lt IE 8]>
+		<div class="alert alert-error">
+		    <p>
+		    Ваш браузер устарел. 
+		    Вы можете установить
+		    <a href="http://www.microsoft.com/rus/windows/internet-explorer/">Internet Explorer</a>,
+		    <a href="http://ru.www.mozilla.com/ru/">Mozilla Firefox</a>,
+		    <a href="http://www.google.com/chrome/thankyou.html?standalone=1">Google Chrome</a>,
+		    <a href="http://www.opera.com/">Opera</a>,
+		    <a href="http://www.apple.com/ru/safari/">Safari</a>
+		    или расширение
+		    <a href="http://www.google.com/chromeframe/?redirect=true">Google Chrome Frame</a>
+		    для комфортного просмотра сайта.
+		    </p>
+		</div><![endif]-->
+		<div class="navbar-mobile hidden-desktop">
+		    <div class="back"></div>
+		    <div class="navbar navbar-fixed-top">
+		        <div class="navbar-inner">
+		            <div class="container">
+		                <div class="nav-collapse" style="height: auto;">
+		                    <ul  class="nav">
+		                        <li><a href="/"><i class="icon-home icon-light"></i> Домой</a></li>
+		                        <li class="divider-vertical"></li>
+		                        <li>
+		                        	<a href="/menu/"><i class="icon-glass icon-light"></i> Меню</a>
+		                        	<!-- <ul class="dropdown-menu">
+		                                <li><a href="/menu/sushi/"><i class="icon-glass icon-light"></i>Суши</a></li>
+		                                <li><a href="/menu/antisushi/"><i class="icon-glass icon-light"></i>Антисуши</a></li>
+		                            </ul> -->
+		                        </li>
+		                        <li><a href="/actions/"><i class="icon-star icon-light"></i> Акции</a></li>
+		                        <li><a href="/news/"><i class="icon-file icon-light"></i> Новости</a></li>
+		                        <li><a href="/ship/"><i class="icon-road icon-light"></i> Доставка</a></li>
+		                    </ul>
+		                    <ul class="nav">
+		                        <li class="dropdown">
+		                            <a href="/about/"><i class="icon-info-sign icon-light"></i> О Сушими</a>
+		                            <ul class="dropdown-menu">
+		                                <li><a href="/about/vacancy/"><i class="icon-briefcase icon-light"></i> Вакансии</a></li>
+		                                <li><a href="/about/contacts/"><i class="icon-envelope icon-light"></i> Контакты</a></li>
+		                            </ul>
+		                        </li>
+		                    </ul>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<div class="mobile ribbon hidden-desktop">
+		    <div class="line">
+		        <div class="point">
+		        	%{ if (isCart == null || isCart == false) { }%
+		        	<a class="cart min hidden-desktop"></a>
+		        	%{ } }%
+	        	</div>
+		        %{ if (menuCategories != null && menuCategories.size() > 0) { }%
+		        <div  class="point mobile-menu"><a id="mobile-menu-id">Меню</a>
+                    <ul id="mobile-menu-ul-id" class="nav nav-pills">
+                    %{ for(category in menuCategories) { }%
+                       <li>
+                           <a id="cat_${category.id}Btn" href="#cat_${category.uniqueName}" rollapp-href="#">${category.name}</a>
+                       </li>
+                    %{ } }%
+                    </ul>
+		        </div>
+        		<script type="text/javascript">$("#mobile-menu-id").on('click', function (e) {if ($("#mobile-menu-ul-id").css("display") == "block") $("#mobile-menu-ul-id").css({display:"none"}); else $("#mobile-menu-ul-id").css({display:"block"});})</script>
+        		<script type="text/javascript">$("[id*='Btn']").on('click', function (e) {$("#mobile-menu-ul-id").css({display:"none"}); })</script>
+		        %{ } }%
+		        <div class="point"><div class="mobile up">Наверх</div></div>
+		    </div>
+		</div>
+
+		<div class="navbar navbar-fixed-top navbar-main">
+		    <div class="navbar-inner">
+		        <div class="container">
+		            <a class="btn btn-navbar mobile mobile-slide">
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		            </a>
+					<a class="brand" href="/"><span class="logo"></span></a>
+		            <div class="nav-links visible-desktop">
+		                <ul class="nav">
+		                    <li class="divider-vertical"></li>
+		                    <li class="links-menu">
+		                        <a href="/menu/">Меню</a>
+		                        <!-- <div class="panel">
+								    <div class="wrapper"></div>
+								    <div class="box">
+								        <div class="row">
+								            <div class="span6">
+								                <div class="row">
+							                        <div class="span2">
+							                            <a class="image" href="/menu/sushi/" rollapp-href="/menu/sushi/">
+							                                <img alt="Сушт" src="/public/images/menu/rolli.jpg">
+							                            </a>
+							                            <div class="title">
+							                                <a href="/menu/sushi/" rollapp-href="/menu/sushi/">Суши</a>
+							                            </div>
+							                        </div>
+							                        <div class="span2">
+							                            <a class="image" href="/menu/antisushi/" rollapp-href="/menu/antisushi/">
+							                                <img alt="Напитки" src="/public/images/menu/antisushi.jpg">
+							                            </a>
+							                            <div class="title">
+							                                <a href="/menu/antisushi/" rollapp-href="/menu/antisushi/">Антисуши</a>
+							                            </div>
+							                        </div>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								</div> -->
+                   			</li>
+		                    <li class="links-actions"><a href="/actions/">Акции</a></li>
+		                    <li class="links-ship"><a href="/ship/">Доставка</a></li>
+		                    <li class="links-news"><a href="/news/">Новости</a></li>
+                		</ul>
+            		</div>
+            		%{ if (isCart == null || isCart == false) { }%
+          			<ul class="nav pull-right visible-desktop">
+	                    <li>
+	                        <div class="cart lite">
+	                            <div class="nav-menu">
+	                                <div class="head">
+	                                    <a class="text"><i class="icon-shopping-cart"></i><span class="sum">0</span><span>&#8376;</span></a>
+	                                </div>
+	                                <div class="panel left">
+	                                    <div class="top"><span class="total"></span><a href="/client/order/">корзине</a></div>
+	                                    <div class="content"></div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </li>
+	                </ul>
+	                %{ } }%
+		        </div>
+		    </div>
+		</div>
+<!-- END MENU -->
+		<div class="wrapper-top"></div>
+		#{doLayout /}
+		
+		%{ if (htmlFooter != null && !htmlFooter.empty) { }%
+		<div class="delivery" style="margin-top: 40px;">
+			<div class="container">
+				<div class="row">
+					<div style="padding: 30px 0px 30px 30px;">
+						${htmlFooter}
+					</div>		
+				</div>
+			</div>
+		</div>
+		%{ } }%
+		<div class="wrapper-bottom"></div>
+		<footer class="visible-desktop">
+		    <div class="container">
+		        <div class="row">
+		            <div class="span4">
+	                    <p>&copy;&nbsp;<nobr>2015</nobr>  &laquo;Сушими&raquo; Астана</p>
+					    <p>
+					    	<a href="/feedback/" class="btn btn-small btn-success"><i class="aws-envelope"></i> Отправить отзыв</a>
+					    	<!-- <a href="/mobile/" class="btn btn-small btn-inverse">iOS&nbsp;&nbsp;<i class="aws-mobile-phone"></i>&nbsp;&nbsp;Android</a> -->
+					    </p>
+					    <!-- <p></p> -->
+		            </div>
+		            <div class="span2">
+		                <ul>
+		                    <li><a href="/actions/"><i class="icon-star icon-light"></i>Акции</a></li>
+		                    <li><a href="/news/"><i class="icon-file icon-light"></i>Новости</a></li>
+		                    <li><a href="/about/"><i class="icon-info-sign icon-light"></i>О Сушими</a></li>
+		                </ul>
+		            </div>
+		            <div class="span2">
+		                <ul>
+		                    <li><a href="/menu/"><i class="icon-glass icon-light"></i>Меню</a></li>
+		                    <li><a href="/about/vacancy/"><i class="icon-briefcase icon-light"></i>Вакансии</a></li>
+		                    <li><a href="/about/contacts/"><i class="aws-envelope-alt icon-light"></i>Контакты</a></li>
+		                </ul>
+		            </div>
+		            <div class="span2">
+		                <ul>
+		                    <li><a href="http://vk.com/club73751458" target="_blank"><i class="aws-vk-sign icon-light"></i>В контакте</a></li>
+		                    <li><a href="https://instagram.com/sushimi.kz/" target="_blank"><i class="icon-briefcase icon-light"></i>Instagram</a></li>
+		                </ul>
+		            </div>
+		        </div>
+		    </div>
+		</footer>
+		<div class="footer-mobile hidden-desktop">
+		    <div class="container">
+	            <p>&copy;&nbsp;<nobr>2015</nobr> &laquo;Сушими&raquo;</p>
+			    <p><a href="/feedback/" class="btn btn-small btn-success"><i class="aws-envelope"></i> Отправить отзыв</a></p>
+			    <!-- <p><i class="aws-sitemap"></i><a style="margin-left: 10px;" href="/sitemap/">Карта сайта</a></p> -->
+		    </div>
+		</div>
+		<script>var uri={local:'/'};</script>
+    	<script src="/public/javascripts/min-full-full.js"></script>
+    	<!--[if lt IE 9]><script src="/public/javascripts/fix.js"></script><![endif]-->
+    	#{if get('detail') }
+		<script type="text/javascript">
+		    $(function(){$('.cart-add').click(function(){var _=$(this).disableSelection(),c=widgets.numeric.value(_.parent().prev());widgets.cart.add([{Key:_.data('id'),Value:c,Price:_.data('price')}]);if(device.desktop())_.meteor({to:$('.cart.lite'),image:_.data('src')});});});
+		</script>
+    	#{/if}
+    	#{if get('menu_nav') }
+    		<script type="text/javascript">
+    			$(function() {
+				  $('a[href*=#]:not([href=#])').click(function() {
+				    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+				      var target = $(this.hash);
+				      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+				      if (target.length) {
+				        $('html,body').animate({
+				          scrollTop: target.offset().top
+				        }, 500);
+				        return false;
+				      }
+				    }
+				  });
+				});
+   			</script>
+    	#{/if}
+    	<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter24988001 = new Ya.Metrika({id:24988001, webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, ut:"noindex"}); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/24988001?ut=noindex" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    	<script type="text/javascript">
+		/* <![CDATA[ */
+		var google_conversion_id = 960562648;
+		var google_custom_params = window.google_tag_params;
+		var google_remarketing_only = true;
+		/* ]]> */
+		</script>
+		<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
+		<noscript>
+			<div style="display:inline;"><img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/960562648/?value=0&guid=ON&script=0"/></div>
+		</noscript>	  
+		
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-60077682-1', 'auto');
+		  ga('send', 'pageview');
+		</script>  	
+	</body>
+</html>

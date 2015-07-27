@@ -1,0 +1,117 @@
+﻿#{extends 'main.html' /}
+#{set title: page != null ? page.title : 'Вакансии - Компания «Сушими»' /}
+#{set metaTitle: page != null ? page.metaTitle : '' /}
+#{set metaContent: page != null ? page.metaContent : '' /}
+#{set metaDescription: page != null ? page.metaDescription : '' /}
+#{set metaKeywords: page != null ? page.metaKeywords : '' /}
+#{set htmlFooter: page != null ? page.htmlFooter : null /}
+
+
+#{set body_class:'body-5'/}
+
+<div class="container">
+	<div class="main" role="main">
+		<section>
+		    <div class="row">
+		        <div class="span8 offset2">
+		            <div class="lawn">
+		                <h1 style="margin-bottom:18px;">О Сушими</h1>
+		                <ul class="nav nav-tabs">
+	                        <li>
+	                            <a href="/about/" rollapp-href="http://www.yaposha.com/about/">О нас</a>
+	                        </li>
+	                        <li>
+	                            <a href="/about/contacts/" rollapp-href="http://www.yaposha.com/about/contacts/">Контакты</a>
+	                        </li>
+	                        <li class="active">
+	                            <a rollapp-href="">Вакансии</a>
+	                        </li>
+		                </ul>
+						﻿<div>Достойная работа ждет вас!
+							<div>По всем интересующим вопросам звоните по телефону +<b>7 (701) 252-8-252</b>, +<b>7 (777) 252-8-252</b>, +<b>7 (7172) 48-20-90</b></div>
+							<div><br></div>
+							<!-- <div>Руководитель отдела персонала <b>Диана Назиманова</b>.</div> -->
+							<div><br>
+								<p class="MsoListParagraphCxSpLast" style="margin-left: 1in; ">
+								<o:p></o:p>
+								</p>Просим ознакомиться с актуальными вакансиями:
+							</div>
+						</div>
+						<div><br></div>
+						<div><br></div>
+						%{ if (isAccepted == true) { }%
+						<div class="alert alert-block alert-success fade in">
+					        <button data-dismiss="alert" class="close" type="button">×</button>
+					        <h4 class="alert-heading"></h4>
+					        <p>Ваш отклик на вакансию отправлен</p>
+					        <a class="btn btn-success" data-dismiss="alert" style="margin-top:10px;">Закрыть</a>
+					    </div>
+					    %{ } }%
+					    
+						<div class="vacancy tabbable tabs-left">
+						    <div class="modal fade">
+						        <div class="modal-header">
+						            <button type="button" class="close" data-dismiss="modal">×</button>
+						            <h3>Откликнуться на вакансию</h3>
+						        </div>
+						        <form action="/about/vacancy/" enctype="multipart/form-data" method="post">
+						            <div class="modal-body">
+						                <input id="vacancyId" name="vacancyId" type="hidden" value="0" />
+						                <div class="control-group">
+											<label class="control-label" for="Name">Ф.И.О.</label>
+											<div class="controls">
+												<div class="input-prepend">
+													<span class="add-on "><i class='icon-user'></i></span><input name="name" class="span4" data-val="true" data-val-regex="&lt;span>Может содержать только буквы, цифры и знаки - ( ) « » . , ! ? + : ; ` ~ @ # $ % ^ &amp; * № &quot; &#39; |&lt;/span>" data-val-regex-pattern="[\dA-zА-яЁё«»=/\.\,\!\?\s\(\)\+\-\:\;\`\~\@\#\$\%\^\&amp;\*\№\&#39;\|\u0022]+" data-val-required="&lt;span>Напишите название&lt;/span>" type="text" />
+												</div><span class="help-inline" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+											</div>
+										</div>
+						                <div class="control-group">
+											<label class="control-label" for="Birth">Дата рождения</label>
+											<div class="controls">
+												<div class="input-prepend">
+													<span class="add-on "><i class='icon-calendar'></i></span><input name="birth" class="span2" data-val="true" data-val-regex="&lt;span>Может содержать только буквы, цифры и знаки - ( ) « » . , ! ? + : ; ` ~ @ # $ % ^ &amp; * № &quot; &#39; |&lt;/span>" data-val-regex-pattern="[\dA-zА-яЁё«»=/\.\,\!\?\s\(\)\+\-\:\;\`\~\@\#\$\%\^\&amp;\*\№\&#39;\|\u0022]+" data-val-required="&lt;span>Напишите дату рождения&lt;/span>" type="text" />
+												</div><span class="help-inline" data-valmsg-for="birth" data-valmsg-replace="true"></span>
+											</div>
+										</div>
+						                <div class="control-group">
+											<label class="control-label" for="Phone">Контактный телефон</label>
+											<div class="controls">
+												<div class="input-prepend">
+													<span class="add-on ">+7</span><input name="phone" class="span3" data-val="true" data-val-regex="&lt;span>Неверно введен номер телефона&lt;/span>" data-val-regex-pattern="^((\d{0:3}|\+\d{1,3})[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$" data-val-required="&lt;span>Напишите название&lt;/span>" type="text" />
+												</div><span class="help-inline" data-valmsg-for="Phone" data-valmsg-replace="true"></span>
+											</div>
+										</div>
+						                <div class="control-group">
+											<label class="control-label" for="Email">E-mail</label>
+											<div class="controls">
+												<div class="input-prepend">
+													<span class="add-on "><i class='icon-envelope'></i></span>
+													<input name="email" class="span3" data-val="true" data-val-regex="&lt;span>Неверно введен email адрес&lt;/span>" data-val-regex-pattern="^[-A-я0-9!#$%&amp;&#39;*+/=?^_`{|}~]+(?:\.[-A-я0-9!#$%&amp;&#39;*+/=?^_`{|}~]+)*@(?:[A-я0-9]([-A-я0-9]{0,61}[A-я0-9])?\.)*(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[A-я][A-я])$" type="text" />
+												</div><span class="help-inline" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+											</div>
+										</div>
+						                    
+						                <div class="control-group">
+						                    <label for="fileUpload" class="control-label">Прикрепите резюме</label>
+						                    <div class="controls">
+						                        <input type="file" id="fileUpload" name="fileUpload" size="30" class="upload-file">
+						                    </div>
+						                </div>
+						            </div>
+						            <div class="modal-footer">
+						                <a class="btn" data-dismiss="modal">Закрыть</a>
+						                <button type="submit" class="btn save">Отправить</button>
+						            </div>
+						        </form>
+						    </div>
+						    <ul class="nav nav-tabs">
+						    </ul>
+						    <div class="tab-content">
+						    </div>
+						</div>
+            		</div>
+        		</div>
+    		</div>
+		</section>
+	</div>                    
+</div>

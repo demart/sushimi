@@ -1,0 +1,59 @@
+# Routes
+# ~~~~
+
+# Home page
+GET     /                                       	404
+
+POST	/v1/app/phone/register						PhoneController.registerPhone
+
+
+# Category
+GET		/v1/category/list							CategoryController.getCategories
+GET		/v1/category/{parentId}/children			CategoryController.getCategories
+
+# Products
+GET		/v1/category/{categoryId}/products			ProductController.getProducts
+GET		/v1/product/list/in/category/{categoryId}	ProductController.getProducts
+GET		/v1/product/{productId}/detail				ProductController.getProduct
+
+# Company
+GET		/v1/company/info							CompanyController.getCompanyInfo
+
+# Delivery Info
+GET		/v1/company/delivery						CompanyController.getDeliveryPoints
+
+# Announcements
+GET		/v1/announcement/list						AnnouncementController.getAnnouncementList
+GET		/v1/announcement/list/{type}				AnnouncementController.getAnnouncementList
+GET		/v1/announcement/{announcementId}/detail	AnnouncementController.getAnnouncement
+
+# Feedback
+GET		/v1/feedback/cities								FeedbackController.getCities
+GET		/v1/feedback/restaurants						FeedbackController.getRestaurants
+GET		/v1/feedback/list/page/{page}/size/{pageSize}	FeedbackController.getFeedbacks
+GET		/v1/feedback/register							FeedbackController.getFeedbacks
+
+# Restaurants
+GET		/v1/restaurant/list							RestaurantController.getRestaurantList
+GET		/v1/restaurant/{restaurantId}/detail		RestaurantController.getRestaurant
+
+# Cart
+GET		/v1/cart/{cartId}/get						CartController.getCart
+POST	/v1/cart/{cartId}/change					CartController.changeCart
+POST	/v1/cart/{cartId}/add/product				CartController.addProductToCart
+POST	/v1/cart/{cartId}/clear/add/product			CartController.clearAndAddProductToCart
+POST	/v1/cart/{cartId}/remove/product			CartController.removeProductFromCart
+POST	/v1/cart/{cartId}/replace/product			CartController.replaceProductInCart
+POST	/v1/cart/{cartId}/clear						CartController.clearCart
+GET 	/v1/cart/info								CartController.getCartInfo
+
+# Orders
+POST	/v1/order/new/register						OrderController.registerOrder
+GET		/v1/order/{orderKey}/read					OrderController.readOrder
+
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}

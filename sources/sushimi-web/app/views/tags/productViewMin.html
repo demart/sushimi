@@ -1,0 +1,27 @@
+#{if _product}
+<div class="menu-item select "data-id="${_product.id}" data-sort="0" data-price="${_product.cost}" data-name="${_product.name}" data-rating="${_product.rating}" style="left: 0px; top: 0px;">
+    <div class="menu-item-box">
+		<div class="menu-item-badges">#{if _product.isHit()}<div class="hit">Лучшее</div>#{/if}#{if _product.isHot()}<div class="ostroe">Острое</div>#{/if}#{if _product.isVegetable()}<div class="veg">Вегетарианское</div>#{/if}#{if _product.isNew()}<div class="newprice">Новинка</div>#{/if}</div>
+   			%{ String category = _product.category.uniqueName; String subcategory = _product.category.category == null ? category : _product.category.category.uniqueName;}%
+        <a class="menu-item-slider activate" href="/menu/${category}/${subcategory}/${_product.id}/" rollapp-href="/menu/${category}/${subcategory}/${_product.id}/">
+            
+            <div class="menu-item-icon"><div class="zoom"></div></div>
+            <img title="${_product.name} Астана - доставка суши в Астане" alt="${_product.name} Астана - доставка суши в Астане" src="/public/images/menu/items/${_product.smallImageLink}" data-large="/public/images/menu/items/${_product.imageLink}">
+        </a>
+        <div class="menu-item-content">
+            <div class="title"><div class="particle" title="Артикул товара, для заказа по телефону"><div>${_product.code}</div></div>
+            <a class="activate" href="/menu/${category}/${subcategory}/${_product.id}/" rollapp-href="/menu/${category}/${subcategory}/${_product.id}/">${_product.name}</a></div>
+            <div class="menu-item-remark"><p>${_product.description}</p></div>
+            <div class="menu-item-params"><div class="menu-item-price"><span>${_product.cost}</span> тнг.</div><div class="menu-item-info">${_product.weight}  ${_product.calories}</div></div>
+            <div class="btn-toolbar">
+               <div class="btn-group pull-right">
+                   <a class="cart-add btn btn-danger" data-id="${_product.id}" data-price="${_product.cost}" data-name="${_product.name}" rollapp-href="#">
+                       <i class="icon-shopping-cart icon-white"></i>
+                   </a>
+               </div>
+               <div class="numeric input-prepend input-append btn-group" data-min="1"></div>
+           </div>
+        </div>
+    </div>
+</div>
+#{/if}

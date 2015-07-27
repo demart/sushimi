@@ -1,0 +1,40 @@
+#{extends 'main.html' /}
+#{set title: page != null ? page.title : 'Акции - Компания «Сушими»' /}
+#{set metaTitle: page != null ? page.metaTitle : '' /}
+#{set metaContent: page != null ? page.metaContent : '' /}
+#{set metaDescription: page != null ? page.metaDescription : '' /}
+#{set metaKeywords: page != null ? page.metaKeywords : '' /}
+#{set htmlFooter: page != null ? page.htmlFooter : null /}
+
+#{set body_class:'body-1'/}
+
+<div class="container">
+	<div class="main" role="main">
+		<section>
+		    <div class="row">
+		        <div class="span8 offset2">
+		            <div class="blog lawn" data-type="actions">
+		                <ul class="blog-nav nav nav-pills pull-right">
+		                    <li data-year="true">
+		                        <a>Активные</a>
+		                    </li>
+		                    <li data-year="false">
+		                        <a>Прошедшие</a>
+		                    </li> 
+		                </ul>
+		                <h1>Акции</h1>
+		                <div class="box">
+		                    <div class="items">
+		                        <div class="item next" style="display: none;">
+		                            <div class="content" style="display: none;">
+		                                <i class="icon-aws-plus-sign"></i>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</section>
+	</div>                    
+</div>

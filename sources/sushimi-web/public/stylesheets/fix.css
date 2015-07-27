@@ -1,0 +1,10 @@
+﻿ .btn{box-shadow:none;}
+.navbar.navbar-main .navbar-inner{box-shadow:0 0 10px 0 #ccc;}
+.menu .menu-item-box,.just-scroller.menu-scroller .item{box-shadow:0 0 8px 0 #ccc;}
+.menu .menu-sections.fixed .block{filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=90);}
+.menu .menu-item-icon{filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=70);}
+.nav-links .nav>li .panel .image:hover img{filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=70);}
+.nav-links .nav>li .panel{left:9px;filter:progid:DXImageTransform.Microsoft.Shadow(color=#cccccc,direction=135,strength=4);}
+.nav-links .nav>li .panel .box{filter:progid:DXImageTransform.Microsoft.Shadow(color=#cccccc,direction=225,strength=4);}
+.j-slider .text p{-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";}
+.delivery{box-shadow:0 0 10px 0 #ccc;}

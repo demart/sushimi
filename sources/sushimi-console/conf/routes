@@ -1,0 +1,110 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+# Import Secure routes
+*       /                                       module:secure
+
+# Home page
+GET     /													Application.index
+GET		/rest/reports/orderPeriodStat/store/read			Report.readOrderPeriodStat	
+GET		/rest/reports/productPeriodStat/store/read			Report.readProductPeriodStat
+GET		/rest/reports/ingredientPeriodStat/store/read		Report.readIngredientPeriodStat
+
+# REST
+GET		/rest/dictionary/city/store/read					CityController.read
+POST	/rest/dictionary/city/store/create					CityController.create
+POST	/rest/dictionary/city/store/update					CityController.update
+POST	/rest/dictionary/city/store/destroy					CityController.destroy
+
+GET		/rest/dictionary/unit/store/read					UnitController.read
+POST	/rest/dictionary/unit/store/create					UnitController.create
+POST	/rest/dictionary/unit/store/update					UnitController.update
+POST	/rest/dictionary/unit/store/destroy					UnitController.destroy
+
+GET		/rest/dictionary/ingredient/store/read				IngredientController.read
+POST	/rest/dictionary/ingredient/store/create			IngredientController.create
+POST	/rest/dictionary/ingredient/store/update			IngredientController.update
+POST	/rest/dictionary/ingredient/store/destroy			IngredientController.destroy
+
+
+GET		/rest/dictionary/category/store/read				CategoryController.read
+POST	/rest/dictionary/category/store/create				CategoryController.create
+POST	/rest/dictionary/category/store/update				CategoryController.update
+POST	/rest/dictionary/category/store/destroy				CategoryController.destroy
+
+GET		/rest/dictionary/product/store/read					ProductController.read
+GET		/rest/dictionary/product/forOrder/store/read		ProductController.readAllProducts
+POST	/rest/dictionary/product/store/create				ProductController.create
+POST	/rest/dictionary/product/store/update				ProductController.update
+POST	/rest/dictionary/product/store/destroy				ProductController.destroy
+
+
+GET		/rest/dictionary/product/costing/store/read			ProductCostingController.read
+POST	/rest/dictionary/product/costing/store/create		ProductCostingController.create
+POST	/rest/dictionary/product/costing/store/update		ProductCostingController.update
+POST	/rest/dictionary/product/costing/store/destroy		ProductCostingController.destroy
+
+
+GET		/rest/warehouse/item/store/read						WarehouseItemController.read
+POST	/rest/warehouse/item/store/create					WarehouseItemController.create
+POST	/rest/warehouse/item/store/update					WarehouseItemController.update
+POST	/rest/warehouse/item/store/destroy					WarehouseItemController.destroy
+
+GET		/rest/warehouse/income/store/read					WarehouseIncomeController.read
+POST	/rest/warehouse/income/store/create					WarehouseIncomeController.create
+POST	/rest/warehouse/income/store/update					WarehouseIncomeController.update
+POST	/rest/warehouse/income/store/destroy				WarehouseIncomeController.destroy
+
+GET		/rest/warehouse/outcome/store/read					WarehouseOutcomeController.read
+POST	/rest/warehouse/outcome/store/create				WarehouseOutcomeController.create
+POST	/rest/warehouse/outcome/store/update				WarehouseOutcomeController.update
+POST	/rest/warehouse/outcome/store/destroy				WarehouseOutcomeController.destroy
+
+
+GET		/rest/user/store/read								UserController.read
+POST	/rest/user/store/create								UserController.create
+POST	/rest/user/store/update								UserController.update
+POST	/rest/user/store/destroy							UserController.destroy
+
+
+GET		/rest/order/tree/store/read							OrderController.readOrderTree
+GET		/rest/order/store/read								OrderController.readOrders
+
+POST	/rest/order/cancel									OrderController.cancelOrder
+POST	/rest/order/sendToWork								OrderController.sendToWorkOrder
+POST	/rest/order/sendToDelivery							OrderController.sendToDeliveryOrder
+POST	/rest/order/complete								OrderController.completeOrder
+POST	/rest/order/create									OrderController.createOrder
+GET		/rest/order/preview/{orderId}						OrderController.previewOrder
+GET		/rest/order/new										OrderController.getNewOrdersCount
+GET		/order/print/{orderId}								OrderController.printOrder
+
+GET		/rest/order/site/store/read							OrderController.readSiteOrders
+POST	/rest/order/site/cancelOrder						OrderController.cancelSiteOrder
+GET		/rest/order/site/preview/{orderId}					OrderController.previewSiteOrder
+
+GET		/rest/client/search/store/read						ClientController.searchClient
+POST	/rest/client/add									ClientController.addClient
+GET		/client/address/chooseOnMap							ClientController.chooseAddressOnMap
+
+GET		/rest/client/address/search/store/read				ClientController.searchClientAddress
+POST	/rest/client/address/add							ClientController.addClientAddress
+
+
+GET		/rest/promotion/store/read							PromotionController.read
+
+GET		/rest/delivery/extra/store/read						DeliveryController.readExtraPrices						
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+GET     /assets/                                staticDir:public/assets
+GET     /*										staticDir:public/extjs
+#GET     /ext/                               	staticDir:public/extjs
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}
