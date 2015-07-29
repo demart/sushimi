@@ -45,7 +45,9 @@ public class OrderModel {
 		this.personPhone = order.getPersonPhone();
 		this.personRemark = order.getPersonRemark();
 		
-		this.departmentCode = String.valueOf(order.getDepartment().getId());
+		if (order.getDepartment() != null)
+			this.departmentCode = String.valueOf(order.getDepartment().getId());
+		
 		this.deliveryTime = order.getDeliveryTime();
 		this.deliveryType = order.getDeliveryType().toString();
 		this.payMethod = order.getPayMethod().toString();

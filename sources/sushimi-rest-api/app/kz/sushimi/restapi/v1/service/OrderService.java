@@ -79,6 +79,9 @@ public class OrderService {
 		order.setCity(cart.getCity());
 		order.setOrderSum(cart.getTotalCartSum());
 		order.setDepartment(parseDepartment(model.departmentId));
+		if (order.getDepartment() == null)
+			if (order.getCity() != null && order.getCity().getDepartments() != null)
+				order.setDepartment(order.getCity().getDepartments().get(0));
 		
 		// Delivery Time
 		if (model.deliveryTime != null) {
@@ -90,7 +93,7 @@ public class OrderService {
 		// Address Info
 		convertAddressField(model, order);
 		
-		order.setProcessed(OrderProcess.NOT_PROCESSED_MOBI);
+		order.setProcessed(OrderProcess.NOT_PROCESSED);
 		order.setOrderTime(Calendar.getInstance());
 		
 		JPA.em().persist(order);

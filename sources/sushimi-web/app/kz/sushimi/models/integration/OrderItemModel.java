@@ -25,9 +25,11 @@ public class OrderItemModel {
 		this.count = item.getCount();
 		this.id = item.getId();
 		this.price = item.getPrice();
-		this.productCode = item.getProduct().getCode();
-		this.productCost = item.getProduct().getCost();
-		this.productName = item.getProduct().getName();
+		if (item.getProduct() != null) {
+			this.productCode = item.getProduct().getCode();
+			this.productCost = item.getProduct().getCost();
+			this.productName = item.getProduct().getName();
+		}
 		this.sum = item.getSum();
 	}
 	
