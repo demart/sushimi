@@ -1,0 +1,6 @@
+sources/sushimi-web/tmp/*
+sources/sushimi-web/eclipse/*
+sources/sushimi-console/tmp/*
+sources/sushimi-console/eclipse/*
+sources/sushimi-rest-api/tmp/*
+sources/sushimi-rest-api/eclipse/*
