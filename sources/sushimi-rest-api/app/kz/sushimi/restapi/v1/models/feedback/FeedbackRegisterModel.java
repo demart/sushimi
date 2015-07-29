@@ -6,7 +6,7 @@ public class FeedbackRegisterModel {
     public String phone;
     public Integer cityId;
     public Integer placeId;
-    public String themeId;
+    public String type;
     public String orderNumber;
     public String text;
     

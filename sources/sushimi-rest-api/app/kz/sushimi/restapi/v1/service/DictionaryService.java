@@ -55,19 +55,19 @@ public class DictionaryService {
 		return getDefaultCity().getMinOrderSum();
 	}
 	
-	public static List<Department> getCityDepartments(City city) {
-		Long cacheExpTime = cacheExpiraionTime.get("CITY_" + city.getId() + "_DEPARTMENTS");
+	public static List<Department> getCityDepartments(Integer cityId) {
+		Long cacheExpTime = cacheExpiraionTime.get("CITY_" + cityId + "_DEPARTMENTS");
 		cacheExpTime = cacheExpTime == null ? 0 : cacheExpTime;
 		if (Calendar.getInstance().getTimeInMillis() <=  cacheExpTime) {
-			return (List<Department>)cache.get("CITY_" + city.getId() + "_DEPARTMENTS");
+			return (List<Department>)cache.get("CITY_" + cityId + "_DEPARTMENTS");
 		}
 		
 		Query cityDepartmentsQuery = JPA.em().createQuery("from Department where city.id = :cityId and isDeleted = false and isPublished = true");
-		cityDepartmentsQuery.setParameter("cityId", city.getId());
+		cityDepartmentsQuery.setParameter("cityId", cityId);
 		List<Category> rootCategories = cityDepartmentsQuery.getResultList();
-		cache.put("CITY_" + city.getId() + "_DEPARTMENTS", rootCategories);
-		cacheExpiraionTime.put("CITY_" + city.getId() + "_DEPARTMENTS", Calendar.getInstance().getTimeInMillis() + cacheTime);
-		return (List<Department>)cache.get("CITY_" + city.getId() + "_DEPARTMENTS");
+		cache.put("CITY_" + cityId + "_DEPARTMENTS", rootCategories);
+		cacheExpiraionTime.put("CITY_" + cityId + "_DEPARTMENTS", Calendar.getInstance().getTimeInMillis() + cacheTime);
+		return (List<Department>)cache.get("CITY_" + cityId + "_DEPARTMENTS");
 	}
 	
 }

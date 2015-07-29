@@ -255,6 +255,14 @@
 				        			<td>- ${(int)order.clientDiscountCurrentPercent}%</td>
 				        		</tr>
 				        		%{ } }%
+				        		%{ if (order.sourceDiscount != null && order.sourceDiscount > 0) { }%
+			        			<tr>
+				        			<td></td>
+				        			<td style="text-align: left;">Мобильное приложение</td>
+				        			<td></td>
+				        			<td>- ${order.sourceDiscount}%</td>
+				        		</tr>
+				        		%{ } }%
 				        		%{ if (order.promotion != null && order.promotion.discount != null && order.promotion.discount > 0) { }%
 			        			<tr>
 				        			<td></td>
@@ -425,6 +433,14 @@
 				        			<td></td>
 				        			<td style="text-align: left;" colspan="2">Скидка постоянным клиентам</td>
 				        			<td>- ${(int)order.clientDiscountCurrentPercent}%</td>
+				        		</tr>
+				        		%{ } }%
+				        		%{ if (order.sourceDiscount != null && order.sourceDiscount > 0) { }%
+			        			<tr>
+				        			<td></td>
+				        			<td style="text-align: left;">Мобильное приложение</td>
+				        			<td></td>
+				        			<td>- ${order.sourceDiscount}%</td>
 				        		</tr>
 				        		%{ } }%
 				        		%{ if (order.promotion != null && order.promotion.discount != null && order.promotion.discount > 0) { }%

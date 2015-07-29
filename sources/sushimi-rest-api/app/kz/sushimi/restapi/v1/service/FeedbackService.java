@@ -92,8 +92,8 @@ public class FeedbackService {
 
 	public static boolean registerFeedback(FeedbackRegisterModel requestModel) {
 		FeedbackType type = FeedbackType.FEEDBACK;
-		if (requestModel.themeId != null || !"".equals(requestModel.themeId))
-			type = FeedbackType.valueOf(requestModel.themeId);
+		if (requestModel.type != null || !"".equals(requestModel.type))
+			type = FeedbackType.valueOf(requestModel.type);
 		
 		Feedback fb = new Feedback();
 		

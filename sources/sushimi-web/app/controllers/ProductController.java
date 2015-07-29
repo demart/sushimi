@@ -34,8 +34,6 @@ import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Scope.Session;
 
-import com.google.gson.Gson;
-
 public class ProductController extends Controller {
 
 	public static void index(String category, String subcategory) {

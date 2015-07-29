@@ -3,6 +3,7 @@ package kz.sushimi.console.models.orders;
 import java.util.Date;
 import java.util.List;
 
+import kz.sushimi.console.persistence.orders.OrderSource;
 import kz.sushimi.console.persistence.orders.OrderState;
 import kz.sushimi.console.persistence.orders.OrderType;
 
@@ -17,6 +18,10 @@ public class PreviewOrderModel {
 	private Long id;
 	
 	private Long orderNumber;
+	
+	private OrderSource source;
+	
+	private Integer sourceDiscount;
 	
 	private String clientName;
 	
@@ -57,6 +62,23 @@ public class PreviewOrderModel {
 	private String reason;
 	
 	private String comment;
+
+	
+	public OrderSource getSource() {
+		return source;
+	}
+
+	public void setSource(OrderSource source) {
+		this.source = source;
+	}
+
+	public Integer getSourceDiscount() {
+		return sourceDiscount;
+	}
+
+	public void setSourceDiscount(Integer sourceDiscount) {
+		this.sourceDiscount = sourceDiscount;
+	}
 
 	public Long getOrderNumber() {
 		return orderNumber;

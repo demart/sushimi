@@ -114,6 +114,19 @@ public class Order extends PersistentObject {
 	private Integer deliveryExtraCost = 0;
 	
 	/**
+	 * Каналы получения заказов
+	 */
+	@Enumerated(EnumType.STRING)
+	@Column(name="source")
+	private OrderSource source;	
+	
+	/**
+	 * Скидка при получении заказа (Например на мобильники по умолчанию 5 процентов)
+	 */
+	@Column(name="source_discount")
+	private Integer sourceDiscount;
+	
+	/**
 	 * Ссылка на цену доставки
 	 */	
 	@ManyToOne
@@ -190,6 +203,26 @@ public class Order extends PersistentObject {
 	 */
 	@Column(length=500)
 	private String reason;
+
+
+	public OrderSource getSource() {
+		return source;
+	}
+
+
+	public void setSource(OrderSource source) {
+		this.source = source;
+	}
+
+
+	public Integer getSourceDiscount() {
+		return sourceDiscount;
+	}
+
+
+	public void setSourceDiscount(Integer sourceDiscount) {
+		this.sourceDiscount = sourceDiscount;
+	}
 
 
 	public DeliveryPrice getDeliveryPrice() {

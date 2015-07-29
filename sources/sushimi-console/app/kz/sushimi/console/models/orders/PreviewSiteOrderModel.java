@@ -13,6 +13,7 @@ import kz.sushimi.console.persistence.orders.OrderState;
 import kz.sushimi.console.persistence.orders.OrderType;
 import kz.sushimi.console.persistence.orders.PayMethod;
 import kz.sushimi.console.persistence.orders.site.SiteOrderItem;
+import kz.sushimi.console.persistence.orders.site.SiteOrderSource;
 import kz.sushimi.console.persistence.orders.site.SiteOrderStatus;
 
 /**
@@ -31,6 +32,10 @@ public class PreviewSiteOrderModel {
 	private String key; 
 	
 	private Integer orderSum;
+	
+	private SiteOrderSource source;
+	
+	private Integer sourceDiscount;
 	
 	private Date orderTime;
 	
@@ -93,6 +98,23 @@ public class PreviewSiteOrderModel {
 	private String GeoLongitude;
 	
 	private String reason;
+
+	
+	public SiteOrderSource getSource() {
+		return source;
+	}
+
+	public void setSource(SiteOrderSource source) {
+		this.source = source;
+	}
+
+	public Integer getSourceDiscount() {
+		return sourceDiscount;
+	}
+
+	public void setSourceDiscount(Integer sourceDiscount) {
+		this.sourceDiscount = sourceDiscount;
+	}
 
 	public Long getOrderTimeLong() {
 		return orderTimeLong;

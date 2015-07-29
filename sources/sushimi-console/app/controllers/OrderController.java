@@ -167,6 +167,8 @@ public class OrderController extends Controller {
 			model.setClientAddress(order.getFullAddress());
 			model.setReason(order.getReason());
 			model.setPersonRemark(order.getPersonRemark());
+			model.setSource(order.getSource());
+			model.setSourceDiscount(order.getSourceDiscount());
 			
 			models.add(model);
 		}

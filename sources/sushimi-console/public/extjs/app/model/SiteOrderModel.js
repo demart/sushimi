@@ -12,5 +12,7 @@ Ext.define('SushimiConsole.model.SiteOrderModel', {
 		{ name: 'reason'},
 		{ name: 'orderDate', type: 'date'},
 		{ name: 'deliveryDate', type: 'date'},
+		{ name: 'source'},
+		{ name: 'sourceDiscount'},
 	],
 });

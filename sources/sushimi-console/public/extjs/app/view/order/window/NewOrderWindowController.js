@@ -60,6 +60,18 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
     	this.lookupReference('personCountField').setValue(record.personCount);
     	this.lookupReference('commentField').setValue(record.personRemark);
     	
+    	this.lookupReference('orderSourceField').setValue(record.source);
+    	this.lookupReference('orderSourceDiscountField').setValue(record.sourceDiscount);
+    	
+    	if (record.source == 'MOBILE') {
+    		this.lookupReference('sourceInfoField').setValue("Моб. приложение + " + record.sourceDiscount + "% скидка");	
+    	}
+    	if (record.source == 'WEB') {
+    		this.lookupReference('sourceInfoField').setValue("Веб сайт + " + record.sourceDiscount + "% скидка");
+    	} 
+    	
+    	console.log(this.lookupReference('orderSourceField').getValue());
+    	console.log(this.lookupReference('orderSourceDiscountField').getValue());
     	var grid = this.lookupReference('orderProductGrid');
     	grid.store.removeAll();
     	var sum = 0, sushiSum = 0;
@@ -83,16 +95,18 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
     	}
     	
     	var total = 0;
+    	
+    	/*
     	var selfServiceDiscount = Ext.getCmp('seftServiceDiscountField').getValue();
     	var discount = Ext.getCmp('discountPercentField').getValue();
-    	
+    	*/
     	/**
     	 * 
     	 * PROBLEM
     	 * 
     	 * 
     	 */
-    	
+    	/*
     	if (discount > 0) {
     		var sumWithoutSushi = sum - sushiSum;
     		if (record.orderType == 'SELF_SERVICE') 
@@ -111,11 +125,15 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
     		}
     	}
     	
+    	
+    	
+    	this.lookupReference('orderTotalSumField').setValue(total);
+    	
+    	*/
     	this.lookupReference('orderSumField').setValue(sum);
     	this.lookupReference('orderSushiSumField').setValue(sushiSum);
-    	this.lookupReference('orderTotalSumField').setValue(total);
     	this.lookupReference('orderFreeItemCountField').setValue(Math.floor(sushiSum / 2000));
-    	
+    	this.recalculateTotalSum(null);
     },
     
     resetOrderForm: function() {
@@ -603,29 +621,33 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
 			clientDiscountValue = parseInt(clientDiscountValueField.getValue());
 		console.log(clientDiscountValueField.getValue());
 		
+		// SOURCE DISCOUNT
+		var sourceDiscountValue = Ext.getCmp('orderSourceDiscountField').getValue();
+		console.log("Source discount: " + sourceDiscountValue);
+		
 		var total = Ext.getCmp('orderTotalSumField');
 		
 		if (orderType == 'selfservice')  {
 			if (discountValueTypeFieldValue != null) {
 				if (discountValueTypeFieldValue == 'DISCOUNT_ALL' || 
 					discountValueTypeFieldValue == 'DPA') {
-					sumWithoutSushi = Math.round(sumWithoutSushi * (1-((parseInt(discountFieldValue)+10+parseInt(clientDiscountValue)) / 100)));
+					sumWithoutSushi = Math.round(sumWithoutSushi * (1-((parseInt(discountFieldValue)+10+parseInt(clientDiscountValue) + parseInt(sourceDiscountValue)) * 0.01)));
 				} else {
-					sumWithoutSushi = Math.round(sumWithoutSushi * (1-((10+parseInt(clientDiscountValue)) / 100)));
+					sumWithoutSushi = Math.round(sumWithoutSushi * (1-((10+parseInt(clientDiscountValue)+parseInt(sourceDiscountValue)) * 0.01)));
 				}
 			} else {
-				sumWithoutSushi = Math.round(sumWithoutSushi * (1 - (0.1 + parseInt(clientDiscountValue))));
+				sumWithoutSushi = Math.round(sumWithoutSushi * (1 - (0.1 + (parseInt(clientDiscountValue) + parseInt(sourceDiscountValue)) * 0.01)));
 			}
 		} else {
 			if (discountValueTypeFieldValue != null) {
 				if (discountValueTypeFieldValue == 'DISCOUNT_ALL' || 
 					discountValueTypeFieldValue == 'DPA') {
-					sumWithoutSushi = Math.round(sumWithoutSushi * (1-((parseInt(discountFieldValue)+parseInt(clientDiscountValue)) / 100)));
+					sumWithoutSushi = Math.round(sumWithoutSushi * (1-((parseInt(discountFieldValue)+parseInt(clientDiscountValue) + parseInt(sourceDiscountValue)) * 0.01)));
 				} else {
-					sumWithoutSushi = Math.round(sumWithoutSushi * (1-((parseInt(clientDiscountValue)) / 100)));
+					sumWithoutSushi = Math.round(sumWithoutSushi * (1-((parseInt(clientDiscountValue) + parseInt(sourceDiscountValue)) * 0.01)));
 				}
 			} else {
-				sumWithoutSushi = Math.round(sumWithoutSushi * (1-(parseInt(clientDiscountValue) / 100)));
+				sumWithoutSushi = Math.round(sumWithoutSushi * (1-((parseInt(clientDiscountValue) + parseInt(sourceDiscountValue)) * 0.01)));
 			}
 		}
 
@@ -633,15 +655,15 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
 		// Если есть акции на суши
 		if (sushiSum > 0 && discountValueTypeFieldValue != null) {
 			if (orderType == 'selfservice') {
-				sushiSum = Math.round(sushiSum * (1-((parseInt(discountFieldValue)+10+parseInt(clientDiscountValue)) / 100)));
+				sushiSum = Math.round(sushiSum * (1-((parseInt(discountFieldValue)+10+parseInt(clientDiscountValue) + parseInt(sourceDiscountValue)) * 0.01)));
 			} else {
-				sushiSum = Math.round(sushiSum * (1-((parseInt(discountFieldValue)+parseInt(clientDiscountValue)) / 100)));
+				sushiSum = Math.round(sushiSum * (1-((parseInt(discountFieldValue)+parseInt(clientDiscountValue) + parseInt(sourceDiscountValue)) * 0.01)));
 			}
 		} else {
 			if (orderType == 'selfservice') {
-				sushiSum = Math.round(sushiSum * (1 - (0.1 + parseInt(clientDiscountValue) / 100)) );
+				sushiSum = Math.round(sushiSum * (1 - (0.1 + (parseInt(clientDiscountValue) + parseInt(sourceDiscountValue)) * 0.01)) );
 			} else {
-				sushiSum = Math.round(sushiSum * (1 - (parseInt(clientDiscountValue) / 100)) );
+				sushiSum = Math.round(sushiSum * (1 - ((parseInt(clientDiscountValue)+parseInt(sourceDiscountValue)) * 0.01)) );
 			}
 		}
 		
@@ -675,6 +697,9 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
     			model.data.clientAddressId = this.lookupReference('clientAddressId').getValue();
     		}
     	}
+    	
+    	model.data.source = Ext.getCmp('orderSourceField').getValue();
+    	model.data.sourceDiscount = Ext.getCmp('orderSourceDiscountField').getValue();
     	
     	model.data.siteId = Ext.getCmp('siteOrderIdField').getValue();
     	if (model.data.siteId == undefined || model.data.siteId == '')

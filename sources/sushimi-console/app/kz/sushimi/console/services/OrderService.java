@@ -25,6 +25,7 @@ import kz.sushimi.console.persistence.dictionaries.ProductCosting;
 import kz.sushimi.console.persistence.dictionaries.ProductType;
 import kz.sushimi.console.persistence.orders.Order;
 import kz.sushimi.console.persistence.orders.OrderItem;
+import kz.sushimi.console.persistence.orders.OrderSource;
 import kz.sushimi.console.persistence.orders.OrderState;
 import kz.sushimi.console.persistence.orders.OrderType;
 import kz.sushimi.console.persistence.orders.site.SiteOrder;
@@ -285,12 +286,20 @@ public class OrderService {
 		// TODO если заказ с сайта то нужно брать из модели
 		order.setOrderDate(Calendar.getInstance());
 		
+		OrderSource source = OrderSource.CALL_CENTER;
+		Integer sourceDiscount = 0;
+		
 		if (model.getSiteId() != null && model.getSiteId() > 0) {
 			SiteOrder siteOrder = SiteOrder.findById(model.getSiteId());
 			order.setSiteOrder(siteOrder);
 			if (model.getOrderTime() != null)
 				order.getOrderDate().setTime(model.getOrderTime());
+			source = OrderSource.valueOf(siteOrder.getSource().toString());
+			sourceDiscount = siteOrder.getSourceDiscount();
 		}
+		
+		order.setSource(source);
+		order.setSourceDiscount(sourceDiscount);
 		
 		switch (order.getType()) {
 		case BAR:
@@ -443,11 +452,11 @@ public class OrderService {
 				if (order.getPromotion().getValueType() == PromotionValueType.DISCOUNT_ALL || 
 					order.getPromotion().getValueType() == PromotionValueType.DPA) {
 					float discount = order.getPromotion().getDiscount();
-					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((discount+10+clientDiscountPercent) * 0.01)));
+					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((discount+10+clientDiscountPercent+sourceDiscount) * 0.01)));
 				} else {
 					System.out.println("SEFL + PROMO GOODS + clientDiscountPercent:" + clientDiscountPercent);
 					System.out.println("Sum w/o before:" + sumWithoutSushi);
-					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((10+clientDiscountPercent) * 0.01)));
+					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((10+clientDiscountPercent+sourceDiscount) * 0.01)));
 					System.out.println("Sum w/o after:" + sumWithoutSushi);
 				}
 			} else {
@@ -455,7 +464,7 @@ public class OrderService {
 				System.out.println("ClientDiscount: " + clientDiscountPercent);
 				System.out.println("sumWithoutSushi before: " + sumWithoutSushi);
 				
-				sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-(10+clientDiscountPercent) * 0.01));
+				sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-(10+clientDiscountPercent+sourceDiscount) * 0.01));
 				
 				System.out.println("sumWithoutSushi after: " + sumWithoutSushi);
 			}
@@ -464,14 +473,14 @@ public class OrderService {
 				if (order.getPromotion().getValueType() == PromotionValueType.DISCOUNT_ALL || 
 				order.getPromotion().getValueType() == PromotionValueType.DPA) {
 					float discount = order.getPromotion().getDiscount();
-					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((discount+clientDiscountPercent) * 0.01)));
+					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((discount+clientDiscountPercent+sourceDiscount) * 0.01)));
 				} else {
 					if (clientDiscountPercent > 0)
-						sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-(clientDiscountPercent * 0.01)));
+						sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((clientDiscountPercent+sourceDiscount) * 0.01)));
 				}
 			} else {
 				if (clientDiscountPercent > 0)
-					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-(clientDiscountPercent * 0.01)));
+					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((clientDiscountPercent + sourceDiscount) * 0.01)));
 			}
 		}
 		
@@ -484,27 +493,27 @@ public class OrderService {
 					order.getPromotion().getValueType() == PromotionValueType.DP) {
 					float discount = order.getPromotion().getDiscount();
 					if (order.getType() == OrderType.SELF_SERVICE) {
-						orderSushiSum = (int)Math.round(orderSushiSum * (1-((discount+10+clientDiscountPercent) * 0.01)));
+						orderSushiSum = (int)Math.round(orderSushiSum * (1-((discount+10+clientDiscountPercent+sourceDiscount) * 0.01)));
 					} else {
-						orderSushiSum = (int)Math.round(orderSushiSum * (1-((discount+clientDiscountPercent) * 0.01)));
+						orderSushiSum = (int)Math.round(orderSushiSum * (1-((discount+clientDiscountPercent+sourceDiscount) * 0.01)));
 					}
 				} else {
 					System.out.println("SEFL + PROMO GOODS + clientDiscountPercent:" + clientDiscountPercent);
 					System.out.println("Sum with before:" + orderSushiSum);
 					if (order.getType() == OrderType.SELF_SERVICE) {
-						orderSushiSum = (int)Math.round(orderSushiSum * (1-((10+clientDiscountPercent) * 0.01)));
+						orderSushiSum = (int)Math.round(orderSushiSum * (1-((10+clientDiscountPercent+sourceDiscount) * 0.01)));
 					} else {
 						if (clientDiscountPercent > 0)
-							orderSushiSum = (int)Math.round(orderSushiSum * (1-(clientDiscountPercent * 0.01)));
+							orderSushiSum = (int)Math.round(orderSushiSum * (1-((clientDiscountPercent+sourceDiscount) * 0.01)));
 					}
 					System.out.println("Sum with before:" + orderSushiSum);
 				}
 			} else {
 				if (order.getType() == OrderType.SELF_SERVICE) {
-					orderSushiSum = (int)Math.round(orderSushiSum * (1-((10+clientDiscountPercent) * 0.01)));
+					orderSushiSum = (int)Math.round(orderSushiSum * (1-((10+clientDiscountPercent+ sourceDiscount) * 0.01)));
 				} else {
 					if (clientDiscountPercent > 0)
-						orderSushiSum = (int)Math.round(orderSushiSum * (1-(clientDiscountPercent * 0.01)));
+						orderSushiSum = (int)Math.round(orderSushiSum * (1-((clientDiscountPercent+sourceDiscount) * 0.01)));
 				}
 			}
 		}
@@ -756,6 +765,9 @@ public class OrderService {
 		model.setId(order.getId());
 		model.setOrderNumber(order.getOrderNumber());
 		
+		model.setSource(order.getSource());
+		model.setSourceDiscount(order.getSourceDiscount());
+		
 		if (order.getClient() != null) {
 			model.setClientName(order.getClient().getName());
 			model.setClientPhone(order.getClient().getPhoneNumber());
@@ -827,6 +839,9 @@ public class OrderService {
 		
 		PreviewSiteOrderModel model = new PreviewSiteOrderModel();
 		model.setId(order.getId());
+		
+		model.setSource(order.getSource());
+		model.setSourceDiscount(order.getSourceDiscount());
 		
 		model.setStatus(order.getStatus());
 		model.setSiteId(order.getSiteId());

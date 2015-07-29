@@ -78,6 +78,12 @@ Ext.define('SushimiConsole.view.order.SiteOrderList' ,{
 					return val;
 				}
             },
+            {text: "Источник", dataIndex: 'source', width: 70, renderer: function(val) {
+				if (val == 'CALL_CENTER') return 'Оператор';
+				if (val == 'WEB') return 'Вебсайт';
+				if (val == 'MOBILE') return 'Мобильные';
+				return val;
+			}},
 			{text: "Время заказа", dataIndex: 'orderDate', xtype: 'datecolumn', format: 'd.m.Y H:i:s', width: 140},
 			{text: "Время доставки", dataIndex: 'deliveryDate', xtype: 'datecolumn', format: 'd.m.Y H:i:s', width: 140},
 	],

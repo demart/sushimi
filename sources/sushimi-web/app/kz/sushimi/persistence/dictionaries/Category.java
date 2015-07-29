@@ -43,6 +43,15 @@ public class Category {
 	@Column(name="unique_name")
 	private String uniqueName;
 	
+	@Column(name="image_link")
+	private String imageLink;
+	
+	@Column(name="top_menu_image_link")
+	private String topMenuImageLink;
+	
+	@Column(name="top_menu_available")
+	private Boolean topMenuAvailable;
+	
 	@ManyToOne
 	private Category category;
 	
@@ -70,7 +79,7 @@ public class Category {
 	
 	@OneToMany(mappedBy="mobileCategory")
 	private List<Category> mobileCategories;
-		
+
 	/**
 	 * Ссылка на мета информацию о странице
 	 */
@@ -91,6 +100,30 @@ public class Category {
 	@Transient
 	private boolean isSelected;
 	
+	public Boolean isTopMenuAvailable() {
+		return topMenuAvailable;
+	}
+
+	public void setTopMenuAvailable(Boolean topMenuAvailable) {
+		this.topMenuAvailable = topMenuAvailable;
+	}
+
+	public String getTopMenuImageLink() {
+		return topMenuImageLink;
+	}
+
+	public void setTopMenuImageLink(String topMenuImageLink) {
+		this.topMenuImageLink = topMenuImageLink;
+	}
+	
+	public String getImageLink() {
+		return imageLink;
+	}
+
+	public void setImageLink(String imageLink) {
+		this.imageLink = imageLink;
+	}
+
 	public List<Page> getPages() {
 		return pages;
 	}

@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import kz.sushimi.console.persistence.orders.OrderType;
+import kz.sushimi.console.persistence.orders.site.SiteOrderSource;
 import kz.sushimi.console.persistence.orders.site.SiteOrderStatus;
 
 /**
@@ -41,7 +42,27 @@ public class SiteOrderModel {
 	
 	private String personRemark;
 	
+	private SiteOrderSource source;
 	
+	private Integer sourceDiscount;
+	
+	
+	public SiteOrderSource getSource() {
+		return source;
+	}
+
+	public void setSource(SiteOrderSource source) {
+		this.source = source;
+	}
+
+	public Integer getSourceDiscount() {
+		return sourceDiscount;
+	}
+
+	public void setSourceDiscount(Integer sourceDiscount) {
+		this.sourceDiscount = sourceDiscount;
+	}
+
 	public String getPersonRemark() {
 		return personRemark;
 	}

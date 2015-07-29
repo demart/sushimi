@@ -67,10 +67,15 @@
 		                        <li class="divider-vertical"></li>
 		                        <li>
 		                        	<a href="/menu/"><i class="icon-glass icon-light"></i> Меню</a>
-		                        	<!-- <ul class="dropdown-menu">
-		                                <li><a href="/menu/sushi/"><i class="icon-glass icon-light"></i>Суши</a></li>
+		                        	<ul class="dropdown-menu">
+		                        		%{ List categories = kz.sushimi.service.ProductService.getRootCategories() }%
+		                        		%{ for(kz.sushimi.persistence.dictionaries.Category category in categories) { }%
+		                        			<li><a href="/menu/${category.uniqueName}/"><i class="icon-light"></i>${category.name}</a></li>
+		                        		%{ } }%
+		                                <!-- 
 		                                <li><a href="/menu/antisushi/"><i class="icon-glass icon-light"></i>Антисуши</a></li>
-		                            </ul> -->
+		                                 -->
+		                            </ul>
 		                        </li>
 		                        <li><a href="/actions/"><i class="icon-star icon-light"></i> Акции</a></li>
 		                        <li><a href="/news/"><i class="icon-file icon-light"></i> Новости</a></li>
@@ -128,33 +133,30 @@
 		                    <li class="divider-vertical"></li>
 		                    <li class="links-menu">
 		                        <a href="/menu/">Меню</a>
-		                        <!-- <div class="panel">
+		                         <div class="panel">
 								    <div class="wrapper"></div>
 								    <div class="box">
 								        <div class="row">
 								            <div class="span6">
 								                <div class="row">
+								            	%{ for(category in categories) { }%
+								            	%{ if (category.topMenuAvailable == false || category.topMenuAvailable == null) continue; }%
 							                        <div class="span2">
-							                            <a class="image" href="/menu/sushi/" rollapp-href="/menu/sushi/">
-							                                <img alt="Сушт" src="/public/images/menu/rolli.jpg">
+							                            <!--  
+							                            <a class="image" href="/menu/${category.uniqueName}/" rollapp-href="/menu/${category.uniqueName}/">
+							                                <img alt="${category.name}" src="/public/images/menu/categories/${category.topMenuImageLink}">
 							                            </a>
+							                            -->
 							                            <div class="title">
-							                                <a href="/menu/sushi/" rollapp-href="/menu/sushi/">Суши</a>
+							                                <a href="/menu/${category.uniqueName}/" rollapp-href="/menu/${category.uniqueName}/">${category.name}</a>
 							                            </div>
 							                        </div>
-							                        <div class="span2">
-							                            <a class="image" href="/menu/antisushi/" rollapp-href="/menu/antisushi/">
-							                                <img alt="Напитки" src="/public/images/menu/antisushi.jpg">
-							                            </a>
-							                            <div class="title">
-							                                <a href="/menu/antisushi/" rollapp-href="/menu/antisushi/">Антисуши</a>
-							                            </div>
-							                        </div>
+							                    %{ } }%
 								                </div>
 								            </div>
 								        </div>
 								    </div>
-								</div> -->
+								</div>
                    			</li>
 		                    <li class="links-actions"><a href="/actions/">Акции</a></li>
 		                    <li class="links-ship"><a href="/ship/">Доставка</a></li>

@@ -28,8 +28,9 @@ GET		/v1/announcement/list/{type}				AnnouncementController.getAnnouncementList
 GET		/v1/announcement/{announcementId}/detail	AnnouncementController.getAnnouncement
 
 # Feedback
-GET		/v1/feedback/cities								FeedbackController.getCities
-GET		/v1/feedback/restaurants						FeedbackController.getRestaurants
+GET		/v1/feedback/meta								FeedbackController.getFeedbackMetaInfo
+#GET		/v1/feedback/city/list							FeedbackController.getCities
+#GET		/v1/feedback/city/{cityId}/restaurants			FeedbackController.getRestaurants
 GET		/v1/feedback/list/page/{page}/size/{pageSize}	FeedbackController.getFeedbacks
 GET		/v1/feedback/register							FeedbackController.getFeedbacks
 

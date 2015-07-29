@@ -2,14 +2,14 @@ package kz.sushimi.restapi.v1.models.feedback;
 
 public class FeedbackRestaurantModel {
 	
-	public boolean Selected;
-	public String Text;
-	public String Value;
+	public boolean selected;
+	public String text;
+	public Integer value;
 	
 	public FeedbackRestaurantModel(String text, Integer value) {
-		this.Selected = false;
-		this.Text = text;
-		this.Value = String.valueOf(value);
+		this.selected = false;
+		this.text = text;
+		this.value = value;
 	}
 	
 }

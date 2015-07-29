@@ -189,6 +189,16 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindow', {
     		id: 'orderTypeField',
     		reference: 'orderTypeField',
             hidden: true,
+    	},{
+    		xtype: 'textfield',
+    		id: 'orderSourceField',
+    		reference: 'orderSourceField',
+            hidden: true,
+    	},{
+    		xtype: 'textfield',
+    		id: 'orderSourceDiscountField',
+    		reference: 'orderSourceDiscountField',
+            hidden: true,
     	}, {
         	reference: 'siteClientInfoContainer',
         	xtype: 'panel',
@@ -217,7 +227,14 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindow', {
             		name: 'siteClientPhone',
                     fieldLabel: 'Телефон',
                     margin: '0 15 0 0',
-            	},]
+            	}, {
+            		xtype: 'textfield',
+            		reference: 'sourceInfoField',
+            		name: 'sourceInfoField',
+                    fieldLabel: 'Источник',
+                    width: 280,
+                    margin: '0 15 0 0',
+            	}]
             }, {
         		xtype: 'textfield',
         		reference: 'siteClientAddressField',
@@ -382,6 +399,9 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindow', {
                         	orderSumField.setValue(parseInt(orderSumField.getValue()) - record.data.sum);
                         	
                         	// Если есть скидка то занижаем её
+                        	console.log("Remove product recalculate discount");
+                        	this.ownerCt.ownerCt.ownerCt.ownerCt.controller.recalculateTotalSum(null);
+                        	/*
                         	var total = Ext.getCmp('orderTotalSumField');
                         	var discount = Ext.getCmp('discountPercentField').getValue();
                         	var selfServiceDiscount = Ext.getCmp('seftServiceDiscountField').getValue();
@@ -405,6 +425,7 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindow', {
                         			total.setValue(orderSumField.getValue());
                         		}
                         	}
+                        	*/
                         	
                         	Ext.getCmp('personCashAmountField').setValue(0);
                         	Ext.getCmp('moneyBackValueField').setValue(0);
