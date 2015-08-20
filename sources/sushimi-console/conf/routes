@@ -18,6 +18,17 @@ POST	/rest/dictionary/city/store/create					CityController.create
 POST	/rest/dictionary/city/store/update					CityController.update
 POST	/rest/dictionary/city/store/destroy					CityController.destroy
 
+GET		/rest/dictionary/deliveryprice/store/read			DeliveryController.read
+POST	/rest/dictionary/deliveryprice/store/create			DeliveryController.create
+POST	/rest/dictionary/deliveryprice/store/update			DeliveryController.update
+POST	/rest/dictionary/deliveryprice/store/destroy		DeliveryController.destroy
+
+GET		/rest/dictionary/promotion/store/read				PromotionController.readAdmin
+POST	/rest/dictionary/promotion/store/create				PromotionController.create
+POST	/rest/dictionary/promotion/store/update				PromotionController.update
+POST	/rest/dictionary/promotion/store/destroy			PromotionController.destroy
+
+
 GET		/rest/dictionary/unit/store/read					UnitController.read
 POST	/rest/dictionary/unit/store/create					UnitController.create
 POST	/rest/dictionary/unit/store/update					UnitController.update
@@ -46,6 +57,16 @@ POST	/rest/dictionary/product/costing/store/create		ProductCostingController.cre
 POST	/rest/dictionary/product/costing/store/update		ProductCostingController.update
 POST	/rest/dictionary/product/costing/store/destroy		ProductCostingController.destroy
 
+
+GET		/rest/clients/information/store/read				ClientController.read
+POST	/rest/clients/information/store/create				ClientController.create
+POST	/rest/clients/information/store/update				ClientController.update
+POST	/rest/clients/information/store/destroy				ClientController.destroy
+
+GET		/rest/clients/information/addres/store/read			ClientController.readAddres
+POST	/rest/clients/information/addres/store/create		ClientController.addClientAddres
+POST	/rest/clients/information/addres/store/destroy		ClientController.destroyClientAddres
+POST	/rest/clients/information/addres/store/update		ClientController.updateAddres
 
 GET		/rest/warehouse/item/store/read						WarehouseItemController.read
 POST	/rest/warehouse/item/store/create					WarehouseItemController.create

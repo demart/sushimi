@@ -7,11 +7,14 @@ import java.util.List;
 import kz.sushimi.console.exceptions.ValidationException;
 import kz.sushimi.console.models.clients.ClientAddressModel;
 import kz.sushimi.console.models.clients.ClientModel;
+import kz.sushimi.console.models.dictionaries.CategoryModel;
+import kz.sushimi.console.models.dictionaries.CityModel;
 import kz.sushimi.console.persistence.clients.Client;
 import kz.sushimi.console.persistence.clients.ClientAddress;
 import kz.sushimi.console.persistence.clients.ClientAddressType;
 import kz.sushimi.console.persistence.clients.ClientStatus;
 import kz.sushimi.console.persistence.clients.ClientType;
+import kz.sushimi.console.persistence.dictionaries.Category;
 import kz.sushimi.console.persistence.dictionaries.City;
 import kz.sushimi.console.persistence.users.User;
 import kz.sushimi.console.services.dictionaries.CityService;
@@ -311,4 +314,170 @@ public class ClientService {
 	}
 
 	
+	/**
+	 * Добавление нового клиента в информации о клиентах
+	 * 
+	 * @return
+	 * @throws ValidationException 
+	 */
+	public static void addClients(ClientModel[] models, String userLogin) throws ValidationException {
+		for (ClientModel clientModel : models) {
+			if (clientModel == null)
+				throw new NullPointerException("model is null");
+			
+			if (StringUtils.isEmpty(clientModel.getPhoneNumber()))
+				throw new ValidationException("client phone number is null or empty");
+			
+			if (StringUtils.isEmpty(clientModel.getName()))
+				throw new ValidationException("client name is null or empty");
+			
+			
+			User user = UserService.getUserByLogin(userLogin);
+			Client client = new Client();
+			client.setName(clientModel.getName());
+			client.setPhoneNumber(clientModel.getPhoneNumber());
+			
+			if (StringUtils.isNotEmpty(clientModel.getEmail()) )
+				client.setEmail(clientModel.getEmail());
+			
+			client.setUser(user);
+			client.save();
+		}
+	}	
+
+	
+	/**
+	 * Удалить запись клиента
+	 * @param id
+	 * @throws ValidationException 
+	 */
+	public static Long deleteClient(Long id, String userLogin) throws ValidationException {
+		if (id == null || id <= 0)
+			throw new ValidationException("client is id null or empty");
+		Client client = Client.findById(id);
+		client = client.delete();
+		return client.getId();
+	}	
+	
+	/**
+	 * Обновить запись клиента в информации о клиентах
+	 * @param id
+	 * @throws ValidationException 
+	 */
+	
+	public static void updateClient(ClientModel[] models, String userLogin) throws ValidationException {
+		for (ClientModel model : models) {
+			if (model == null)
+				throw new ValidationException("Model is null");
+			
+			if (model.getId() == null || model.getId() <= 0)
+				throw new ValidationException("id is null or empty");
+			Client client = Client.findById(model.getId());
+			if (client == null)
+				throw new ValidationException("client not found");
+			
+			
+			if (StringUtils.isNotEmpty(model.getPhoneNumber()))
+				client.setPhoneNumber(model.getPhoneNumber());
+
+			if (StringUtils.isNotEmpty(model.getName()))
+				client.setName(model.getName());
+			
+			if (StringUtils.isNotEmpty(model.getEmail()))
+				client.setEmail(model.getEmail());
+			
+
+			
+			client.save();
+	
+		}
+		
+	}
+
+	/**
+	 * Добавляет адрес клиента в информации о клиентах (пришлось ее, так как дефолтная функция не работает от получаемого параметра clientID)
+	 * @param model
+	 * @param userLogin
+	 * @return
+	 * @throws ValidationException 
+	 */
+	public static ClientAddress addClientAddres(Long clientId, ClientAddressModel model, String userLogin) throws ValidationException {
+		if (model == null)
+			throw new ValidationException("Model is null");
+
+		// Client
+		if (clientId == null)
+			throw new ValidationException("client id empty or null");
+		//Client client = ClientService.getClientById(model.getClientId());
+		//if (client == null)
+		//	throw new ValidationException("client not found");
+		
+		
+		Client client = ClientService.getClientById(clientId);
+		if (client == null)
+			throw new ValidationException("client not found");
+		
+		// City
+		//if (model.getCityId() == null || model.getCityId() <= 0)
+		//	throw new ValidationException("city id empty or null");
+		//City city = CityService.getCityById(model.getCityId());
+		City city = CityService.getCityById(1l);
+		if (city == null)
+			throw new ValidationException("city not found");
+		
+		User currentUser = UserService.getUserByLogin(userLogin);
+		
+		ClientAddress address = new ClientAddress();
+		// default type
+		address.setAddressType(ClientAddressType.HOME);
+		//
+
+		address.setCityName(model.getCityName());
+		address.setFlat(model.getFlat());
+		address.setHouse(model.getHouse());
+		address.setClient(client);
+		address.setStreetName(model.getStreetName());
+		address.setUser(currentUser);
+		address.save();
+		
+		return address;
+	}	
+
+	/**
+	 * Получаем весь список клиентов
+	 */
+	public static List<Client> getClientsList(int start, int limit) {
+		return JPA.em().createQuery("from Client").setFirstResult(start).getResultList();
+	}
+	
+	//Обновление адреса клиента
+	public static void updateClientAddres(ClientAddressModel[] models, String userLogin) throws ValidationException {
+		for (ClientAddressModel model : models) {
+			if (model == null)
+				throw new ValidationException("Model is null");
+			
+			if (model.getId() == null || model.getId() <= 0)
+				throw new ValidationException("id is null or empty");
+			ClientAddress client = ClientAddress.findById(model.getId());
+			if (client == null)
+				throw new ValidationException("client not found");
+			
+			
+			if (StringUtils.isNotEmpty(model.getCityName()))
+				client.setCityName(model.getCityName());
+
+			if (StringUtils.isNotEmpty(model.getStreetName()))
+				client.setStreetName(model.getStreetName());
+			
+			if (StringUtils.isNotEmpty(model.getHouse()))
+				client.setHouse(model.getHouse());
+			
+			if (StringUtils.isNotEmpty(model.getFlat()))
+				client.setFlat(model.getFlat());
+
+			
+			client.save();
+	
+		}
+	}
 }

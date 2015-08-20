@@ -71,12 +71,14 @@ public class Promotion extends PersistentObject {
 	@Column
 	private Float discount;
 	
+
 	
 	/**
 	 * Продукт в подарок
 	 */
 	@ManyToOne
 	private Product product;
+	
 	
 	/**
 	 * Кол-во продукта в подарок
@@ -154,6 +156,8 @@ public class Promotion extends PersistentObject {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	
+
 
 	public Integer getProductCount() {
 		return productCount;
@@ -172,6 +176,10 @@ public class Promotion extends PersistentObject {
 	}
 
 	public boolean isPublished() {
+		return isPublished;
+	}
+	
+	public Boolean getPublished() {
 		return isPublished;
 	}
 
