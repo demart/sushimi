@@ -1,7 +1,9 @@
 package kz.sushimi.console.models.clients;
 
 import java.util.Date;
+import java.util.List;
 
+import kz.sushimi.console.models.orders.CreateOrderItemModel;
 import kz.sushimi.console.persistence.clients.ClientStatus;
 import kz.sushimi.console.persistence.clients.ClientType;
 
@@ -56,6 +58,7 @@ public class ClientModel {
 	private Integer nextDiscountSum;
 	private Integer nextDiscountPercent;
 	
+	private List<ManyClientModel> clients;
 	
 	public Long getId() {
 		return id;
@@ -159,6 +162,14 @@ public class ClientModel {
 
 	public void setNextDiscountPercent(Integer nextDiscountPercent) {
 		this.nextDiscountPercent = nextDiscountPercent;
+	}
+	
+	public List<ManyClientModel> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<ManyClientModel> clients) {
+		this.clients = clients;
 	}
 
 }

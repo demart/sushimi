@@ -81,9 +81,15 @@ Ext.define('SushimiConsole.view.main.MainController', {
     
     // Управление клиентами: информация о клиентах
     onInfoClientsClick : function() {
-    	console.log('Clients clicked');
+    	console.log('Information clients clicked');
     	this.redirectTo('clients/information');
-    },    
+    },   
+    
+    // Управление клиентами: объединение клиентов
+    onIntegrationClientsClick : function() {
+    	console.log('Integration clients clicked');
+    	this.redirectTo('clients/integration');
+    },  
    
     // Заказы системы
     onOrderClick : function() {

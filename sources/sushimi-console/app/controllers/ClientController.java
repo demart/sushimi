@@ -306,4 +306,21 @@ public class ClientController extends SecuredController {
 		renderJSON(wrapper);
 	}
 	
+	//Объединение клиентов
+	public static void integration() throws ValidationException {
+		String requestBody = params.current().get("body");
+		Logger.info("Update: " + requestBody);
+		if (!requestBody.startsWith("["))
+			requestBody = "[" + requestBody + "]";
+		Gson gson = new Gson();
+		Logger.info("Update(server): " + requestBody);
+		ClientModel[] models = gson.fromJson(requestBody, ClientModel[].class);
+		//Logger.info("Model.lenght: " + models.length);
+		ClientService.integrationClients(models, Security.connected());
+		
+		StoreWrapper wrapper = new StoreWrapper();
+		wrapper.success = true;
+		renderJSON(wrapper);
+	}
+	
 }

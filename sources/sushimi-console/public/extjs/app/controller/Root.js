@@ -20,6 +20,7 @@ Ext.define('SushimiConsole.controller.Root', {
     	'dictionaries/product' : 'onDictionaryProductList',
     	
     	'clients/information' : 'onInfoClientsList',
+    	'clients/integration' : 'onIntegrationClientsList',
     	
     	'warehouse' : 'onWarehouse',
     	
@@ -79,13 +80,20 @@ Ext.define('SushimiConsole.controller.Root', {
         this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.dictionaries.product.ProductList', {id: 'dicProductListView'}));
     },
     
-    // управление клиентами информация
+    // управление клиентами: информация о клиентах
     onInfoClientsList  : function() {
         console.log("onInfoClientsList route");
         this.getMain().getComponent('mainBody').removeAll(true);
         this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.clients.information.InfoClientsList', {id: 'infoClientsListView'}));
     },
 
+    // управление клиентами: объединение клиентов
+    onIntegrationClientsList  : function() {
+        console.log("onIntegrationClientsList route");
+        this.getMain().getComponent('mainBody').removeAll(true);
+        this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.clients.integration.IntegrationClientsList', {id: 'integrationClientsListView'}));
+    },
+    
     // управление складом 
     onWarehouse  : function() {
         console.log("onWarehouse route");

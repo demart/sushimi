@@ -36,6 +36,8 @@ Ext.define('SushimiConsole.Application', {
 	     'DeliveryPriceStore',
 	     'InfoClientsStore',
 	     'InfoClientsAddresStore',
+	     'IntegrationClientsStore',
+	     'IntegrationClientsAddresStore',
 	     'PromotionStore',
 	     'UnitStore',
 	     'IngredientStore',

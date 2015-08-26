@@ -3,10 +3,12 @@ package kz.sushimi.console.services;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import play.Logger;
 
 import kz.sushimi.console.exceptions.ValidationException;
 import kz.sushimi.console.models.clients.ClientAddressModel;
 import kz.sushimi.console.models.clients.ClientModel;
+import kz.sushimi.console.models.clients.ManyClientModel;
 import kz.sushimi.console.models.dictionaries.CategoryModel;
 import kz.sushimi.console.models.dictionaries.CityModel;
 import kz.sushimi.console.persistence.clients.Client;
@@ -431,7 +433,7 @@ public class ClientService {
 		// default type
 		address.setAddressType(ClientAddressType.HOME);
 		//
-
+		address.setCity(city);
 		address.setCityName(model.getCityName());
 		address.setFlat(model.getFlat());
 		address.setHouse(model.getHouse());
@@ -480,4 +482,85 @@ public class ClientService {
 	
 		}
 	}
-}
+	
+	
+	//Объединение клиентов
+
+	public static void integrationClients(ClientModel[] models, String userLogin) throws ValidationException {
+		for (ClientModel model : models) {
+			if (model == null)
+				throw new ValidationException("Model is null");
+			
+			//Разбираем модель по полочкам. orderSum - общая сумма заказов всех клиентов; mClientIds - ID клиентов на объединение
+			//mainClient - id нашего главного клиента
+			Long mainClient = null;
+			int orderSum = 0;
+			
+			ArrayList mClientIds = new ArrayList();
+						
+			for (ManyClientModel clients : model.getClients()) {
+				if (clients.getMainClient() == null) {
+						mClientIds.add(clients.getClientId());
+						orderSum = orderSum + clients.getOrderSum();
+				}
+				else {
+					mainClient = clients.getClientId();
+					orderSum = orderSum + clients.getOrderSum();
+				}
+					
+			}
+			
+			
+			//System.out.println("Main client " + mainClient);
+			//System.out.println("Total order sum " + orderSum);
+
+			//меняем ID клиентов на ID главного клиента в адресах
+			try {
+			  //JPA.em().getTransaction().begin();
+			  JPA.em().createQuery("update ClientAddress set client.id = :mainClient where client.id in (:mClientIds)").setParameter("mainClient", mainClient).setParameter("mClientIds", mClientIds).executeUpdate();
+			  //JPA.em().getTransaction().commit();
+			  }
+			  catch (Exception ex) {
+			  System.out.println (ex);
+			  JPA.em().getTransaction().rollback();
+			  }
+			
+			//меняем ID клиентов на ID главного клиента в заказах
+			try {
+				  //JPA.em().getTransaction().begin();
+				  JPA.em().createQuery("update Order set client.id = :mainClient where client.id in (:mClientIds)").setParameter("mainClient", mainClient).setParameter("mClientIds", mClientIds).executeUpdate();
+				  //JPA.em().getTransaction().commit();
+				  }
+				  catch (Exception ex) {
+				  System.out.println (ex);
+				  JPA.em().getTransaction().rollback();
+				  }
+			
+			//Сохраняем общую сумму заказов на главного клиента
+			Client client = ClientService.getClientById(mainClient);
+			client.setTotalOrderSum(orderSum);
+			client.save();
+
+			 
+			//Удаляем лишних клиентов
+			try {
+				  //JPA.em().getTransaction().begin();
+				  JPA.em().createQuery("delete Client where id in (:mClientIds)").setParameter("mClientIds", mClientIds).executeUpdate();
+				  //JPA.em().getTransaction().commit();
+				  }
+				  catch (Exception ex) {
+				  System.out.println (ex);
+				  JPA.em().getTransaction().rollback();
+				  }
+	
+		
+			
+			
+		}
+		}
+			
+
+			
+		
+	
+	}

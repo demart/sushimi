@@ -21,6 +21,10 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsList' ,{
         bodyPadding: '0 0 0 0'
     },
     items: [ 
+            
+
+            
+            
              {          
             	title: 'Управление клиентами: информация о клиентах',
                 collapsible: false,
