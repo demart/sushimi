@@ -107,8 +107,12 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsList' ,{
                 	columns: [
                 			{text: "№", dataIndex: 'id', width: 100},
                             {text: "Город", dataIndex: 'cityName' , width: 100},
-                            {text: "Улица", dataIndex: 'streetName' , flex: 3},
-                            {text: "Дом", dataIndex: 'house' , width: 50},
+                            {text: "Улица", dataIndex: 'streetName' , flex: 2},
+                            {text: "Дом", dataIndex: 'house' , width: 100},
+                            {text: "Строение", dataIndex: 'building' , width: 100},
+                            {text: "Корпус", dataIndex: 'corpus' , width: 100},
+                            {text: "Этаж", dataIndex: 'floor' , width: 100},
+                            {text: "Подъезд", dataIndex: 'porch', width: 100},
                             {text: "Квартира", dataIndex: 'flat' , width: 100},
 
                 	],

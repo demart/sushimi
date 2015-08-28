@@ -3,7 +3,7 @@ package kz.sushimi.console.models.clients;
 /**
  * Клиенты на объединение
  * 
- * @author Demart
+ * @author Wepli
  *
  */
 public class ManyClientModel {

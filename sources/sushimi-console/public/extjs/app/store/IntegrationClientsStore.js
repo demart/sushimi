@@ -9,7 +9,7 @@ Ext.define('SushimiConsole.store.IntegrationClientsStore', {
             read: 'rest/clients/integration/store/read',
             //create: 'rest/clients/integration/store/create',
             //update: 'rest/clients/integration/store/update',
-        	destroy: '/rest/clients/integration/store/destroy',
+        	//destroy: '/rest/clients/integration/store/destroy',
         },
         reader: {
             type: 'json',

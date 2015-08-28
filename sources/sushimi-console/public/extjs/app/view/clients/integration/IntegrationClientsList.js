@@ -7,9 +7,8 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
    		'Ext.layout.container.Border',
    		
    	    'SushimiConsole.view.clients.integration.IntegrationClientsListController',
-   	    'SushimiConsole.view.clients.integration.IntegrationClientsEditWindow',
 
-	],
+   	    ],
 	
 	layout: 'border',
 	bodyBorder: true,
@@ -24,7 +23,7 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
             	collapsible: false,
                 region: 'west',
                 margin: '0 0 0 0',
-           	  	width: 650,
+           	  	flex: 3,
                 items: [{
                         	xtype: 'panel',
                         	layout: 'fit',
@@ -88,15 +87,15 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                 	        stripeRows: true
                 	        	},
 
-                	 id: 'IntegrationMainClientsStoreId',
-                	 reference: 'IntegrationMainClientsStoreId',
+                	 id: 'integrationMainClientsStoreId',
+                	 reference: 'integrationMainClientsStoreId',
                 	 xtype: 'grid',
                 	 store: 'InfoClientsStore',
                 	 scroll: true,
                 	 region: 'center',
                 	 stateful: false,
                 	 controller: 'clients.integration',
-                	 height: 450,
+                	 height: 550,
                 	 scroll: true,
                 	        
                 	 tbar: [{text: "Добавить на объединение", handler: 'AddClientIntegration'},
@@ -106,8 +105,11 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                 	             	  	
                 	  columns: [
                 	         {text: "№", dataIndex: 'id', width: 100},
-                	         {text: "Имя", dataIndex: 'name' , flex: 3},
-           	              	 {text: "Номер телефона", dataIndex: 'phoneNumber' , width: 150},
+                	         {text: "Имя", dataIndex: 'name' , width: 200},
+        	                  {text: "Номер телефона", dataIndex: 'phoneNumber', width: 150},
+         	                  {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width: 150},
+                              {text: "E-mail", dataIndex: 'email', width:200},
+                              {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width:150}
                     	       ],
 		
 
@@ -144,8 +146,11 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                 		columns: [
                 		          {text: "№", dataIndex: 'id', width: 100},
                 		          {text: "Город", dataIndex: 'cityName' , width: 100},
-                		          {text: "Улица", dataIndex: 'streetName' , flex: 3},
-                		          {text: "Дом", dataIndex: 'house' , width: 50},
+                		          {text: "Улица", dataIndex: 'streetName' , flex: 2},
+                		          {text: "Дом", dataIndex: 'house' , width: 100},
+                                  {text: "Строение", dataIndex: 'building' , width: 100},
+                                  {text: "Корпус", dataIndex: 'corpus' , width: 100},
+                                  {text: "Этаж", dataIndex: 'floor' , width: 100},
                 		          {text: "Квартира", dataIndex: 'flat' , width: 100},
 
                 		          ],
@@ -154,9 +159,9 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
              },
              {  
              	collapsible: false,
-                 region: 'east',
+                 region: 'center',
                  margin: '0 0 0 0',
-            	  	width: 650,
+            	 flex: 3,
                  items: [
 
                          {
@@ -165,28 +170,35 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                  	        	stripeRows: true
                  	        },
 
-                 	        id: 'IntegrationClientsStoreId',
-                 	        reference: 'IntegrationClientsStoreId',
+                 	        
+                 	        
+                 	        
+                 	        id: 'integrationClientsStoreId',
+                 	        reference: 'integrationClientsStoreId',
                  	        xtype: 'grid',
                  	        store: 'IntegrationClientsStore',
                  	        scroll: true,
                  	        region: 'center',
                  	        stateful: false,
                  	        controller: 'clients.integration',
-                 	        height: 550,
+                 	        height: 585,
                  	        scroll: true,
                  	        
                 	        tbar: [{text: "Объединить всех клиентов", handler: 'onClientIntegration'},
                  	               {text: "Убрать клиента", handler: 'onDeleteRecord'},
                 	               {text: "Главный клиент", handler: 'onSetMainClient'},
-                	               {text: "Отменить главного клиента", handler: 'onDelMainClient'}
+                 	               //{text: "Очистить список", handler: 'onRefreshClientsStore'}
                 	               ],
                  	        
             	  	
                  	        columns: [
                  	                  {text: "№", dataIndex: 'id', width: 100},
-                 	                  {text: "Имя", dataIndex: 'name' , flex: 3},
-            	              		  {text: "Главный клиент", dataIndex: 'mainClient' , width: 150, xtype:'booleancolumn', trueText:'Да', falseText:'Нет'},
+									  {text: "Имя", dataIndex: 'name' , width: 200},
+ 									  {text: "Номер телефона", dataIndex: 'phoneNumber', width: 150},
+ 									  {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width: 150},
+  									  {text: "E-mail", dataIndex: 'email', width:200},
+ 									  {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width:150},
+                 	                  {text: "Главный клиент", dataIndex: 'mainClient' , width: 150, xtype:'booleancolumn', trueText:'Да', falseText:'Нет'},
             
             	              			  ],
  		
@@ -225,8 +237,12 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                  		columns: [
                  		          {text: "№", dataIndex: 'id', width: 100},
                  		          {text: "Город", dataIndex: 'cityName' , width: 100},
-                 		          {text: "Улица", dataIndex: 'streetName' , flex: 3},
-                 		          {text: "Дом", dataIndex: 'house' , width: 50},
+                		          {text: "Улица", dataIndex: 'streetName' , flex: 2},
+                		          {text: "Дом", dataIndex: 'house' , width: 100},
+                                  {text: "Строение", dataIndex: 'building' , width: 100},
+                                  {text: "Корпус", dataIndex: 'corpus' , width: 100},
+                                  {text: "Этаж", dataIndex: 'floor' , width: 100},
+                                  {text: "Подъезд", dataIndex: 'porch', width: 100},
                  		          {text: "Квартира", dataIndex: 'flat' , width: 100},
 
                  		          ],

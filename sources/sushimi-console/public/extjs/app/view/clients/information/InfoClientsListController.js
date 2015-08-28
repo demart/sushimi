@@ -30,7 +30,9 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsListController', 
     	win.show();
     },    
     
-    // Удалить запись
+    /**
+     * Удаление записи
+     */
     onDeleteRecord : function() {
     	var store = this.view.getStore();
     	var selectedRecord = this.view.getSelectionModel().getSelection()[0];

@@ -7,7 +7,15 @@ Ext.define('SushimiConsole.model.InfoClientsAddresModel', {
 		{name: 'streetName'},
 		{name: 'house'},
 		{name: 'flat'},
-		
-
+		{name: 'corpus'},
+		{name: 'floor'},
+		{name: 'building'},
+		{name: 'porch'},
 	],
+	hasMany: {
+	    model: 'SushimiConsole.model.IntegrationManyAddressClientsModel',
+	    name: 'addresses',
+	    primaryKey: 'id',
+		foreignKey: 'ownerId',
+	},
 });

@@ -72,6 +72,8 @@ GET		/rest/clients/integration/addres/store/read			ClientController.readAddres
 
 POST	/rest/clients/integration/store/create				ClientController.integration
 
+POST	/rest/clients/address/store/create					ClientController.integrationAddress
+
 GET		/rest/warehouse/item/store/read						WarehouseItemController.read
 POST	/rest/warehouse/item/store/create					WarehouseItemController.create
 POST	/rest/warehouse/item/store/update					WarehouseItemController.update

@@ -21,6 +21,7 @@ Ext.define('SushimiConsole.controller.Root', {
     	
     	'clients/information' : 'onInfoClientsList',
     	'clients/integration' : 'onIntegrationClientsList',
+    	'clients/address' : 'onIntegrationAddressClientsList',
     	
     	'warehouse' : 'onWarehouse',
     	
@@ -92,6 +93,13 @@ Ext.define('SushimiConsole.controller.Root', {
         console.log("onIntegrationClientsList route");
         this.getMain().getComponent('mainBody').removeAll(true);
         this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.clients.integration.IntegrationClientsList', {id: 'integrationClientsListView'}));
+    },
+    
+    // управление клиентами: объединение адресов
+    onIntegrationAddressClientsList  : function() {
+        console.log("onIntegrationAddressClientsList route");
+        this.getMain().getComponent('mainBody').removeAll(true);
+        this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.clients.address.IntegrationAddressList', {id: 'integrationAddressListView'}));
     },
     
     // управление складом 

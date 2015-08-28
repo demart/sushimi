@@ -90,6 +90,12 @@ Ext.define('SushimiConsole.view.main.MainController', {
     	console.log('Integration clients clicked');
     	this.redirectTo('clients/integration');
     },  
+    
+    // Управление клиентами: объединение адресов клиента
+    onIntegrationAddressClientsClick : function() {
+    	console.log('Integration address clients clicked');
+    	this.redirectTo('clients/address');
+    },  
    
     // Заказы системы
     onOrderClick : function() {

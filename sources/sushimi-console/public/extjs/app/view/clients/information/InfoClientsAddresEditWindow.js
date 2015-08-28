@@ -69,6 +69,34 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsAddresEditWindow'
 	        },
 	        {
 	            flex: 1,
+	            name: 'building',
+	            itemId: 'building',
+	            fieldLabel: 'Строение',
+	            allowBlank: true
+	        },
+	        {
+	            flex: 1,
+	            name: 'corpus',
+	            itemId: 'corpus',
+	            fieldLabel: 'Корпус',
+	            allowBlank: true
+	        },
+	        {
+	            flex: 1,
+	            name: 'floor',
+	            itemId: 'floor',
+	            fieldLabel: 'Этаж',
+	            allowBlank: true
+	        },
+	        {
+	            flex: 1,
+	            name: 'porch',
+	            itemId: 'porch',
+	            fieldLabel: 'Подъезд',
+	            allowBlank: true
+	        },
+	        {
+	            flex: 1,
 	            name: 'flat',
 	            itemId: 'flat',
 	            afterLabelTextTpl: [

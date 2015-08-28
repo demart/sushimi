@@ -100,6 +100,10 @@ Ext.define('SushimiConsole.view.main.Main', {
                   {
                 	  text:'Объединение клиентов',
                 	  listeners: { click : 'onIntegrationClientsClick', },
+                  },
+                  {
+                	  text:'Объединение адресов клиента',
+                	  listeners: { click : 'onIntegrationAddressClientsClick', },
                   }
                   ]
 	        },             
