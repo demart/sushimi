@@ -61,6 +61,14 @@ Ext.define('SushimiConsole.view.main.Main', {
                 	  listeners: { click : 'onCityDicClick', },
                   }, 
                   {
+                	  text:'Справочник: Районов доставки',
+                	  listeners: { click : 'onDeliveryPriceDicClick', },
+                  }, 
+                  {
+                	  text:'Справочник: Акций',
+                	  listeners: { click : 'onPromotionDicClick', },
+                  }, 
+                  {
             	  	  text:'Справочник: Категорий',
             	  	  listeners: { click : 'onCategoryDicClick', },            	  	  
                   }, 
@@ -77,7 +85,29 @@ Ext.define('SushimiConsole.view.main.Main', {
                 	  listeners: { click : 'onUnitDicClick', },
 	              }
 	            ]
-	        }, {
+	        },              
+	        '-',  {
+	            iconCls: null,
+	            id: 'menuClientsBtn',
+	            text:'Управление клиентами',
+	            scale: 'small',
+	            hidden: true,
+	            menu:[
+                  {
+                	  text:'Информация о клиентах',
+                	  listeners: { click : 'onInfoClientsClick', },
+                  },
+                  {
+                	  text:'Объединение клиентов',
+                	  listeners: { click : 'onIntegrationClientsClick', },
+                  },
+                  {
+                	  text:'Объединение адресов клиента',
+                	  listeners: { click : 'onIntegrationAddressClientsClick', },
+                  }
+                  ]
+	        },             
+	        {
 	        	id: 'menuWarehouseBtn',
 	            text:'Склад',
 	            iconCls: null,
@@ -168,6 +198,7 @@ Ext.define('SushimiConsole.view.main.Main', {
         		Ext.getCmp('menuStatsBtn').setVisible(true);
         		Ext.getCmp('menuWarehouseBtn').setVisible(true);
         		Ext.getCmp('menuDictionariesBtn').setVisible(true);
+        		Ext.getCmp('menuClientsBtn').setVisible(true);
         	}
     	}
     },

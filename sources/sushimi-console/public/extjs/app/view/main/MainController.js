@@ -37,6 +37,18 @@ Ext.define('SushimiConsole.view.main.MainController', {
     	this.redirectTo('dictionaries/city');
     },
     
+    // Справочник районов доставки
+    onDeliveryPriceDicClick : function() {
+    	console.log('DeliveryPrice dictionary clicked');
+    	this.redirectTo('dictionaries/deliveryprice');
+    },
+    
+    // Справочник акций
+    onPromotionDicClick : function() {
+    	console.log('Promotion dictionary clicked');
+    	this.redirectTo('dictionaries/promotion');
+    },
+    
     // Справочник единиц измерения    
     onUnitDicClick : function() {
     	console.log('Unit dictionary clicked');
@@ -67,6 +79,24 @@ Ext.define('SushimiConsole.view.main.MainController', {
     	this.redirectTo('warehouse');
     },    
     
+    // Управление клиентами: информация о клиентах
+    onInfoClientsClick : function() {
+    	console.log('Information clients clicked');
+    	this.redirectTo('clients/information');
+    },   
+    
+    // Управление клиентами: объединение клиентов
+    onIntegrationClientsClick : function() {
+    	console.log('Integration clients clicked');
+    	this.redirectTo('clients/integration');
+    },  
+    
+    // Управление клиентами: объединение адресов клиента
+    onIntegrationAddressClientsClick : function() {
+    	console.log('Integration address clients clicked');
+    	this.redirectTo('clients/address');
+    },  
+   
     // Заказы системы
     onOrderClick : function() {
     	console.log('Order clicked');

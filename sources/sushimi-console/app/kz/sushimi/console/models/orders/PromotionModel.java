@@ -1,9 +1,11 @@
 package kz.sushimi.console.models.orders;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import kz.sushimi.console.persistence.promotions.PromotionType;
 import kz.sushimi.console.persistence.promotions.PromotionValueType;
+import kz.sushimi.console.persistence.dictionaries.Product;
 
 /**
  * Модель акций
@@ -19,6 +21,13 @@ public class PromotionModel {
 	 * Название акции
 	 */
 	private String name;
+	
+	/**
+	 * Название продукта в подарок
+	 */
+	private Product product;
+	
+	private String productIdName;
 	
 	/**
 	 * Тип акции
@@ -62,8 +71,24 @@ public class PromotionModel {
 	 * Кол-во продукта в подарок
 	 */
 	private Integer productCount;
-
 	
+	
+	private Boolean isPublished;
+	
+	public Boolean getIsPublished() {
+		return isPublished;
+	}
+	public void setIsPublished(Boolean isPublished) {
+		this.isPublished = isPublished;
+	}
+	
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 	
 	public Long getId() {
 		return id;
@@ -73,6 +98,14 @@ public class PromotionModel {
 		this.id = id;
 	}
 
+	public String getProductIdName() {
+		return productIdName;
+	}
+
+	public void setProductIdName(String productIdName) {
+		this.productIdName = productIdName;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -144,5 +177,9 @@ public class PromotionModel {
 	public void setProductCount(Integer productCount) {
 		this.productCount = productCount;
 	}
+
+
+	
+
 	
 }

@@ -3,15 +3,21 @@ package kz.sushimi.console.services;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import play.Logger;
 
 import kz.sushimi.console.exceptions.ValidationException;
 import kz.sushimi.console.models.clients.ClientAddressModel;
 import kz.sushimi.console.models.clients.ClientModel;
+import kz.sushimi.console.models.clients.ManyClientModel;
+import kz.sushimi.console.models.clients.ManyClientAddressModel;
+import kz.sushimi.console.models.dictionaries.CategoryModel;
+import kz.sushimi.console.models.dictionaries.CityModel;
 import kz.sushimi.console.persistence.clients.Client;
 import kz.sushimi.console.persistence.clients.ClientAddress;
 import kz.sushimi.console.persistence.clients.ClientAddressType;
 import kz.sushimi.console.persistence.clients.ClientStatus;
 import kz.sushimi.console.persistence.clients.ClientType;
+import kz.sushimi.console.persistence.dictionaries.Category;
 import kz.sushimi.console.persistence.dictionaries.City;
 import kz.sushimi.console.persistence.users.User;
 import kz.sushimi.console.services.dictionaries.CityService;
@@ -310,5 +316,329 @@ public class ClientService {
 		return address.getId();
 	}
 
+	
+	/**
+	 * Добавление нового клиента в информации о клиентах
+	 * 
+	 * @return
+	 * @throws ValidationException 
+	 */
+	public static void addClients(ClientModel[] models, String userLogin) throws ValidationException {
+		for (ClientModel clientModel : models) {
+			if (clientModel == null)
+				throw new NullPointerException("model is null");
+			
+			if (StringUtils.isEmpty(clientModel.getPhoneNumber()))
+				throw new ValidationException("client phone number is null or empty");
+			
+			if (clientModel.getPhoneNumber().length() != 10)
+				throw new ValidationException("Phone number is incorrect");
+			
+			if (StringUtils.isEmpty(clientModel.getName()))
+				throw new ValidationException("client name is null or empty");
+			
+			if (!clientModel.getEmail().matches("[a-z0-9].*[@].*[a-z0-9].*[.].*[a-z]")) 
+				throw new ValidationException("Email is incorrect");
+			
+			
+			User user = UserService.getUserByLogin(userLogin);
+			Client client = new Client();
+			client.setName(clientModel.getName());
+			client.setPhoneNumber(clientModel.getPhoneNumber());
+			
+			if (StringUtils.isNotEmpty(clientModel.getEmail()) )
+				client.setEmail(clientModel.getEmail());
+			
+			client.setUser(user);
+			client.save();
+		}
+	}	
+
+	
+	/**
+	 * Удалить запись клиента
+	 * @param id
+	 * @throws ValidationException 
+	 */
+	public static Long deleteClient(Long id, String userLogin) throws ValidationException {
+		if (id == null || id <= 0)
+			throw new ValidationException("client is id null or empty");
+		Client client = Client.findById(id);
+		client = client.delete();
+		return client.getId();
+	}	
+	
+	/**
+	 * Обновление записи клиента в разделе Управление клиентами -> Информация о клиентах
+	 * @param id
+	 * @throws ValidationException 
+	 */
+	
+	public static void updateClient(ClientModel[] models, String userLogin) throws ValidationException {
+		for (ClientModel model : models) {
+			if (model == null)
+				throw new ValidationException("Model is null");
+			
+			
+
+			if (model.getId() == null || model.getId() <= 0)
+				throw new ValidationException("id is null or empty");
+			Client client = Client.findById(model.getId());
+			if (client == null)
+				throw new ValidationException("client not found");
+			
+			
+		
+		
+			if (StringUtils.isNotEmpty(model.getPhoneNumber())) {
+				if (model.getPhoneNumber().length() != 10)
+					throw new ValidationException("Phone number is incorrect");
+			
+				client.setPhoneNumber(model.getPhoneNumber());
+			}
+
+			if (StringUtils.isNotEmpty(model.getName()))
+				client.setName(model.getName());
+			
+			if (StringUtils.isNotEmpty(model.getEmail())) {
+				if (!model.getEmail().matches("[a-z0-9].*[@].*[a-z0-9].*[.].*[a-z]"))
+					throw new ValidationException("Email is incorrect");
+			
+				client.setEmail(model.getEmail());
+			}
+
+			
+			client.save();
+	
+		}
+		
+	}
+
+	/**
+	 * Добавляет адрес клиента в информации о клиентах (пришлось ее, так как дефолтная функция не работает от получаемого параметра clientID)
+	 * @param model
+	 * @param userLogin
+	 * @return
+	 * @throws ValidationException 
+	 */
+	public static ClientAddress addClientAddres(Long clientId, ClientAddressModel model, String userLogin) throws ValidationException {
+		if (model == null)
+			throw new ValidationException("Model is null");
+
+		// Client
+		if (clientId == null)
+			throw new ValidationException("client id empty or null");
+				
+		Client client = ClientService.getClientById(clientId);
+		if (client == null)
+			throw new ValidationException("client not found");
+		
+		// City
+		City city = CityService.getCityById(1l);
+		if (city == null)
+			throw new ValidationException("city not found");
+		
+		User currentUser = UserService.getUserByLogin(userLogin);
+		
+		ClientAddress address = new ClientAddress();
+		address.setAddressType(ClientAddressType.HOME);
+		address.setCity(city);
+		address.setCityName(model.getCityName());
+		address.setFlat(model.getFlat());
+		address.setHouse(model.getHouse());
+		address.setClient(client);
+		address.setStreetName(model.getStreetName());
+		
+		if (StringUtils.isNotEmpty(model.getFloor()))
+			address.setFloor(model.getFloor());
+		
+		if (StringUtils.isNotEmpty(model.getCorpus()))
+			address.setCorpus(model.getCorpus());
+		
+		if (StringUtils.isNotEmpty(model.getBuilding()))
+			address.setBuilding(model.getBuilding());
+		
+		if (StringUtils.isNotEmpty(model.getPorch()))
+			address.setPorch(model.getPorch());
+		
+		address.setUser(currentUser);
+		address.save();
+		
+		return address;
+	}	
+
+	/**
+	 * Получаем весь список клиентов
+	 */
+	public static List<Client> getClientsList(int start, int limit) {
+		return JPA.em().createQuery("from Client").setFirstResult(start).getResultList();
+	}
+	
+	/**
+	 * Обновление адреса клиента в разделе Управление клиентами -> Информация о клиентах
+	 * @param models
+	 * @param userLogin
+	 * @throws ValidationException
+	 */
+	public static void updateClientAddres(ClientAddressModel[] models, String userLogin) throws ValidationException {
+		for (ClientAddressModel model : models) {
+			if (model == null)
+				throw new ValidationException("Model is null");
+			
+			if (model.getId() == null || model.getId() <= 0)
+				throw new ValidationException("id is null or empty");
+			ClientAddress address = ClientAddress.findById(model.getId());
+			if (address == null)
+				throw new ValidationException("Address not found");
+			
+			
+			if (StringUtils.isNotEmpty(model.getCityName()))
+				address.setCityName(model.getCityName());
+
+			if (StringUtils.isNotEmpty(model.getStreetName()))
+				address.setStreetName(model.getStreetName());
+			
+			if (StringUtils.isNotEmpty(model.getHouse()))
+				address.setHouse(model.getHouse());
+			
+			if (StringUtils.isNotEmpty(model.getFlat()))
+				address.setFlat(model.getFlat());
+			
+			if (StringUtils.isNotEmpty(model.getFloor()))
+				address.setFloor(model.getFloor());
+			
+			if (StringUtils.isNotEmpty(model.getCorpus()))
+				address.setCorpus(model.getCorpus());
+			
+			if (StringUtils.isNotEmpty(model.getBuilding()))
+				address.setBuilding(model.getBuilding());
+			
+			if (StringUtils.isNotEmpty(model.getPorch()))
+				address.setPorch(model.getPorch());
+			
+			address.save();
+	
+		}
+	}
+	
+	
+	/**
+	 * Объединение клиентов.
+	 * @param models
+	 * @param userLogin
+	 * @throws ValidationException
+	 */
+
+	public static void integrationClients(ClientModel[] models, String userLogin) throws ValidationException {
+		for (ClientModel model : models) {
+			if (model == null)
+				throw new ValidationException("Model is null");
+			
+			//Разбираем модель по полочкам. orderSum - общая сумма заказов всех клиентов; mClientIds - ID клиентов на объединение
+			//mainClient - id нашего главного клиента
+			Long mainClient = null;
+			int tmp = 0;
+			
+			ArrayList mClientIds = new ArrayList();
+			Client mClient = new Client();
+						
+			for (ManyClientModel clients : model.getClients()) {
+				if (clients.getMainClient() == false) {
+						mClient = ClientService.getClientById(clients.getClientId());
+						if (mClient == null)
+							throw new ValidationException("Client not found");
+						else {
+						mClientIds.add(clients.getClientId());
+						}
+				}
+				else {
+					mainClient = clients.getClientId();
+					tmp++;
+				}
+					
+			}
+			
+			if (mainClient == null)
+				throw new ValidationException("Main client is null");
+			
+			if (mClientIds.size() == 0)
+				throw new ValidationException("Clients count is 0");
+			
+			if (tmp != 1)
+				throw new ValidationException("Main Client count isn't 1");
+			
+			try {
+				JPA.em().createQuery("update ClientAddress set client.id = :mainClient where client.id in (:mClientIds)").setParameter("mainClient", mainClient).setParameter("mClientIds", mClientIds).executeUpdate();
+				mClientIds.add(mainClient);
+				JPA.em().createQuery("update Client set totalOrderSum = (select sum(totalOrderSum) from Client where id in (:mClientIds)) where id = :mainClient").setParameter("mainClient", mainClient).setParameter("mClientIds", mClientIds).executeUpdate();
+				mClientIds.remove(mainClient);
+				JPA.em().createQuery("update Order set client.id = :mainClient where client.id in (:mClientIds)").setParameter("mainClient", mainClient).setParameter("mClientIds", mClientIds).executeUpdate();
+				JPA.em().createQuery("delete Client where id in (:mClientIds)").setParameter("mClientIds", mClientIds).executeUpdate();
+			}
+			catch (Exception ex) {
+			  System.out.println (ex);
+			  JPA.em().getTransaction().rollback();
+			}
+					
+			
+		}
+		}
+			
+/**
+ * Объединение адресов клиента
+ * @param models
+ * @param userLogin
+ * @throws ValidationException
+ */
+	public static void integrationAddresses(ClientAddressModel[] models, String userLogin) throws ValidationException {
+		for (ClientAddressModel model : models) {
+			if (model == null)
+				throw new ValidationException("Model is null");
+			
+			Long mainAddressId = null;
+			ArrayList mAddressesIds = new ArrayList();
+			int tmp = 0;
+			
+			ClientAddress address = ClientAddress.findById(model.getId());
+			
+			for (ManyClientAddressModel clients : model.getAddresses()){
+				if (clients.getMainAddress() == false) {
+					address = ClientAddress.findById(clients.getAddressId());
+						if (address == null)
+							throw new ValidationException("Address not found");
+						else
+							mAddressesIds.add(clients.getAddressId());
+				}
+				else{
+					mainAddressId = clients.getAddressId();
+					tmp++;
+				}
+			}
+					
+			if (tmp != 1)
+				throw new ValidationException("Main address count isn't 1");
+						
+			ClientAddress mainAddress = ClientAddress.findById(mainAddressId);
+			if (mainAddress == null)
+				throw new ValidationException("Main address not found");
+			
+			if (mAddressesIds.size() == 0)
+				throw new ValidationException("Addresses count is 0");
+						
+				
+			
+			try {
+				JPA.em().createQuery("update Order set clientAddress.id = :mainAddressId where clientAddress.id in (:mAddressesIds)").setParameter("mainAddressId", mainAddressId).setParameter("mAddressesIds", mAddressesIds).executeUpdate();
+				JPA.em().createQuery("delete ClientAddress where id in (:mAddressesIds)").setParameter("mAddressesIds", mAddressesIds).executeUpdate();
+				
+			}
+			catch (Exception ex) {
+			  System.out.println (ex);
+			  JPA.em().getTransaction().rollback();
+			}
+						
+			}
+	}	
+		
 	
 }

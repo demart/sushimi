@@ -1,5 +1,7 @@
 package kz.sushimi.console.models.clients;
 
+import java.util.List;
+
 import kz.sushimi.console.persistence.clients.ClientAddressType;
 
 public class ClientAddressModel {
@@ -106,6 +108,8 @@ public class ClientAddressModel {
 	 * что может быть необходимо знать курьеру
 	 */
 	private String comment;
+	
+	private List<ManyClientAddressModel> addresses;
 
 	
 	public String getAddress() {
@@ -266,6 +270,14 @@ public class ClientAddressModel {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	public List<ManyClientAddressModel> getAddresses() {
+		return addresses;
+	}
+
+	public void setClients(List<ManyClientAddressModel> addresses) {
+		this.addresses = addresses;
 	}
 	
 }

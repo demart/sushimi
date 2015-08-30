@@ -95,6 +95,8 @@ public class ClientAddress extends PersistentObject {
 	@Column(name="door_code", length=100)
 	private String doorCode;
 	
+
+	
 	/**
 	 * Этаж
 	 */
@@ -336,5 +338,8 @@ public class ClientAddress extends PersistentObject {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
+
+
 	
 }

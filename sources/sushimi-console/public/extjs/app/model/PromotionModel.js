@@ -7,7 +7,11 @@ Ext.define('SushimiConsole.model.PromotionModel', {
 		{ name: 'type'},
 		{ name: 'valueType'},
 		{ name: 'discount', type: 'float'},
-		{ name: 'fromTime', type: 'date'},
-		{ name: 'toTime', type: 'date'},
+		{ name: 'orderSum', type: 'int'},
+		{ name: 'isPublished'},
+		{ name: 'productIdName'},
+		{ name: 'productCount'},
+		{ name: 'fromTime'},
+		{ name: 'toTime'},
 	],
 });
