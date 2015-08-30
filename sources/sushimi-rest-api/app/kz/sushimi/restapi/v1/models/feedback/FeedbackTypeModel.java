@@ -4,13 +4,11 @@ import kz.sushimi.persistence.FeedbackType;
 
 public class FeedbackTypeModel {
 	
-	public String id;
-	public FeedbackType type;
 	public String name;
+	public FeedbackType value;
 	
 	public FeedbackTypeModel(FeedbackType type, String name) {
-		this.id = type.toString();
-		this.type = type;
+		this.value = type;
 		this.name = name;
 	}
 	

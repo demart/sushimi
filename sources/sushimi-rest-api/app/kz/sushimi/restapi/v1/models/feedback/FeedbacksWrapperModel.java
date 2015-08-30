@@ -5,9 +5,9 @@ import java.util.List;
 
 public class FeedbacksWrapperModel {
 	
-	public List<String> FAQs = new ArrayList<String>();
-	public List<FeedbackTypesWrapperModel> feedbackTypes;
+	public List<FeedbackModel> feedbacks;
 	public Integer page;
 	public Integer pageSize;
 	public Integer pageCount;
+	
 }

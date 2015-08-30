@@ -475,12 +475,10 @@ public class OrderService {
 					float discount = order.getPromotion().getDiscount();
 					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((discount+clientDiscountPercent+sourceDiscount) * 0.01)));
 				} else {
-					if (clientDiscountPercent > 0)
-						sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((clientDiscountPercent+sourceDiscount) * 0.01)));
+					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((clientDiscountPercent+sourceDiscount) * 0.01)));
 				}
 			} else {
-				if (clientDiscountPercent > 0)
-					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((clientDiscountPercent + sourceDiscount) * 0.01)));
+				sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((clientDiscountPercent + sourceDiscount) * 0.01)));
 			}
 		}
 		
@@ -503,17 +501,15 @@ public class OrderService {
 					if (order.getType() == OrderType.SELF_SERVICE) {
 						orderSushiSum = (int)Math.round(orderSushiSum * (1-((10+clientDiscountPercent+sourceDiscount) * 0.01)));
 					} else {
-						if (clientDiscountPercent > 0)
-							orderSushiSum = (int)Math.round(orderSushiSum * (1-((clientDiscountPercent+sourceDiscount) * 0.01)));
+						orderSushiSum = (int)Math.round(orderSushiSum * (1-((clientDiscountPercent+sourceDiscount) * 0.01)));
 					}
 					System.out.println("Sum with before:" + orderSushiSum);
 				}
 			} else {
 				if (order.getType() == OrderType.SELF_SERVICE) {
-					orderSushiSum = (int)Math.round(orderSushiSum * (1-((10+clientDiscountPercent+ sourceDiscount) * 0.01)));
+					orderSushiSum = (int)Math.round(orderSushiSum * (1-((10+clientDiscountPercent + sourceDiscount) * 0.01)));
 				} else {
-					if (clientDiscountPercent > 0)
-						orderSushiSum = (int)Math.round(orderSushiSum * (1-((clientDiscountPercent+sourceDiscount) * 0.01)));
+					orderSushiSum = (int)Math.round(orderSushiSum * (1-((clientDiscountPercent + sourceDiscount) * 0.01)));
 				}
 			}
 		}

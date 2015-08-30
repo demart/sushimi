@@ -15,7 +15,6 @@ import kz.sushimi.persistence.dictionaries.Department;
 import kz.sushimi.restapi.v1.models.feedback.FeedbackModel;
 import kz.sushimi.restapi.v1.models.feedback.FeedbackRegisterModel;
 import kz.sushimi.restapi.v1.models.feedback.FeedbackRegisterResponseModel;
-import kz.sushimi.restapi.v1.models.feedback.FeedbackTypesWrapperModel;
 import kz.sushimi.restapi.v1.models.feedback.FeedbacksWrapperModel;
 
 public class FeedbackService {
@@ -46,19 +45,10 @@ public class FeedbackService {
 		List<Feedback> feedbacks = feedbacksQuery.getResultList();
 		
 		FeedbacksWrapperModel model = new FeedbacksWrapperModel();
-			model.FAQs = new ArrayList<String>();
-			model.page = page;
-			model.pageCount = (int) (totalCount / pageSize);
-			model.pageSize = pageSize;
-			model.feedbackTypes = new ArrayList<FeedbackTypesWrapperModel>();
-		FeedbackTypesWrapperModel feedbackTypesModel = new FeedbackTypesWrapperModel();
-			feedbackTypesModel.id = feedbackType.toString();
-			feedbackTypesModel.name = feedbackType.toString();
-			feedbackTypesModel.nextPage = (totalCount / pageSize) > page ? page + 1 : 0;
-			feedbackTypesModel.socialLiked = false;
-			feedbackTypesModel.text = null;
-			feedbackTypesModel.feedbacks = new ArrayList<FeedbackModel>();
-		model.feedbackTypes.add(feedbackTypesModel);
+		model.page = page;
+		model.pageCount = (int) (totalCount / pageSize);
+		model.pageSize = pageSize;
+		model.feedbacks = new ArrayList<FeedbackModel>();
 		
 		for (Feedback feedback : feedbacks) {
 			FeedbackModel fbModel = new FeedbackModel();
@@ -67,14 +57,13 @@ public class FeedbackService {
 			fbModel.id = feedback.getId();
 			fbModel.phone = getMaskedPhoneNumber(feedback.getPhoneNumber());
 			fbModel.text = feedback.getText();
-			fbModel.uid = feedback.getId();
-			fbModel.visible = true;
 			fbModel.feedbackType = feedback.getType().toString();
-			fbModel.created = "//Date(" + feedback.getCreatedDate().getTimeInMillis() + ")//";
-			feedbackTypesModel.feedbacks.add(fbModel);
+			fbModel.created = feedback.getCreatedDate().getTimeInMillis();
+			model.feedbacks.add(fbModel);
 		}
-		
+	
 		return model;
+	
 	}
 	
 	public static String getMaskedPhoneNumber(String phone) {
