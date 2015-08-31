@@ -12,9 +12,14 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsListContro
      * Обновление store после поиска, выводит всех клиентов.
      */
     onRefreshStore : function() {
+    	var clientName = Ext.getCmp('searchMainClientNameField');
+    	var clientPhone = Ext.getCmp('searchMainClientPhoneField');
     	var clientMainGrid = Ext.getCmp('integrationMainClientsStoreId');
     	clientMainGrid.store.proxy.api.read = 'rest/clients/information/store/read';
     	clientMainGrid.getStore().reload();
+    	clientName.reset();
+    	clientPhone.reset();
+    	
     },
     
 

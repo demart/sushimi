@@ -623,9 +623,19 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
 		
 		// SOURCE DISCOUNT
 		var sourceDiscountValue = Ext.getCmp('orderSourceDiscountField').getValue();
-		console.log("Source discount: " + sourceDiscountValue);
+		if (sourceDiscountValue == undefined || sourceDiscountValue == null || sourceDiscountValue == '')
+			sourceDiscountValue = 0;
+		//console.log("Source discount: " + sourceDiscountValue);
 		
 		var total = Ext.getCmp('orderTotalSumField');
+		
+		/*
+		console.log('sum before:' + sum);
+		console.log('sushiSum before:' + sushiSum);
+		console.log('sumWithoutSushi before:' + sumWithoutSushi);
+		console.log('');
+		console.log('sourceDiscountValue before:' + sourceDiscountValue);
+		*/
 		
 		if (orderType == 'selfservice')  {
 			if (discountValueTypeFieldValue != null) {
@@ -669,6 +679,12 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
 		
 		if (deliveryExtraPriceFieldValue == null)
 			deliveryExtraPriceValueFieldValue = 0;
+		
+		/*
+		console.log('sushimiSum:' + sushiSum);
+		console.log('sumWithoutSushi:' + sumWithoutSushi);
+		console.log('deliveryExtraPriceValueFieldValue:' + deliveryExtraPriceValueFieldValue);
+		*/
 		
 		total.setValue(sushiSum + sumWithoutSushi + deliveryExtraPriceValueFieldValue);
     },

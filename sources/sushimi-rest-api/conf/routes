@@ -32,7 +32,7 @@ GET		/v1/feedback/meta								FeedbackController.getFeedbackMetaInfo
 #GET		/v1/feedback/city/list							FeedbackController.getCities
 #GET		/v1/feedback/city/{cityId}/restaurants			FeedbackController.getRestaurants
 GET		/v1/feedback/list/page/{page}/size/{pageSize}	FeedbackController.getFeedbacks
-GET		/v1/feedback/register							FeedbackController.getFeedbacks
+POST	/v1/feedback/register							FeedbackController.registerFeedback
 
 # Restaurants
 GET		/v1/restaurant/list							RestaurantController.getRestaurantList

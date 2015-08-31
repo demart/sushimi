@@ -2,3 +2,11 @@ sources/sushimi-console/tmp/*
 sources/sushimi-console/eclipse/*
 sources/sushimi-console/precompiled/*
 sources/sushimi-console/conf/application.conf
+sources/sushimi-web/tmp/*
+sources/sushimi-web/eclipse/*
+sources/sushimi-web/precompiled/*
+sources/sushimi-web/conf/application.conf
+sources/sushimi-rest-api/tmp/*
+sources/sushimi-rest-api/eclipse/*
+sources/sushimi-rest-api/precompiled/*
+sources/sushimi-rest-api/conf/application.conf

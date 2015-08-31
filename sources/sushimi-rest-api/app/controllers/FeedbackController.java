@@ -101,10 +101,11 @@ public class FeedbackController extends Controller {
 	
 	public static void registerFeedback() {
 		String requestBody = params.current().get("body");
+		System.out.println(requestBody);
     	Gson gson = new Gson();
     	FeedbackRegisterModel requestModel = gson.fromJson(requestBody, FeedbackRegisterModel.class);
 		boolean result = FeedbackService.registerFeedback(requestModel);
-		renderJSON(Wrapper.getSuccess(null));
+		renderJSON(Wrapper.getSuccess(result));
 	}
 	
 }

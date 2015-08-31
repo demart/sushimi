@@ -2,6 +2,10 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
     extend: 'Ext.panel.Panel',
     controller: 'clients.integration',
     alias: 'widget.clients.IntegrationClientsList',
+    initComponent: function() {
+    	var grid = Ext.getCmp('integrationMainClientsAddresGridId');
+    	grid.store.reload();
+    	},
     requires: [
    		'Ext.MessageBox',
    		'Ext.layout.container.Border',
@@ -216,8 +220,7 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                  	                  else if (record.get("streetName") != null && record.get("house") != null && value == null && record.get("flat") != null && record.get("building") != null)
                  	                	  string = 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
                  	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") != null && record.get("building") != null)
-                 	                	  string =  'г. ' + value + 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
-                 	                  console.log(record.get("building"));
+                 	                	  string =  'г. ' + value + ', ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
                  	                  return string;
                  	             
                	                 }},

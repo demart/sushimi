@@ -3,15 +3,12 @@ package kz.sushimi.restapi.v1.models.feedback;
 public class FeedbackModel {
 
 	public Long id;
-	public Long uid;
-	public String created;
+	public Long created;
 	public String email;
 	public String feedbackType;
-	public Integer feedbacktype_id;
 	public String name;
 	public String phone;
 	public String text;
-	public boolean visible;
 	
 /*
  * "Uid": 1000000000000002,

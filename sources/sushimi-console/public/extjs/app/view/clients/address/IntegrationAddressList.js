@@ -2,6 +2,10 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
     extend: 'Ext.panel.Panel',
     controller: 'clients.address',
     alias: 'widget.clients.IntegrationAddressList',
+    initComponent: function() {
+    	var grid = Ext.getCmp('integrationMainClientsAddresGridId');
+    	grid.store.reload();
+    	},
     requires: [
    		'Ext.MessageBox',
    		'Ext.layout.container.Border',
@@ -237,8 +241,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
               	                  else if (record.get("streetName") != null && record.get("house") != null && value == null && record.get("flat") != null && record.get("building") != null)
               	                	  string = 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
               	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") != null && record.get("building") != null)
-              	                	  string =  'г. ' + value + 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
-              	                  console.log(record.get("building"));
+              	                	  string =  'г. ' + value + ', ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
               	                  return string;
               	              }},
 
@@ -318,8 +321,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
                   	                  else if (record.get("streetName") != null && record.get("house") != null && value == null && record.get("flat") != null && record.get("building") != null)
                   	                	  string = 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
                   	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") != null && record.get("building") != null)
-                  	                	  string =  'г. ' + value + 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
-                  	                  console.log(record.get("building"));
+                  	                	  string =  'г. ' + value + ', ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
                   	                  return string;
                   	              }},
                   	              {text: "Главный адрес", dataIndex: 'mainAddress', width: 150,xtype:'booleancolumn', trueText:'Да', falseText:'Нет'}
