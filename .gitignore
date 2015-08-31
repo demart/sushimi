@@ -1,0 +1,4 @@
+sources/sushimi-console/tmp/*
+sources/sushimi-console/eclipse/*
+sources/sushimi-console/precompiled/*
+sources/sushimi-console/conf/application.conf
