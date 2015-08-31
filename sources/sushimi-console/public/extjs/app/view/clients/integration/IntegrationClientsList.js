@@ -219,7 +219,8 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                  	                	  string =  'г. ' + value + 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
                  	                  console.log(record.get("building"));
                  	                  return string;
-                 	              }},
+                 	             
+               	                 }},
 
                 		          ],
                     }]
