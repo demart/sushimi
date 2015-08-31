@@ -3,6 +3,8 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import kz.sushimi.console.exceptions.ValidationException;
 import kz.sushimi.console.models.StoreWrapper;
 import kz.sushimi.console.models.clients.ClientAddressModel;
@@ -270,11 +272,20 @@ public class ClientController extends SecuredController {
 			model.setId(client.getId());
 			model.setCityName(client.getCityName());
 			model.setStreetName(client.getStreetName());
-			model.setHouse(client.getHouse());
-			model.setFlat(client.getFlat());
+			if (StringUtils.isEmpty(client.getHouse()))
+				model.setHouse(null);
+			else
+				model.setHouse(client.getHouse());
+			if (StringUtils.isEmpty(client.getFlat()))
+				model.setFlat(null);
+			else
+				model.setFlat(client.getFlat());
 			model.setFloor(client.getFloor());
 			model.setCorpus(client.getCorpus());
-			model.setBuilding(client.getBuilding());
+			if (StringUtils.isEmpty(client.getBuilding()))
+				model.setBuilding(null);
+			else
+				model.setBuilding(client.getBuilding());
 			model.setPorch(client.getPorch());
 					
 			models.add(model);

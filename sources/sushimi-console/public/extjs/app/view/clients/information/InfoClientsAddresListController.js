@@ -33,6 +33,7 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsAddresListControl
     	win.show();
     },    
     
+    
     /**
      * Удаление записи
      */

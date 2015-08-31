@@ -106,6 +106,9 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsListContro
     	var model = new SushimiConsole.model.IntegrationClientsModel();
     	
     	var grid = Ext.getCmp('integrationClientsStoreId');
+    	var addressClient = Ext.getCmp('integrationMainClientsAddresGridId');
+    	var addresses = Ext.getCmp('integrationClientsAddresGridId');
+    	var clients = Ext.getCmp('integrationMainClientsStoreId');
       	var i = 0;
     	model.data.clients = new Array();
     	grid.getStore().each(function(record){
@@ -124,9 +127,12 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsListContro
 		    jsonData : data,
 		    
 		    success: function(response){
-		    	Ext.MessageBox.alert('Успешно','Клиенты отправлены на сервер');
-
-		     	 grid.getStore().reload();
+		    	Ext.MessageBox.alert('Успешно','Клиенты  успешно объединены');
+		     	 grid.getStore().removeAll();
+		     	 addressClient.getStore().reload();
+		     	 addresses.getStore().removeAll();
+		     	 clients.getStore().reload();
+		     	 
 		    	
 		    },
 		    failure: function(batch) {

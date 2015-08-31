@@ -1,15 +1,15 @@
-Ext.define('SushimiConsole.store.IntegrationClientsStore', {
+Ext.define('SushimiConsole.store.clients.InformationClientsStore', {
     extend: 'Ext.data.Store',
-    model: 'SushimiConsole.model.IntegrationClientsModel',
+    model: 'SushimiConsole.model.InfoClientsModel',
     autoLoad: false,
     pageSize: 500,
     proxy: {
 	    type: 'ajax',
         api: {
-            read: 'rest/clients/integration/store/read',
-            //create: 'rest/clients/integration/store/create',
-            //update: 'rest/clients/integration/store/update',
-        	//destroy: '/rest/clients/integration/store/destroy',
+            read: 'rest/clients/information/store/read',
+            create: 'rest/clients/information/store/create',
+            update: 'rest/clients/information/store/update',
+            destroy: 'rest/clients/information/store/destroy'
         },
         reader: {
             type: 'json',

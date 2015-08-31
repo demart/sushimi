@@ -37,7 +37,7 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsList' ,{
                     },
                     id: 'clientsInfoClientsStoreId',
                     xtype: 'grid',
-                	store: 'InfoClientsStore',
+                	store: 'clients.InformationClientsStore',
                 	scroll: true,
                 	stateful: false,
                 	controller: 'clients.information',
@@ -94,7 +94,7 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsList' ,{
                 	id: 'infoClientsAddresGridId',
                 	viewConfig: { stripeRows: true },
                     xtype: 'grid',
-                    store: 'InfoClientsAddresStore',
+                    store: 'clients.InformationAddressStore',
                 	stateful: false,
                 	controller: 'clients.infoClientsAddres',
                 	
@@ -104,6 +104,7 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsList' ,{
                 	       { text: 'Обновить', handler: 'onRefreshStore', },
         	        ],
                 	
+
                 	columns: [
                 			{text: "№", dataIndex: 'id', width: 100},
                             {text: "Город", dataIndex: 'cityName' , width: 100},

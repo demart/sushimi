@@ -4,8 +4,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
     
     windowMode : 'add',
     
-   
-    
+
     /**
      * Обновить стор (после поиска)
      */
@@ -19,7 +18,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
      * Очистка всей таблицы адресов на объединение
      */
     onRefreshAddressStore : function() {
-    	var clientAddress = Ext.getCmp('integrationClientsAddresGridId');
+    	var clientAddress = Ext.getCmp('integrationAddresGridId');
       	 clientAddress.getStore().each(function(record){
         		clientAddress.store.remove(record);
         	});
@@ -31,7 +30,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
      */
     onDeleteRecord: function(){
         var selection = this.getView().getSelectionModel().getSelection()[0];
-        var client = Ext.getCmp('integrationClientsAddresGridId');
+        var client = Ext.getCmp('integrationAddresGridId');
         console.log(selection);
         if (selection) {
             client.store.remove(selection);
@@ -58,7 +57,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
     	 var selection = this.getView().getSelectionModel().getSelection()[0];
     	 console.log(selection);
     	 selection.data.mainAddress = false;
-    	 var client = Ext.getCmp('integrationClientsAddresGridId');
+    	 var client = Ext.getCmp('integrationAddresGridId');
          client.store.insert(0,selection);
     }, 
     
@@ -68,7 +67,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
     onSetMainAddressClient: function() {
     	var selection = this.getView().getSelectionModel().getSelection()[0];
    	 console.log(selection.data.mainClient);
-   	 var client = Ext.getCmp('integrationClientsAddresGridId');
+   	 var client = Ext.getCmp('integrationAddresGridId');
    	 
         if (selection) {
             client.store.remove(selection);
@@ -95,7 +94,8 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
     onAddressIntegration: function() {
     	var model = new SushimiConsole.model.InfoClientsAddresModel();
     	
-    	var grid = Ext.getCmp('integrationClientsAddresGridId');
+    	var grid = Ext.getCmp('integrationAddresGridId');
+    	var address = Ext.getCmp('integrationMainClientsAddresGridId');
     	
       	var i = 0;
     	model.data.addresses = new Array();
@@ -113,10 +113,12 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
 		    jsonData : data,
 		    
 		    success: function(response){
-		    	Ext.MessageBox.alert('Успешно','Адреса отправлены на сервер');
+		    	Ext.MessageBox.alert('Успешно','Адреса успешно объединены');
 		    	grid.getStore().reload();
+		    	address.getStore().reload();
 		    },
 		    failure: function(batch) {
+		    	
 				Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
 			}
 		});

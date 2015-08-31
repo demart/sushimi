@@ -34,9 +34,18 @@ Ext.define('SushimiConsole.Application', {
 	     'CategoryTypeStore',
 	     'CityStore',
 	     'DeliveryPriceStore',
-	     'InfoClientsStore',
+	     
+	     'clients.InformationClientsStore',
+	     'clients.InformationAddressStore',
+	     'clients.InformationListClientsStore',
+	     'clients.IntegrationClientsStore',
+	     'clients.IntegrationClientsAddressStore',
+	     'clients.IntegrationAddressClientsStore',
+	     'clients.IntegrationAddressListStore',
+	    
+
 	     'InfoClientsAddresStore',
-	     'IntegrationClientsStore',
+	     'InformationClientsAddressStore',
 	     'IntegrationClientsAddresStore',
 	     'PromotionStore',
 	     'UnitStore',

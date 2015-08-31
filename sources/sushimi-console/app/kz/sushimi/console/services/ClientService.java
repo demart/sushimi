@@ -391,8 +391,9 @@ public class ClientService {
 		
 		
 			if (StringUtils.isNotEmpty(model.getPhoneNumber())) {
-				if (model.getPhoneNumber().length() != 10)
+				if (model.getPhoneNumber().length() != 10) {
 					throw new ValidationException("Phone number is incorrect");
+				}
 			
 				client.setPhoneNumber(model.getPhoneNumber());
 			}
@@ -583,7 +584,9 @@ public class ClientService {
 			
 		}
 		}
-			
+	
+
+	
 /**
  * Объединение адресов клиента
  * @param models
@@ -592,8 +595,9 @@ public class ClientService {
  */
 	public static void integrationAddresses(ClientAddressModel[] models, String userLogin) throws ValidationException {
 		for (ClientAddressModel model : models) {
-			if (model == null)
+			if (model == null) 
 				throw new ValidationException("Model is null");
+			
 			
 			Long mainAddressId = null;
 			ArrayList mAddressesIds = new ArrayList();

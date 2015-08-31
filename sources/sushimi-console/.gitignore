@@ -1,0 +1,4 @@
+tmp/
+precompiled/
+eclipse/
+conf/**/*.conf

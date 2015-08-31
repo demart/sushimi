@@ -60,7 +60,7 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                         			id: 'searchMainClientPhoneField',
                         			name: 'clientPhoneField',
                         			margin: '0 15 0 0',
-                        			width: 65,
+                        			width: 150,
                         			listeners:{
                         				specialkey: function(f,o){
                         					if(o.getKey()==13){
@@ -68,17 +68,53 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                         					}
                         				}
                         			},
-                        		}, 
+                        		}, /*
                         		{
                         			id: 'searchMainClientButton',
                         			xtype: 'button',
                         			text: 'Найти',
+                                    scale: 'small',
                         			listeners: {
                         				click : 'searchMainClient' 
                         			},
                         			//handler: 'searchClient',
                         			width: 50,
-                        		}, ],
+                        		},
+                        		{
+                        			id: 'onRefreshStoreButton',
+                        			xtype: 'button',
+                        			color: 'green',
+                                    scale: 'small',
+                        			text: 'Очистить фильтры',
+                        			listeners: {
+                        				click : 'onRefreshStore' 
+                        			},
+                        			//handler: 'searchClient',
+                        			width: 50,
+                        		},*/
+                        		
+                        		{
+                        			region: 'center',
+                        			items: [{
+                        				id: 'searchMainClientButton',
+                        				region: 'east',
+                        				xtype: 'button',
+                            			margin: '0 15 0 0',
+                        				text: 'Найти',
+                        				listeners: {
+                            				click : 'searchMainClient' 
+                            			},
+                        			},
+                        			
+                        			{region: 'west',
+                        				xtype: 'button',
+                            			id: 'onRefreshStoreButton',
+                        				text:  'Очистить фильтры',
+                        				listeners: {
+                            				click : 'onRefreshStore' 
+                            			},}
+                        			        ]
+                        		},],
                         	}],
                 },
                 {
@@ -90,26 +126,24 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                 	 id: 'integrationMainClientsStoreId',
                 	 reference: 'integrationMainClientsStoreId',
                 	 xtype: 'grid',
-                	 store: 'InfoClientsStore',
+                	 store: 'clients.InformationListClientsStore',
                 	 scroll: true,
                 	 region: 'center',
                 	 stateful: false,
                 	 controller: 'clients.integration',
-                	 height: 550,
+                	 height: 450,
                 	 scroll: true,
                 	        
-                	 tbar: [{text: "Добавить на объединение", handler: 'AddClientIntegration'},
-                	        {text: "Обновить", handler: 'onRefreshStore'}
+                	 tbar: [{text: "Добавить на объединение", handler: 'AddClientIntegration'}
                 	       ],
                 	        
                 	             	  	
                 	  columns: [
-                	         {text: "№", dataIndex: 'id', width: 100},
-                	         {text: "Имя", dataIndex: 'name' , width: 200},
-        	                  {text: "Номер телефона", dataIndex: 'phoneNumber', width: 150},
-         	                  {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width: 150},
-                              {text: "E-mail", dataIndex: 'email', width:200},
-                              {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width:150}
+                	         {text: "№", dataIndex: 'id', width: 50},
+                	         {text: "Имя", dataIndex: 'name' , flex: 1},
+        	                  {text: "Телефон", dataIndex: 'phoneNumber', width: 100},
+                              {text: "E-mail", dataIndex: 'email', width:150},
+                              {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width:100}
                     	       ],
 		
 
@@ -134,24 +168,58 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                 {
                 	title: 'Адрес клиента',
                 	region: 'south',
-                    height: 350,
+                    height: 450,
 
                     items: [{
                     	id: 'integrationMainClientsAddresGridId',
                     	viewConfig: { stripeRows: true },
                     	xtype: 'grid',
-                    	store: 'InfoClientsAddresStore',
+                    	store: 'InformationClientsAddressStore',
                     	stateful: false,
                     	scroll: true,           	
                 		columns: [
                 		          {text: "№", dataIndex: 'id', width: 100},
-                		          {text: "Город", dataIndex: 'cityName' , width: 100},
-                		          {text: "Улица", dataIndex: 'streetName' , flex: 2},
-                		          {text: "Дом", dataIndex: 'house' , width: 100},
-                                  {text: "Строение", dataIndex: 'building' , width: 100},
-                                  {text: "Корпус", dataIndex: 'corpus' , width: 100},
-                                  {text: "Этаж", dataIndex: 'floor' , width: 100},
-                		          {text: "Квартира", dataIndex: 'flat' , width: 100},
+               	                 {text: "Адрес", dataIndex: 'cityName', flex: 1, renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+                 	                  var string = '';
+                 	                  if (value != null && record.get("streetName") == null && record.get("house") == null && record.get("flat") == null && record.get("building") == null)
+                 	                	 string = 'г. ' + value;
+                 	                  if (value == null && record.get("streetName") != null && record.get("flat") == null && record.get("house") == null && record.get("building") == null)
+                 	                	  string = 'ул. ' + record.get("streetName");
+                 	                  else if (record.get("streetName") != null && value != null && record.get("flat") == null && record.get("house") == null && record.get("building") == null)
+                 	                	 string = 'г. ' + value + ', ул. ' + record.get("streetName");
+                 	                  else if (record.get("streetName") != null && value == null && record.get("house") != null && record.get("flat") == null && record.get("building") == null)
+               	                	  string = 'ул. ' + record.get("streetName") + ', д. ' + record.get("house");
+                 	                  else if (record.get("streetName") == null && value != null && record.get("house") != null && record.get("flat") == null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', д. ' + record.get("house");    
+                 	                  else if (record.get("streetName") == null && value == null && record.get("house") != null && record.get("flat") == null && record.get("building") == null)
+                 	                	  string = 'д. ' + record.get("house");
+                 	                  else if (record.get("streetName") == null && value != null && record.get("house") == null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', кв. ' + record.get("house");
+                 	                  else if (record.get("streetName") != null && value == null && record.get("house") == null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'ул. ' + record.get("streetName") + ', кв.' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && value == null && record.get("house") != null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") == null && value == null && record.get("house") != null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'д. ' + record.get("house") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") == null && value == null && record.get("house") == null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && value != null && record.get("house") == null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', ул. ' + record.get("streetName") + ', кв. ' + record.get("flat");       
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', ул. ' + record.get("streetName") + ', д. ' + record.get("house") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") == null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', ул. ' + record.get("streetName") + ', д. ' + record.get("house");
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") == null && record.get("building") != null)
+                 	                	  string = 'г. ' + value + ', ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building");
+                 	                  else if (record.get("streetName") == null && record.get("house") != null && value != null && record.get("flat") != null && record.get("building") != null)
+                 	                	  string = 'г. ' + value +  ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value == null && record.get("flat") != null && record.get("building") != null)
+                 	                	  string = 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") != null && record.get("building") != null)
+                 	                	  string =  'г. ' + value + 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
+                 	                  console.log(record.get("building"));
+                 	                  return string;
+                 	              }},
 
                 		          ],
                     }]
@@ -176,12 +244,12 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                  	        id: 'integrationClientsStoreId',
                  	        reference: 'integrationClientsStoreId',
                  	        xtype: 'grid',
-                 	        store: 'IntegrationClientsStore',
+                 	        store: 'clients.IntegrationClientsStore',
                  	        scroll: true,
                  	        region: 'center',
                  	        stateful: false,
                  	        controller: 'clients.integration',
-                 	        height: 585,
+                 	        height: 485,
                  	        scroll: true,
                  	        
                 	        tbar: [{text: "Объединить всех клиентов", handler: 'onClientIntegration'},
@@ -192,13 +260,12 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                  	        
             	  	
                  	        columns: [
-                 	                  {text: "№", dataIndex: 'id', width: 100},
-									  {text: "Имя", dataIndex: 'name' , width: 200},
- 									  {text: "Номер телефона", dataIndex: 'phoneNumber', width: 150},
- 									  {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width: 150},
-  									  {text: "E-mail", dataIndex: 'email', width:200},
- 									  {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width:150},
-                 	                  {text: "Главный клиент", dataIndex: 'mainClient' , width: 150, xtype:'booleancolumn', trueText:'Да', falseText:'Нет'},
+                 	                  {text: "№", dataIndex: 'id', width: 50},
+									  {text: "Имя", dataIndex: 'name' , flex: 1},
+ 									  {text: "Телефон", dataIndex: 'phoneNumber', width: 100},
+ 									  {text: "Сумма заказов", dataIndex: 'currentTotalOrderSum', width: 100},
+  									  {text: "E-mail", dataIndex: 'email', width:150},
+ 									  {text: "Главный клиент", dataIndex: 'mainClient' , width: 100, xtype:'booleancolumn', trueText:'Да', falseText:'Нет'},
             
             	              			  ],
  		
@@ -225,7 +292,7 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                  {
                  	title: 'Адрес клиента',
                  	region: 'south',
-                     height: 350,
+                     height: 450,
 
                      items: [{
                      	id: 'integrationClientsAddresGridId',
@@ -236,14 +303,47 @@ Ext.define('SushimiConsole.view.clients.integration.IntegrationClientsList' ,{
                      	scroll: true,           	
                  		columns: [
                  		          {text: "№", dataIndex: 'id', width: 100},
-                 		          {text: "Город", dataIndex: 'cityName' , width: 100},
-                		          {text: "Улица", dataIndex: 'streetName' , flex: 2},
-                		          {text: "Дом", dataIndex: 'house' , width: 100},
-                                  {text: "Строение", dataIndex: 'building' , width: 100},
-                                  {text: "Корпус", dataIndex: 'corpus' , width: 100},
-                                  {text: "Этаж", dataIndex: 'floor' , width: 100},
-                                  {text: "Подъезд", dataIndex: 'porch', width: 100},
-                 		          {text: "Квартира", dataIndex: 'flat' , width: 100},
+               	                 {text: "Адрес", dataIndex: 'cityName', flex: 1, renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+                 	                  var string = '';
+                 	                  if (value != null && record.get("streetName") == null && record.get("house") == null && record.get("flat") == null && record.get("building") == null)
+                 	                	 string = 'г. ' + value;
+                 	                  if (value == null && record.get("streetName") != null && record.get("flat") == null && record.get("house") == null && record.get("building") == null)
+                 	                	  string = 'ул. ' + record.get("streetName");
+                 	                  else if (record.get("streetName") != null && value != null && record.get("flat") == null && record.get("house") == null && record.get("building") == null)
+                 	                	 string = 'г. ' + value + ', ул. ' + record.get("streetName");
+                 	                  else if (record.get("streetName") != null && value == null && record.get("house") != null && record.get("flat") == null && record.get("building") == null)
+               	                	  string = 'ул. ' + record.get("streetName") + ', д. ' + record.get("house");
+                 	                  else if (record.get("streetName") == null && value != null && record.get("house") != null && record.get("flat") == null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', д. ' + record.get("house");    
+                 	                  else if (record.get("streetName") == null && value == null && record.get("house") != null && record.get("flat") == null && record.get("building") == null)
+                 	                	  string = 'д. ' + record.get("house");
+                 	                  else if (record.get("streetName") == null && value != null && record.get("house") == null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', кв. ' + record.get("house");
+                 	                  else if (record.get("streetName") != null && value == null && record.get("house") == null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'ул. ' + record.get("streetName") + ', кв.' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && value == null && record.get("house") != null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") == null && value == null && record.get("house") != null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'д. ' + record.get("house") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") == null && value == null && record.get("house") == null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && value != null && record.get("house") == null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', ул. ' + record.get("streetName") + ', кв. ' + record.get("flat");       
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") != null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', ул. ' + record.get("streetName") + ', д. ' + record.get("house") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") == null && record.get("building") == null)
+                 	                	  string = 'г. ' + value + ', ул. ' + record.get("streetName") + ', д. ' + record.get("house");
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") == null && record.get("building") != null)
+                 	                	  string = 'г. ' + value + ', ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building");
+                 	                  else if (record.get("streetName") == null && record.get("house") != null && value != null && record.get("flat") != null && record.get("building") != null)
+                 	                	  string = 'г. ' + value +  ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value == null && record.get("flat") != null && record.get("building") != null)
+                 	                	  string = 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
+                 	                  else if (record.get("streetName") != null && record.get("house") != null && value != null && record.get("flat") != null && record.get("building") != null)
+                 	                	  string =  'г. ' + value + 'ул. ' + record.get("streetName") + ', д. ' + record.get("house") + '/' + record.get("building") + ', кв. ' + record.get("flat");
+                 	                  console.log(record.get("building"));
+                 	                  return string;
+                 	              }},
 
                  		          ],
                      }]
