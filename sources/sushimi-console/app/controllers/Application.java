@@ -13,4 +13,8 @@ public class Application extends SecuredController {
         render();
     }
 
+    
+    public static void arm_index() {
+        render();
+    }
 }

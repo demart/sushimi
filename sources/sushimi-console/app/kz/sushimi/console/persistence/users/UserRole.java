@@ -17,4 +17,14 @@ public enum UserRole {
 	 */
 	COOK,
 	
+	/**
+	 * Курьер
+	 */
+	COURIER,
+	
+	/**
+	 * Официант
+	 */
+	WAITER,
+	
 }
