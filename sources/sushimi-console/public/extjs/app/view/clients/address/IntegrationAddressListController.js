@@ -119,7 +119,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
 		    success: function(response){
 		    	Ext.MessageBox.alert('Успешно','Адреса успешно объединены');
 		    	grid.getStore().reload();
-		    	address.getStore().reload();
+		    	address.getStore().removeAll();
 		    },
 		    failure: function(batch) {
 		    	
