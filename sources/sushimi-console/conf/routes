@@ -6,7 +6,13 @@
 # Import Secure routes
 *       /                                       module:secure
 
-# Home page
+# ARM
+GET     /arm												ArmApplication.index
+POST	/arm/login											ArmApplication.login
+POST	/arm/logout											ArmApplication.logout
+GET		/arm/user											ArmApplication.getUser
+
+# MANAGEMENT
 GET     /													Application.index
 GET		/rest/reports/orderPeriodStat/store/read			Report.readOrderPeriodStat	
 GET		/rest/reports/productPeriodStat/store/read			Report.readProductPeriodStat
