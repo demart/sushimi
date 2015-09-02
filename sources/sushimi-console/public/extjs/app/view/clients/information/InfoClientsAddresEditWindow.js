@@ -43,10 +43,10 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsAddresEditWindow'
 	            name: 'cityName',
 	            itemId: 'cityName',
 	            afterLabelTextTpl: [
-	                '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>'
+	                
 	            ],
 	            fieldLabel: 'Город',
-	            allowBlank: false
+	            allowBlank: true
 	        }, {
 	            flex: 1,
 	            name: 'streetName',
@@ -62,10 +62,10 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsAddresEditWindow'
 	            name: 'house',
 	            itemId: 'house',
 	            afterLabelTextTpl: [
-	                '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>'
+
 	            ],
 	            fieldLabel: 'Дом',
-	            allowBlank: false
+	            allowBlank: true
 	        },
 	        {
 	            flex: 1,
@@ -100,10 +100,10 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsAddresEditWindow'
 	            name: 'flat',
 	            itemId: 'flat',
 	            afterLabelTextTpl: [
-	                '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>'
+	                
 	            ],
 	            fieldLabel: 'Квартира',
-	            allowBlank: false
+	            allowBlank: true
 	        }],
         }],
 

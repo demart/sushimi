@@ -445,10 +445,17 @@ public class ClientService {
 		address.setAddressType(ClientAddressType.HOME);
 		address.setCity(city);
 		address.setCityName(model.getCityName());
-		address.setFlat(model.getFlat());
-		address.setHouse(model.getHouse());
+		
+		if (StringUtils.isNotEmpty(model.getFlat()))
+			address.setFlat(model.getFlat());
+		
+		if (StringUtils.isNotEmpty(model.getHouse()))
+			address.setHouse(model.getHouse());
+	
 		address.setClient(client);
-		address.setStreetName(model.getStreetName());
+		
+		if (StringUtils.isNotEmpty(model.getStreetName()))
+			address.setStreetName(model.getStreetName());
 		
 		if (StringUtils.isNotEmpty(model.getFloor()))
 			address.setFloor(model.getFloor());
