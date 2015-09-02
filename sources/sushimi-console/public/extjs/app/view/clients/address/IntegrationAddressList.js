@@ -2,10 +2,6 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
     extend: 'Ext.panel.Panel',
     controller: 'clients.address',
     alias: 'widget.clients.IntegrationAddressList',
-    initComponent: function() {
-    	var grid = Ext.getCmp('integrationMainClientsAddresGridId');
-    	grid.store.reload();
-    	},
     requires: [
    		'Ext.MessageBox',
    		'Ext.layout.container.Border',
@@ -26,9 +22,10 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
     items: [        
              {  
             	collapsible: false,
-                region: 'north',
+                region: 'center',
                 margin: '0 0 0 0',
            	  	width: 450,
+           	  //	height: '60%',
                 items: [{
                         	xtype: 'panel',
                         	layout: 'fit',
@@ -131,12 +128,10 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
                 	 xtype: 'grid',
                 	 store: 'clients.IntegrationAddressClientsStore',
                 	 scroll: true,
-                	 region: 'center',
+                	 //region: 'center',
                 	 stateful: false,
                 	 controller: 'clients.address',
-                	 height: 350,
-
-                	 scroll: true,
+                	// scroll: true,
                 	        
 
                 	        
@@ -177,7 +172,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
                  region: 'south',
                  collapsible: true,
                  split: true,
-                 height: 320,
+                 height: '40%',
                  //flex: 13,
                  title: 'Объединение адресов клиента',
                  layout: {

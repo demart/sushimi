@@ -31,7 +31,99 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsList' ,{
                 region: 'center',
                 margin: '0 0 0 0',
                 
-                items: [{
+                items: [
+                        {
+                        	xtype: 'panel',
+                        	layout: 'fit',
+                        	bodyPadding: 5,
+                        	items: [{
+                        		xtype: 'fieldcontainer',
+                        		fieldLabel: 'ФИО',
+                        		labelWidth: 40,
+                        		combineErrors: true,
+                        		msgTarget : 'side',
+                        		layout: 'hbox',
+                        		defaults: {
+                        			flex: 1,
+                        			hideLabel: false,
+                        			labelWidth: 60,
+                        		},
+                        		items: [{
+                        			xtype: 'textfield',
+                        			id:'ClientNameField',
+                        			name: 'clientName',
+                        			margin: '0 15 0 0',
+                        			width: 150,
+                        			listeners:{
+                        				specialkey: function(f,o){
+                        					if(o.getKey()==13){
+                        						Ext.getCmp('searchClientsButton').fireEvent('click');
+                        					}
+                        				}
+                        			},  
+                        		}, 
+                        		{
+                        			fieldLabel: 'Телефон',
+                        			xtype: 'textfield',
+                        			id: 'ClientPhoneField',
+                        			name: 'clientPhoneField',
+                        			margin: '0 15 0 0',
+                        			width: 65,
+                        			listeners:{
+                        				specialkey: function(f,o){
+                        					if(o.getKey()==13){
+                        						Ext.getCmp('searchClientsButton').fireEvent('click');
+                        					}
+                        				}
+                        			},
+                        		},/* 
+                        		{
+                        			id: 'searchClientButton',
+                        			xtype: 'button',
+                        			text: 'Найти',
+                        			listeners: {
+                        				click : 'searchClient' 
+                        			},
+                        			//handler: 'searchClient',
+                        			width: 50,
+                        		},
+                        		{
+                        			id: 'onRefreshStoreButton',
+                        			xtype: 'button',
+                        			text: 'Очистить фильтры',
+                        			listeners: {
+                        				click : 'onRefreshStore' 
+                        			},
+                        			//handler: 'searchClient',
+                        			width: 50,
+                        		},*/
+                        		{
+                        			region: 'center',
+                        			items: [{
+                        				id: 'searchClientsButton',
+                        				region: 'east',
+                            			margin: '0 15 0 0',
+                        				xtype: 'button',
+                        				text: 'Найти',
+                        				listeners: {
+                            				click : 'searchClients' 
+                            			},
+                        			},
+
+                        			{
+                        				region: 'west',
+                        				xtype: 'button',
+                            			id: 'onRefreshClientsStoreButton',
+                        				text: 'Очистить фильтры',
+                        				listeners: {
+                            				click : 'onRefreshClientsStore' 
+                            			},
+                            			}
+                        			        ]
+                        		},],
+                        	}],
+                },
+                {
                 	viewConfig: {
                         stripeRows: true
                     },

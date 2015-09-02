@@ -70,6 +70,32 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsListController', 
         this.lookupReference('infoClientsEditWindow').hide();
     },
     
+    
+    /**
+     * Обновление store после поиска, выводит всех клиентов.
+     */
+    onRefreshClientsStore : function() {
+    	var clientName = Ext.getCmp('ClientNameField');
+    	var clientPhone = Ext.getCmp('ClientPhoneField');
+    	var clientMainGrid = Ext.getCmp('clientsInfoClientsStoreId');
+    	clientMainGrid.store.proxy.api.read = 'rest/clients/information/store/read';
+    	clientMainGrid.getStore().reload();
+    	clientName.reset();
+    	clientPhone.reset();
+    	
+    },
+    
+    /**
+     * Поисква клиента по критериям
+     */
+    searchClients: function() {
+    	var clientMainNameField = Ext.getCmp('ClientNameField');
+    	var clientMainPhoneField = Ext.getCmp('ClientPhoneField');
+    	var clientMainSearchGrid = Ext.getCmp('clientsInfoClientsStoreId');
+    	clientMainSearchGrid.store.proxy.api.read = 'rest/client/search/store/read?name=' + clientMainNameField.getValue() + '&phone=' + clientMainPhoneField.getValue();
+    	clientMainSearchGrid.getStore().reload();
+    }, 
+    
     onFormSubmit: function() {
         var formPanel = this.lookupReference('infoClientsEditWindowForm'),
             form = formPanel.getForm();
