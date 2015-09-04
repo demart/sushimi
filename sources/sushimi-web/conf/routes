@@ -39,6 +39,7 @@ POST	/dictionary/street/						OrderController.searchStreetAjax
 
 POST	/system/orders/list						IntegrationController.getOrders
 POST	/system/orders/confirm					IntegrationController.confirmOrders
+POST	/system/register/phone					IntegrationController.registerPhone
 
 # News pages
 GET		/news/											AnnouncementController.news

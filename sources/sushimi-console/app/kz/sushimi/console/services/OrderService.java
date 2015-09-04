@@ -719,6 +719,10 @@ public class OrderService {
 			siteOrder.save();
 		}
 		
+		// Add phone to sync queue
+		if (order.getClient() != null)
+			ClientService.addClientPhoneToSyncQueue(order.getClient().getPhoneNumber(), order.getClient().getName());
+		
 		return order;
 	}
 	

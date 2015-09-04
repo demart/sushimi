@@ -3,21 +3,20 @@ package kz.sushimi.console.services;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import play.Logger;
+import java.util.UUID;
 
 import kz.sushimi.console.exceptions.ValidationException;
 import kz.sushimi.console.models.clients.ClientAddressModel;
 import kz.sushimi.console.models.clients.ClientModel;
-import kz.sushimi.console.models.clients.ManyClientModel;
 import kz.sushimi.console.models.clients.ManyClientAddressModel;
-import kz.sushimi.console.models.dictionaries.CategoryModel;
-import kz.sushimi.console.models.dictionaries.CityModel;
+import kz.sushimi.console.models.clients.ManyClientModel;
 import kz.sushimi.console.persistence.clients.Client;
 import kz.sushimi.console.persistence.clients.ClientAddress;
 import kz.sushimi.console.persistence.clients.ClientAddressType;
+import kz.sushimi.console.persistence.clients.ClientPhoneSync;
+import kz.sushimi.console.persistence.clients.ClientPhoneSyncStatus;
 import kz.sushimi.console.persistence.clients.ClientStatus;
 import kz.sushimi.console.persistence.clients.ClientType;
-import kz.sushimi.console.persistence.dictionaries.Category;
 import kz.sushimi.console.persistence.dictionaries.City;
 import kz.sushimi.console.persistence.users.User;
 import kz.sushimi.console.services.dictionaries.CityService;
@@ -644,5 +643,24 @@ public class ClientService {
 			}
 	}	
 		
+	/**
+	 * Функция сохраняет запись в таблице телефонов для последующей синхронизацией с сайтом
+	 * @param phone
+	 * @param name
+	 */
+	public static void addClientPhoneToSyncQueue(String phone, String name){
+		if (phone == null || "".equals(phone))
+			return;
+		// To lower case just to keep in db everything OK
+		phone = phone.toLowerCase().trim();
+		// insert
+		ClientPhoneSync phoneNew = new ClientPhoneSync();
+		phoneNew.setCreatedDate(Calendar.getInstance());
+		phoneNew.setModifiedDate(Calendar.getInstance());
+		phoneNew.setPhone(phone);
+		phoneNew.setName(name);
+		phoneNew.setStatus(ClientPhoneSyncStatus.NEW);
+		JPA.em().persist(phoneNew);
+	}
 	
 }
