@@ -19,6 +19,8 @@ import kz.sushimi.restapi.v1.exceptions.SushimiException;
 import kz.sushimi.restapi.v1.exceptions.SushimiValidationException;
 import kz.sushimi.restapi.v1.models.RequestHeaderModel;
 import kz.sushimi.restapi.v1.models.order.RegisterOrderModel;
+import kz.sushimi.restapi.v1.service.broadcast.EmailService;
+import kz.sushimi.restapi.v1.service.broadcast.PhoneService;
 import play.Logger;
 import play.db.jpa.JPA;
 
@@ -114,6 +116,9 @@ public class OrderService {
 			JPA.em().persist(orderProduct);
 			order.getOrderItems().add(orderProduct);
 		}
+		
+		
+		PhoneService.addOrUpdatePhone(order.getPersonPhone(), order.getPersonName());
 		
 		return order;
 	}

@@ -4,7 +4,7 @@
 #{set metaContent: page != null ? page.metaContent : '' /}
 #{set metaDescription: page != null ? page.metaDescription : '' /}
 #{set metaKeywords: page != null ? page.metaKeywords : '' /}
-#{set htmlFooter: page != null ? page.htmlFooter : null /}
+#{set htmlFooter: page != null ? page.htmlFooter?.raw() : null /}
 
 
 #{set body_class:'body-5'/}

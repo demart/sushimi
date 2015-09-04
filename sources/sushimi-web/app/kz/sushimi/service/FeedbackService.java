@@ -6,10 +6,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import play.db.jpa.JPA;
 import kz.sushimi.models.feedback.FeedbackModel;
 import kz.sushimi.models.feedback.FeedbackRegisterModel;
-import kz.sushimi.models.feedback.FeedbackRegisterResponseModel;
 import kz.sushimi.models.feedback.FeedbackTypesWrapperModel;
 import kz.sushimi.models.feedback.FeedbacksWrapperModel;
 import kz.sushimi.persistence.Feedback;
@@ -17,6 +15,8 @@ import kz.sushimi.persistence.FeedbackStatus;
 import kz.sushimi.persistence.FeedbackType;
 import kz.sushimi.persistence.dictionaries.City;
 import kz.sushimi.persistence.dictionaries.Department;
+import kz.sushimi.service.broadcast.PhoneService;
+import play.db.jpa.JPA;
 
 public class FeedbackService {
 	
@@ -120,7 +120,29 @@ public class FeedbackService {
 		
 		JPA.em().persist(fb);
 		
+		PhoneService.addOrUpdatePhone(fb.getPhoneNumber(), fb.getClientName());
+		
 		return true;
 	}
+
+	public static FeedbackModel getFeedbackById(Long id) {
+		if (id == null || id < 1) return null;
+		
+		Feedback feedback = JPA.em().find(Feedback.class, id);
+		if (feedback == null) return null;
+		
+		FeedbackModel fbModel = new FeedbackModel();
+		fbModel.Fio = feedback.getClientName();
+		fbModel.Email = null;
+		fbModel.Id = feedback.getId();
+		fbModel.Phone = getMaskedPhoneNumber(feedback.getPhoneNumber());
+		fbModel.Text = feedback.getText();
+		fbModel.Uid = feedback.getId();
+		fbModel.Visible = true;
+		fbModel.FeedbackType = feedback.getType().toString();
+		fbModel.Created = "//Date(" + feedback.getCreatedDate().getTimeInMillis() + ")//";
+		return fbModel;
+	}
+	
 	
 }

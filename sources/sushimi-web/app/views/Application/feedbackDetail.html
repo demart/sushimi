@@ -9,46 +9,22 @@
 <div class="container">
 	<div class="main" role="main">
 		<section>
-		    <div class="feedback">
+			<div class="feedback-single">
 		        <div class="title">
-		            <h2>Пожелания и Впечатления</h2>
-		            <p>Уважаемые Гости, у вас всегда есть возможность оставить свое пожелание или впечатление от посещения наших ресторанов и от нашей компании в целом. Мы будем искренне признательны Вам за все ваши замечания и предложения. Мы обязательно прислушаемся к каждому и не оставим без внимания ни одно сообщение.</p><p>Спасибо что вы с нами!</p>
+		            <h1>Пожелания и Впечатления</h1><p>Уважаемые Гости, у вас всегда есть возможность оставить свое пожелание или впечатление от посещения наших ресторанов и от нашей компании в целом. Мы будем искренне признательны Вам за все ваши замечания и предложения. Мы обязательно прислушаемся к каждому и не оставим без внимания ни одно сообщение.</p><p>Спасибо что вы с нами!</p>
 		        </div>
 		        <div class="send">
-		            <a href="#feedback" role="button" class="btn btn-large btn-success title-btn" data-toggle="modal">ОТПРАВИТЬ ОТЗЫВ</a>
+		            <a href="#feedback" role="button" class="btn btn-large btn-success title-btn" data-toggle="modal">ОТПРАВИТЬ ПОЖЕЛАНИЕ</a>
 		        </div>
-		        <ul class="nav nav-pills" style="display:none;">
-					%{ for(int i=0; i < feedBackTypeModels.size; i++) { }%
-						%{ if (i == 0) { }%
-							<li class="active"><a data-id="${feedBackTypeModels[i].id}" data-target=".type2" data-toggle="tab">${feedBackTypeModels[i].name}</a></li>
-						%{ } else { }%
-							<li><a data-id="${feedBackTypeModels[i].id}" data-target=".type2" data-toggle="tab">${feedBackTypeModels[i].name}</a></li>
-						%{ }}%
-					%{ } }%
-		        </ul>
-		        <div class="tab-content">
-	                <div class="tab-pane type2 active">
-	                    <div class="posts">
-							%{ for(int z=0; z < feedBackModel.FeedbackTypes.size; z++) { }%
-								%{ for(int y=0; y < feedBackModel.FeedbackTypes[z].Feedbacks.size; y++) { }%
-		                           	<div class="post">
-		                                <a class="text activate" href="/feedback/${feedBackModel.FeedbackTypes[z].Feedbacks[y].Id}/" data-height="46">
-											<span class="shadow"></span>
-											<span class="zoom"><span class="icon"></span></span>
-		                                        ${feedBackModel.FeedbackTypes[z].Feedbacks[y].Text}
-		                                </a>
-		                                <div class="name">
-		                                    <div class="phone">${feedBackModel.FeedbackTypes[z].Feedbacks[y].Phone}</div>
-		                                    ${feedBackModel.FeedbackTypes[z].Feedbacks[y].Fio}
-		                                </div>
-		                            </div>
-								%{ } }%		 
-							%{ } }%
-	                    </div>
-						<div class="next" data-page="1">
-							<a class="btn btn-large">Загрузить еще</a>
-						</div>
-	                </div>
+		        %{ if (feedbackModel != null) { }%
+		        <div class="text">
+		            ${feedbackModel.Text}
+		        </div>
+		        <div class="name">${feedbackModel.Fio}<span class="phone">${feedbackModel.Phone}</span>
+		        </div>
+		        %{ } }%
+		        <div class="back">
+		            <a class="btn" href="/feedback/"><i class="icon-arrow-left"></i>Все пожелания</a>
 		        </div>
 		    </div>
 		</section>

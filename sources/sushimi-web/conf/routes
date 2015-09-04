@@ -56,6 +56,8 @@ GET		/actions/{year}/{month}/{date}/{uniqueName}/	AnnouncementController.actions
 
 GET		/feedback								FeedbackController.index
 GET		/feedback/								FeedbackController.index
+GET		/feedback/{id}							FeedbackController.getFeedbackDetail
+GET		/feedback/{id}/							FeedbackController.getFeedbackDetail
 POST	/dictionary/cities						FeedbackController.getCities
 POST	/dictionary/cities/						FeedbackController.getCities
 POST	/dictionary/departments					FeedbackController.getRestaurants

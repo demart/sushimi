@@ -14,6 +14,8 @@ import kz.sushimi.persistence.orders.OrderItem;
 import kz.sushimi.persistence.orders.OrderProcess;
 import kz.sushimi.persistence.orders.OrderSource;
 import kz.sushimi.persistence.orders.PayMethod;
+import kz.sushimi.service.broadcast.EmailService;
+import kz.sushimi.service.broadcast.PhoneService;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -101,6 +103,10 @@ public class OrderService {
 			
 			JPA.em().persist(orderProduct);
 		}
+		
+		
+		EmailService.addOrUpdateEmail(order.getPersonEmail(), order.getPersonName());
+		PhoneService.addOrUpdatePhone(order.getPersonPhone(), order.getPersonName());
 		
 		return order;
 	}

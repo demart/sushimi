@@ -48,6 +48,8 @@ public class PageModel {
 
 	public static PageModel buildFromPage(Page page) {
 		PageModel model = new PageModel();
+		if (page == null)
+			return null;
 		model.id = page.getId();
 		model.htmlFooter = page.getHtmlFooter();
 		model.isActive = page.isActive();

@@ -7,6 +7,7 @@ import java.util.Random;
 import kz.sushimi.models.PageModel;
 import kz.sushimi.models.RegisterOrderModel;
 import kz.sushimi.models.announcement.GetAnnouncementsAjaxResponse;
+import kz.sushimi.models.feedback.FeedbackModel;
 import kz.sushimi.models.feedback.FeedbackCityModel;
 import kz.sushimi.models.feedback.FeedbackListRequestModel;
 import kz.sushimi.models.feedback.FeedbackRegisterModel;
@@ -56,6 +57,15 @@ public class FeedbackController extends Controller {
 		Logger.info(requestBody);
 		FeedbacksWrapperModel model = FeedbackService.getFeedbacks(requestModel.page, requestModel.type);
 		renderJSON(model);
+	}
+	
+	public static void  getFeedbackDetail(Long id) {
+		// PAGE
+    	PageModel page = PageService.getPage("FEEDBACK_DETAIL"); 
+    	
+    	// DATA
+		FeedbackModel feedbackModel = FeedbackService.getFeedbackById(id);
+		renderTemplate("/Application/feedbackDetail.html", feedbackModel, page);
 	}
 	
 	public static void registerFeedback() {

@@ -198,16 +198,47 @@
 		<div class="wrapper-top"></div>
 		#{doLayout /}
 		
-		%{ if (htmlFooter != null && !htmlFooter.empty) { }%
+		%{ if (htmlFooter != null) { }%
+		
 		<div class="delivery" style="margin-top: 40px;">
 			<div class="container">
 				<div class="row">
 					<div style="padding: 30px 0px 30px 30px;">
-						${htmlFooter}
+						${htmlFooter} 
 					</div>		
 				</div>
 			</div>
 		</div>
+		
+		<style>
+	        .spoiler_title{
+	            /*font-size: 16px;*/
+	            border-bottom: #000000 dashed 1px;
+	            cursor: pointer;
+	            color: green;
+	        }
+	        .spoiler_block{
+	            display: none;
+	        }
+	    </style>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+			    $('.spoiler_title').click(function(){
+			        var show = $(this).attr('show');
+			        if(show == 1){
+			            $(this).attr('show', 0);
+			            $('.spoiler_block').slideUp(300);
+			            
+			        }else{
+			            $(this).attr('show', 1);
+			            $('.spoiler_block').slideDown(300);
+			        }
+			        $(this).remove();
+			    });
+			});
+		</script>
+		
 		%{ } }%
 		<div class="wrapper-bottom"></div>
 		<footer class="visible-desktop">

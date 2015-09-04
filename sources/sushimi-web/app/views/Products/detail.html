@@ -5,7 +5,7 @@
 #{set metaContent: page != null ? product.name + ' ' +  page.metaContent : product.name /}
 #{set metaDescription: page != null ? product.name + ' ' +  page.metaDescription : product.name /}
 #{set metaKeywords: page != null ? product.name + ' ' +  page.metaKeywords : product.name /}
-#{set htmlFooter: page != null ? page.htmlFooter : null /}
+#{set htmlFooter: page != null ? page.htmlFooter?.raw() : null /}
 
 #{set detail: 'true' /}
 

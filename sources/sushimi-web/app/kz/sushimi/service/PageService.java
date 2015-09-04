@@ -40,12 +40,16 @@ public class PageService {
 		if (pages.size() > 0)
 			pageEntity = pages.get(0);
 		
-		PageModel model = PageModel.buildFromPage(pageEntity);
+		if (pageEntity != null) {
+			PageModel model = PageModel.buildFromPage(pageEntity);
 		
-		cache.put(pageId, model);
-		cacheExpiraionTime.put(pageId, Calendar.getInstance().getTimeInMillis() + cacheTime);		
+			cache.put(pageId, model);
+			cacheExpiraionTime.put(pageId, Calendar.getInstance().getTimeInMillis() + cacheTime);
+			return model;
+		} else {
+			return null;
+		}
 		
-		return model;
 	}
 	
 	
