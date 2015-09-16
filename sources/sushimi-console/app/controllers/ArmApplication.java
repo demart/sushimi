@@ -122,6 +122,12 @@ public class ArmApplication extends Controller {
 		}
     }
     
+    /**
+     * Чтение заказов для кухни
+     * @param lastUpdateTime
+     * @param periodReload
+     * @throws ValidationException
+     */
 	public static void readOrders (Long lastUpdateTime, Long periodReload) throws ValidationException {
 		List<kz.sushimi.console.persistence.orders.Order> list;
 	
@@ -275,7 +281,7 @@ public class ArmApplication extends Controller {
 				}
 				*/
 					
-			if (order.getOrderState() == OrderState.REGISTERED && lastUpdateTime != null && (System.currentTimeMillis() - order.getModifiedDate().getTimeInMillis() < periodReload)  && (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < orderMoreTwoHours))
+			if (order.getOrderState() == OrderState.REGISTERED  && lastUpdateTime != null && (System.currentTimeMillis() - order.getModifiedDate().getTimeInMillis() < periodReload)  && (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < orderMoreTwoHours))
 				model.setStatus(0);
 			
 			else if (order.getOrderState() == OrderState.REGISTERED && (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > orderMoreTwoHours))
@@ -307,16 +313,6 @@ public class ArmApplication extends Controller {
 				model.setStatus(7);
 
 				
-				/**
-				 * 	static long yellowDeliveryFirstTime = 3000000;
-	static long yellowDeliverySecondTime = 2400000;
-	static long redDeliveryTime = 2400000;
-	static long redDeliveryInTimeTime = 3600000;
-	static long yellowDeliveryInTimeFirstTime = 4200000;
-	static long yellowDeliveryInTimeSecondTime = 3600000;
-		
-				 */
-				
 			ArrayList<PreviewOrderItemModel> items = new ArrayList<PreviewOrderItemModel>();
 			for (OrderItem orderItem : order.getOrderItems()) {
 				PreviewOrderItemModel item = new PreviewOrderItemModel();
@@ -346,6 +342,11 @@ public class ArmApplication extends Controller {
 
 	}
 	
+	/**
+	 * Взять заказ на кухне
+	 * @param orderId
+	 * @throws ValidationException
+	 */
 	public static void takeOrder (Long orderId) throws ValidationException {
 		String requestBody = params.current().get("body");
 		Logger.info("take order: " + requestBody);
@@ -356,6 +357,11 @@ public class ArmApplication extends Controller {
 			
 	}
 	
+	/**
+	 * Завершить заказ на кухне
+	 * @param orderId
+	 * @throws ValidationException
+	 */
 	public static void completeOrder (Long orderId) throws ValidationException {
 		String requestBody = params.current().get("body");
 		Logger.info("complete order: " + requestBody);

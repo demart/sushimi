@@ -346,11 +346,7 @@ Ext.define('SushimiConsoleARM.view.kitchen.Kitchen' ,{
     initComponent: function() {
     	//create the delayed task instance with our callback
     	var view = this;
- 
-
-    	//The function will start after 0 milliseconds - so we want to start instantly at first
-    	//task.delay(periodReload);
-        this.callParent(arguments);
+         this.callParent(arguments);
     },
     
     listeners : { 

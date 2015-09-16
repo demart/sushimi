@@ -26,21 +26,24 @@ margin-bottom: 10px;
 	  background-color: yellow;
 }
 
-
+/*окно оповещения о закрытых заказах*/
 .kitchenCanceledOrderToast {
 	color: red;
 }
 
+/*Окно оповещения о новом заказе*/
 .kitchenNewOrderToast {
 	color: green;
 }
 
+/*таймер заказа*/
 .kitchenTimer {
 	position: absolute;
 	top: 10px;
 	right: 10px;
 }
 
+/*Взять заказ кнопка*/
 .kitchenTakeOrderBtn {
 	position: absolute; 
 	bottom: 10px; 
@@ -49,6 +52,7 @@ margin-bottom: 10px;
 	height: 40px;
 }
 
+/*Завершить заказ кнопка*/
 .kitchenCompleteOrderBtn {
 	position: absolute; 
 	bottom: 10px; 
@@ -58,6 +62,7 @@ margin-bottom: 10px;
 
 }
 
+/*Печать заказа из кухни кнопка*/
 .kitchenPrintOrderBtn {
 	position: absolute; 
 	bottom: 10px; 
@@ -67,18 +72,22 @@ margin-bottom: 10px;
 
 }
 
+/*Окошко с информацией о доставке заказов, до которых еще более 2-ух часов*/
 .kitchenOrdersTwoHours {
 	color: red;
 }
 
+/*Типом заказа: Доставка ко времени*/
 .kitchenDeliveryInTime {
 	color: yellow;
 }
 
+/*Тип заказа: Доставка*/
 .kitchenDelivery {
 	color: red;
 }
 
+/*Тип заказа: Самовывоз*/
 .kitchenSelfService {
 	color: black;
 }
