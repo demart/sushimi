@@ -1,0 +1,84 @@
+ .orderinfo {
+margin-bottom: 10px;
+  margin-left: 10px;
+  width: 300px;
+  padding: 8px;
+  border: 8px ridge #c7c7c7;
+  display: block;
+  height: 400px;
+  position: relative;
+  float: left;
+ }
+ 
+.grey {
+	  background-color: grey;
+}
+
+.green {
+	  background-color: green;
+}
+
+.red {
+	  background-color: red;
+}
+
+.yellow {
+	  background-color: yellow;
+}
+
+
+.kitchenCanceledOrderToast {
+	color: red;
+}
+
+.kitchenNewOrderToast {
+	color: green;
+}
+
+.kitchenTimer {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.kitchenTakeOrderBtn {
+	position: absolute; 
+	bottom: 10px; 
+	left: 80px;
+	width: 130px;
+	height: 40px;
+}
+
+.kitchenCompleteOrderBtn {
+	position: absolute; 
+	bottom: 10px; 
+	left: 10px;
+	width: 130px;
+	height: 40px;
+
+}
+
+.kitchenPrintOrderBtn {
+	position: absolute; 
+	bottom: 10px; 
+	right: 10px;
+	width: 130px;
+	height: 40px;
+
+}
+
+.kitchenOrdersTwoHours {
+	color: red;
+}
+
+.kitchenDeliveryInTime {
+	color: yellow;
+}
+
+.kitchenDelivery {
+	color: red;
+}
+
+.kitchenSelfService {
+	color: black;
+}

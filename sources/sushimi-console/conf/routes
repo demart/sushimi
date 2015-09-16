@@ -12,6 +12,10 @@ POST	/arm/login											ArmApplication.login
 POST	/arm/logout											ArmApplication.logout
 GET		/arm/user											ArmApplication.getUser
 
+GET 	/rest/order/kitchen/store/read 						ArmApplication.readOrders
+POST 	/rest/order/kitchen/take/store/read 				ArmApplication.takeOrder
+POST 	/rest/order/kitchen/complete/store/read 			ArmApplication.completeOrder
+
 # MANAGEMENT
 GET     /													Application.index
 GET		/rest/reports/orderPeriodStat/store/read			Report.readOrderPeriodStat	

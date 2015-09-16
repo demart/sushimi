@@ -62,6 +62,40 @@ public class PreviewOrderModel {
 	private String reason;
 	
 	private String comment;
+	
+	private Integer status;
+	
+	private Long lastUpdateTime;
+	
+	private String deliveryDateKitchen;
+	
+	private String timer;
+	
+	private Integer statusType;
+	
+	public void setStatusType(Integer statusType) {
+		this.statusType = statusType;
+	}
+	
+	public void setTimer(String timer) {
+		this.timer = timer;
+	}
+	
+	public void setDeliveryDateKitchen(String deliveryDateKitchen) {
+		this.deliveryDateKitchen = deliveryDateKitchen;
+	}
+	
+	public void setStatus (Integer status) {
+		this.status = status;
+	}
+	
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setlastUpdateTime (Long lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
+	}
 
 	
 	public OrderSource getSource() {

@@ -21,6 +21,12 @@ public enum OrderState {
 	IN_PROGRESS,
 	
 	/**
+	 * Заказ приготовлен
+	 */
+	
+	COMPLITED,
+	
+	/**
 	 * Отправлен на доставку
 	 */
 	ON_DELIVERY,

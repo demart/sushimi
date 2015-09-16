@@ -75,6 +75,8 @@ public class Order extends PersistentObject {
 	@Column(name="client_discount_next_sum")
 	private Integer clientDiscountNextSum;
 	
+
+	
 	/**
 	 * Позиции заказа
 	 */

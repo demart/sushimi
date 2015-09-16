@@ -43,6 +43,12 @@ public class OrderModel {
 	
 	private String comment;
 	
+	/*
+	 * заказы сливаем в одну строку
+	 */
+
+	
+
 	public Long getOrderNumber() {
 		return orderNumber;
 	}

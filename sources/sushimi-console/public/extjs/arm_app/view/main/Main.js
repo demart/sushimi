@@ -48,7 +48,17 @@ Ext.define('SushimiConsoleARM.view.main.Main', {
 	            scale: 'medium',
 	            hidden: true,
 	            listeners : {click : 'onLogoutClick', },
-	        }],
+	        },
+	        '-',  {
+	        	id: 'ordersTwoHours',
+	            text:'',
+	            iconCls: null,
+	            margin: '0 0 0 20',
+	            alignTarget: 'right',
+	            hidden: true,
+	            scale: 'small',
+	        },
+	        ],
         }, {
         	region:'center',
         	floatable: false,
