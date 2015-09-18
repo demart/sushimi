@@ -394,10 +394,20 @@ public class ArmApplication extends Controller {
 		Calendar timeForRequest = Calendar.getInstance();
 		timeForRequest.setTimeInMillis(timeLongForRequest);
 		
-		list = JPA.em().createQuery("from Order where ( (orderState = 'COMPLITED' and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME')) or (orderState = 'IN_PROGRESS' and modifiedDate > :timeForRequest and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME') ) )").setParameter("timeForRequest", timeForRequest).getResultList();
+		//System.out.println(timeForRequest);
+		
+		/*
+		 * and modifiedDate >= :timeForRequest 
+		 * .setParameter("timeForRequest", timeForRequest)
+		 */
+		
+		list = JPA.em().createQuery("from Order where ( (orderState = 'COMPLITED' and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME')) or (orderState = 'IN_PROGRESS' and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME') ) )").getResultList();
 		
 		for (kz.sushimi.console.persistence.orders.Order order : list) {
 			PreviewOrderModel model = new PreviewOrderModel();
+			
+			if (order.getOrderState() == OrderState.IN_PROGRESS)
+				System.out.println("ok");
 			
 			model.setId(order.getId());
 			model.setOrderNumber(order.getOrderNumber());
@@ -426,11 +436,14 @@ public class ArmApplication extends Controller {
 			 * 3 - заказ готовится уже 15 минут, поэтому скоро будет готов
 			 */
 			
-			if (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > yellowDeliveryFirstTimeForCourier && (System.currentTimeMillis() < order.getDeliveryDate().getTimeInMillis()) )
+			if (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > yellowDeliveryFirstTimeForCourier && (System.currentTimeMillis() < order.getDeliveryDate().getTimeInMillis()) && order.getOrderState() != OrderState.IN_PROGRESS )
 				model.setStatus(0);
 			
-			else if (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < yellowDeliveryFirstTimeForCourier && order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > yellowDeliverySecondTimeForCourier)
+			else if (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < yellowDeliveryFirstTimeForCourier && order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > yellowDeliverySecondTimeForCourier && order.getOrderState() != OrderState.IN_PROGRESS)
 				model.setStatus(1);
+			
+			else if (order.getOrderState() == OrderState.IN_PROGRESS)
+				model.setStatus(3);
 			
 			else 
 				model.setStatus(2);
@@ -477,6 +490,7 @@ public class ArmApplication extends Controller {
 	}
 	
 	public static void takeOrdersByCourier () throws ValidationException {
+		ResponseWrapper rw = new ResponseWrapper();
 		String requestBody = params.current().get("body");
 		Logger.info("Update: " + requestBody);
 		if (!requestBody.startsWith("["))
@@ -487,15 +501,40 @@ public class ArmApplication extends Controller {
 		
 		for (ArmCourierOrdersModel model : models) {
 		
-		ArrayList ordersNumbers = new ArrayList();
+		//ArrayList ordersNumbers = new ArrayList();
 		
-		for (ArmCourierManyOrdersModel orderNumbers : model.getOrders()) {
-			ordersNumbers.add(orderNumbers.getOrderNumber());
+		ArrayList ids = new ArrayList();
+		String messageAboutError = "";
+		
+		rw.message ="";
+		for (ArmCourierManyOrdersModel orderIds : model.getOrders()) {
+			ids.add(orderIds.getId());
+					
 		}
 		
 		
+		
+		List<kz.sushimi.console.persistence.orders.Order> list;
+		
+		list = JPA.em().createQuery("from Order where id in (:ids)").setParameter("ids", ids).getResultList(); 
+		
+		for (kz.sushimi.console.persistence.orders.Order order : list) {
+			if (order.getOrderState() == OrderState.CANCELED)	{
+				ids.remove(order.getId());
+				messageAboutError = messageAboutError + order.getOrderNumber() + ", ";
+			}
+			else
+				rw.message = rw.message + order.getOrderNumber() + ", ";
+		}
+		
 		try {
-			JPA.em().createQuery("update Order set orderState = 'ON_DELIVERY' where orderNumber in (:ordersNumbers)").setParameter("ordersNumbers", ordersNumbers).executeUpdate();
+			JPA.em().createQuery("update Order set orderState = 'ON_DELIVERY' where id in (:ids)").setParameter("ids", ids).executeUpdate();
+			rw.success = true;
+			if (StringUtils.isNotEmpty(messageAboutError))
+				rw.message = "Заказы были отменены: " + messageAboutError + " | " + "Взятые заказы: " + rw.message;
+			else
+				rw.message = "Вы взяли заказы: " + rw.message;
+			renderJSON(rw);
 		}
 		catch (Exception e) {
 			System.out.println (e);

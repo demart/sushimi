@@ -30,7 +30,6 @@ var  DeliveryTakeOrdersModel = Ext.define('DeliveryTakeOrdersModel', {
     idProperty: 'id',
     fields: [
              {name: 'id', type: 'int'},
-             { name: 'orderNumber'},
  
 
      	],
@@ -111,7 +110,7 @@ var task = {
         		       // console.log(lastUpdateTime);
     				store.sort('deliveryDate', 'ASC');
     				
-    				records[0].data.status = 5;
+   
     				
     	    		
    				
@@ -166,7 +165,7 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
         	    		
             			model.data.orders = new Array();
             				for (var i=0; i<countOrdersInArray; i++)
-            					model.data.orders[i]={orderNumber: arrayCourierOrders[i]};
+            					model.data.orders[i]={id: arrayCourierOrders[i]};
             	    	
             	    	model.data.id = 0;
             	    	var data = model.getData();
@@ -175,6 +174,26 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
                     	    url: 'rest/order/delivery/take/store/read',
                     	    method: 'POST',
                     	    jsonData: data,
+                    	    
+                    	    success: function(response, conn, options, eOpts) {
+                    	    	var json = Ext.util.JSON.decode(response.responseText);
+                    	    	if (json.success == true) {
+                    	    		//console.log('json: ' + response.responseText);
+ 
+                    	    			Ext.MessageBox.show({
+                     	    	           title: 'Внимание',
+                     	    	           msg: json.message,
+                     	    	           buttons: Ext.MessageBox.OK,
+                     	    	           icon: Ext.MessageBox.WARNING
+                     	    	       });
+                    	    			arrayCourierOrders = new Array();
+                    	    			countOrdersInArray = 0;
+                    	    			store.load();
+                    	    			//this.redirectTo('logout');
+                    	    		
+                    	    		
+                    	    	} 
+                    	    }, 
 
                     	    failure: function(batch) {
                     	    	Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
@@ -198,7 +217,7 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
         tpl: Ext.create('Ext.XTemplate',  
      		'<tpl for=".">', 
      			'<tpl if="status==0">',
-   					'<div style="" class="orderinfo green">',
+   					'<div style="" class="orderinfo grey">',
    				'</tpl>',
    	     		'<tpl if="status==1">',
    	     			'<div style="" class="orderinfo yellow">',
@@ -206,12 +225,15 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
    	     		'<tpl if="status==2">',
    	     			'<div style="" class="orderinfo red">',
    				'</tpl>',
-   					'<span> {timer} </span><br>',
+   	     		'<tpl if="status==3">',
+	     			'<div style="" class="orderinfo grey">',
+				'</tpl>',
+   					'<span class="courierTimer"> {timer} </span><br>',
    					'<span>Заказ <b>#{orderNumber}</b> </span><br>',
-   					'<tpl if="statusType==0 || statusType==1">',
+   					'<tpl if="statusType==0 || statusType==2">',
    						'<span>Тип доставки: Доставка</span><br>',
    					'</tpl>',
-   					'<tpl if="statusType==2 || statusType==3">',
+   					'<tpl if="statusType==1 || statusType==3">',
    						'<span>Тип доставки: Доставка ко времени</span><br>',
    					'</tpl>',
    					'<span>Время доставки: {deliveryDateDelivery}</span><br>',
@@ -219,18 +241,22 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
    					'<span>Сумма заказа: {sum}</span><br>',
    					'<span>Сдача с: {clientCash}</span><br>',
    					'<span>Комментарий: {comment}</span><br>',
-   					'<tpl if="this.isStatus (orderNumber, statusType)">',
-   					'<span>Уже Вы взяли данный заказ</span><br>',
+   					'<tpl if="this.isStatus (id, statusType)">',
+   					'<span class="courierTakingOrder">Уже Вы взяли данный заказ</span><br>',
    					'<tpl else>',
+   						'<tpl if="status==3">', 
+   						'<span class="courierOrderInProgress">Заказ еще готовится</span>',
+   						'<tpl else>',
    							'<input type="button" class="courierTakeOrderBtn" value="Взять заказ">',
+   							'</tpl>',
    						'</tpl>',
    						
    					   				'</div>',
    			'</tpl>',
    			{
-   			isStatus: function(orderNumber, statusType) {
+   			isStatus: function(id, statusType) {
    				for (var i = 0; i < countOrdersInArray; i++) {
-   					if (arrayCourierOrders[i] == orderNumber) {
+   					if (arrayCourierOrders[i] == id) {
    						
    						return statusType != 4;
    					}
@@ -249,7 +275,7 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
                                
                 if ("courierTakeOrderBtn" == className) {
                 	console.log("courierTakeOrderBtn");
-                	arrayCourierOrders[countOrdersInArray] = record.get('orderNumber');
+                	arrayCourierOrders[countOrdersInArray] = record.get('id');
                 	countOrdersInArray++;
                 	console.log("All array:");
                 	for (var i=0; i<countOrdersInArray; i++)

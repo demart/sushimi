@@ -43,7 +43,7 @@ margin-bottom: 10px;
 	right: 10px;
 }
 
-/*Взять заказ кнопка*/
+/*Взять заказ на кухне кнопка*/
 .kitchenTakeOrderBtn {
 	position: absolute; 
 	bottom: 10px; 
@@ -52,7 +52,7 @@ margin-bottom: 10px;
 	height: 40px;
 }
 
-/*Завершить заказ кнопка*/
+/*Завершить заказ на кухне кнопка*/
 .kitchenCompleteOrderBtn {
 	position: absolute; 
 	bottom: 10px; 
@@ -62,7 +62,7 @@ margin-bottom: 10px;
 
 }
 
-/*Печать заказа из кухни кнопка*/
+/*Печать заказа из кухне кнопка*/
 .kitchenPrintOrderBtn {
 	position: absolute; 
 	bottom: 10px; 
@@ -90,4 +90,36 @@ margin-bottom: 10px;
 /*Тип заказа: Самовывоз*/
 .kitchenSelfService {
 	color: black;
+}
+
+/*Взять заказ курьером кнопка*/
+.courierTakeOrderBtn {
+	position: absolute; 
+	bottom: 10px; 
+	left: 80px;
+	width: 130px;
+	height: 40px;
+}
+
+/*таймер заказа для курьеров*/
+.courierTimer {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+/*Взятый заказ курьером*/
+.courierTakingOrder {
+	position: absolute; 
+	bottom: 10px; 
+	left: 80px;
+
+}
+
+/*заказ еще готовится*/
+.courierOrderInProgress {
+	position: absolute; 
+	bottom: 10px; 
+	left: 80px;
+
 }
