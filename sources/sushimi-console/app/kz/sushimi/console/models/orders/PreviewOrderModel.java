@@ -3,6 +3,7 @@ package kz.sushimi.console.models.orders;
 import java.util.Date;
 import java.util.List;
 
+import kz.sushimi.console.models.clients.ManyClientModel;
 import kz.sushimi.console.persistence.orders.OrderSource;
 import kz.sushimi.console.persistence.orders.OrderState;
 import kz.sushimi.console.persistence.orders.OrderType;
@@ -39,6 +40,8 @@ public class PreviewOrderModel {
 	
 	private List<PreviewOrderItemModel> items;
 	
+	
+	
 	private OrderState state;
 	
 	private OrderType type;
@@ -73,6 +76,18 @@ public class PreviewOrderModel {
 	
 	private Integer statusType;
 	
+	private String deliveryDateDelivery;
+	
+	private List<ArmCourierManyOrdersModel> orders;
+	
+	public List<ArmCourierManyOrdersModel> getOrders() {
+		return orders;
+	}
+
+	public void setOrderss(List<ArmCourierManyOrdersModel> orders) {
+		this.orders = orders;
+	}
+	
 	public void setStatusType(Integer statusType) {
 		this.statusType = statusType;
 	}
@@ -83,6 +98,10 @@ public class PreviewOrderModel {
 	
 	public void setDeliveryDateKitchen(String deliveryDateKitchen) {
 		this.deliveryDateKitchen = deliveryDateKitchen;
+	}
+	
+	public void setDeliveryDateDelivery(String deliveryDateDelivery) {
+		this.deliveryDateDelivery = deliveryDateDelivery;
 	}
 	
 	public void setStatus (Integer status) {

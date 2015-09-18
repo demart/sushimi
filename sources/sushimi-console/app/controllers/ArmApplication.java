@@ -4,12 +4,18 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.gson.Gson;
+
 import kz.sushimi.console.exceptions.ValidationException;
 import kz.sushimi.console.models.ResponseWrapper;
 import kz.sushimi.console.models.StoreWrapper;
+import kz.sushimi.console.models.clients.ClientAddressModel;
+import kz.sushimi.console.models.clients.ClientModel;
 import kz.sushimi.console.models.orders.OrderModel;
 import kz.sushimi.console.models.orders.PreviewOrderItemModel;
 import kz.sushimi.console.models.orders.PreviewOrderModel;
+import kz.sushimi.console.models.orders.ArmCourierOrdersModel;
+import kz.sushimi.console.models.orders.ArmCourierManyOrdersModel;
 import kz.sushimi.console.models.users.UserModel;
 import kz.sushimi.console.persistence.orders.Order;
 import kz.sushimi.console.persistence.orders.OrderItem;
@@ -29,6 +35,7 @@ import java.text.SimpleDateFormat;
 
 public class ArmApplication extends Controller {
 	
+	//Время по кухне
 	static long yellowDeliveryFirstTime = 3000000;
 	static long yellowDeliverySecondTime = 2400000;
 	static long redDeliveryTime = 2400000;
@@ -37,6 +44,9 @@ public class ArmApplication extends Controller {
 	static long yellowDeliveryInTimeSecondTime = 3600000;
 	static long orderMoreTwoHours = 7200000;
 	
+	//Время по доставке
+	static long yellowDeliveryFirstTimeForCourier = 4200000;
+	static long yellowDeliverySecondTimeForCourier = 3600000;
     
     public static void index() {
         renderTemplate("Application/arm_index.html");
@@ -370,6 +380,132 @@ public class ArmApplication extends Controller {
 		order.setOrderState (OrderState.COMPLITED);
 		order.save();
 			
+	}
+	
+	public static void readDeliveryOrders (Long periodReload) throws ValidationException {
+		String requestBody = params.current().get("body");
+		Logger.info("complete order: " + requestBody);
+		
+		List<kz.sushimi.console.persistence.orders.Order> list;
+		
+		ArrayList<PreviewOrderModel> models = new ArrayList<PreviewOrderModel>(); 
+		
+		Long timeLongForRequest = System.currentTimeMillis() - 900000;
+		Calendar timeForRequest = Calendar.getInstance();
+		timeForRequest.setTimeInMillis(timeLongForRequest);
+		
+		list = JPA.em().createQuery("from Order where ( (orderState = 'COMPLITED' and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME')) or (orderState = 'IN_PROGRESS' and modifiedDate > :timeForRequest and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME') ) )").setParameter("timeForRequest", timeForRequest).getResultList();
+		
+		for (kz.sushimi.console.persistence.orders.Order order : list) {
+			PreviewOrderModel model = new PreviewOrderModel();
+			
+			model.setId(order.getId());
+			model.setOrderNumber(order.getOrderNumber());
+			model.setType(order.getType());
+			model.setSum(order.getOrderSum());
+			model.setClientCash(order.getClientCash());
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy'  'HH:mm:ss");
+					
+			if (order.getDeliveryDate() != null) {
+				model.setDeliveryDateDelivery(sdf.format(order.getDeliveryDate().getTime()));
+				model.setDeliveryDate(order.getDeliveryDate().getTime());
+			}
+			
+			if (order.getClientAddress() != null)
+				model.setClientAddress(order.getClientAddress().getFullAddress());
+			
+			else
+				model.setClientAddress("Адрес не указан");
+			
+			/**
+			 * Статусы (status):
+			 * 0 - серый заказ, все нормально осталось более 70 минут
+			 * 1 - желтый заказ, 70-60 минут
+			 * 2 - красный заказ, 60-0 минут
+			 * 3 - заказ готовится уже 15 минут, поэтому скоро будет готов
+			 */
+			
+			if (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > yellowDeliveryFirstTimeForCourier && (System.currentTimeMillis() < order.getDeliveryDate().getTimeInMillis()) )
+				model.setStatus(0);
+			
+			else if (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < yellowDeliveryFirstTimeForCourier && order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > yellowDeliverySecondTimeForCourier)
+				model.setStatus(1);
+			
+			else 
+				model.setStatus(2);
+			
+			/**
+			 * Прогресс заказа и тип доставки (statusType)
+			 * 0 - заказ готов. Тип доставки Доставка
+			 * 1 - заказ готов. Тип доставки Доставка ко времени
+			 * 2 - заказ на кухне. Тип доставки Доставка
+			 * 3 - заказ на кухне. Тип доставки Доставка ко времени
+			 */
+			
+			if (order.getOrderState() == OrderState.COMPLITED && order.getType() == OrderType.DELIVERY )
+				model.setStatusType(0);
+			
+			else if (order.getOrderState() == OrderState.COMPLITED && order.getType() == OrderType.DELIVERY_IN_TIME)
+				model.setStatusType(1);
+			
+			else if (order.getOrderState() == OrderState.IN_PROGRESS && order.getType() == OrderType.DELIVERY)
+				model.setStatusType(2);
+			
+			else
+				model.setStatusType(3);
+			
+			SimpleDateFormat timer = new SimpleDateFormat("HH:mm:ss");
+			model.setTimer (timer.format(order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() - 21600000));
+			
+			if (StringUtils.isNotEmpty(order.getComment()))
+				model.setComment(order.getComment());
+			else
+				model.setComment("Без комментариев");
+			
+			models.add(model);	
+		}
+		
+		
+		StoreWrapper wrapper = new StoreWrapper();
+		wrapper.success = true;
+		wrapper.totalCount = ProductService.getProductsCount();
+		wrapper.data = models.toArray();
+		renderJSON(wrapper);
+		
+		
+	}
+	
+	public static void takeOrdersByCourier () throws ValidationException {
+		String requestBody = params.current().get("body");
+		Logger.info("Update: " + requestBody);
+		if (!requestBody.startsWith("["))
+			requestBody = "[" + requestBody + "]";
+		Gson gson = new Gson();
+		Logger.info("Courier take order: " + requestBody);
+		ArmCourierOrdersModel[] models = gson.fromJson(requestBody, ArmCourierOrdersModel[].class);
+		
+		for (ArmCourierOrdersModel model : models) {
+		
+		ArrayList ordersNumbers = new ArrayList();
+		
+		for (ArmCourierManyOrdersModel orderNumbers : model.getOrders()) {
+			ordersNumbers.add(orderNumbers.getOrderNumber());
+		}
+		
+		
+		try {
+			JPA.em().createQuery("update Order set orderState = 'ON_DELIVERY' where orderNumber in (:ordersNumbers)").setParameter("ordersNumbers", ordersNumbers).executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println (e);
+			JPA.em().getTransaction().rollback();
+		}
+		
+		}
+		
+		
+	
 	}
 	
 }

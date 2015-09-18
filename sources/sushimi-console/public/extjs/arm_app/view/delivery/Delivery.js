@@ -1,3 +1,136 @@
+var  DeliveryModel = Ext.define('DeliveryModel', {
+        extend: 'Ext.data.Model',
+        idProperty: 'id',
+        fields: [
+    		{ name: 'id', type: 'int'}, 
+    		{ name: 'clientAddress'},
+    		{ name: 'orderNumber'},
+    		{ name: 'orderState'},
+    		{ name: 'status'},
+    		{ name: 'sum'},
+    		{ name: 'comment'},
+    		{ name: 'clientCash'},
+    		{ name: 'deliveryDate'},
+    		{ name: 'deliveryDateDelivery'},
+    		{ name: 'statusType'},
+    		{ name: 'timer'}
+    	],
+    	
+		hasMany: {
+		    model: 'DeliveryTakeOrdersModel',
+		    name: 'orders',
+		    primaryKey: 'id',
+			foreignKey: 'ownerId',
+		},
+		   	
+    });
+
+var  DeliveryTakeOrdersModel = Ext.define('DeliveryTakeOrdersModel', {
+    extend: 'Ext.data.Model',
+    idProperty: 'id',
+    fields: [
+             {name: 'id', type: 'int'},
+             { name: 'orderNumber'},
+ 
+
+     	],
+     	belongsTo: [
+             { 
+             	model: 'DeliveryModel', 
+             	associationKey: 'id',
+             	primaryKey: 'id',
+             	foreignKey: 'id',
+     		}
+         ],
+	
+});
+
+var periodReload = 5000; //период апдейта
+
+
+var store = Ext.create('Ext.data.Store', {
+        model: 'DeliveryModel',
+        
+        sorters: [{
+            property: 'deliveryDate',
+            direction: 'DESC'
+        }],
+        
+        sortRoot: 'deliveryDate',
+        sortOnLoad: true,
+        remoteSort: false,
+        
+        proxy: {
+        	
+        	type: 'ajax',
+
+        	api: {
+                read: 'rest/order/delivery/store/read',
+            },
+
+            reader: {
+                type: 'json',
+                rootProperty: 'data',
+                successProperty: 'success',
+                totalProperty: 'totalCount',
+                idProperty: 'id'
+            }
+    	},    
+    	root: {
+    		text: 'root',
+    		id: 'root'
+    	},
+    });
+
+ /*  
+store.load({
+	
+
+        params: {
+        	periodReload: periodReload
+        },
+    	
+		callback: function(records, operation, success) {
+			store.sort('deliveryDate', 'ASC');
+		},
+
+	    scope: this
+	});
+*/
+var task = {
+		run: function () {
+    		store.load({
+                params: {
+                	periodReload: periodReload,
+                }, 
+           
+    			callback: function(records, operation, success) {
+        			//	 console.log(store.getCount());
+        				//console.log (records[store.getCount() - 1]);
+        		      //  console.log(records[store.getCount() - 1].data.lastUpdateTime);
+        		       // console.log(lastUpdateTime);
+    				store.sort('deliveryDate', 'ASC');
+    				
+    				records[0].data.status = 5;
+    				
+    	    		
+   				
+    		        }
+        		    
+   		    
+		
+    		});
+    	
+
+		},
+			
+		interval: periodReload
+};
+
+
+var arrayCourierOrders;
+var countOrdersInArray;
+
 Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
     extend: 'Ext.panel.Panel',
     controller: 'delivery.DeliveryController',
@@ -6,20 +139,127 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
     requires: [
         'Ext.window.Toast',
         'Ext.layout.container.Center',
+        'Ext.view.View',
    		'SushimiConsoleARM.view.delivery.DeliveryController',
 	],
 	
 	width: 500,
     height: 400,
-    layout: 'center',
-    items: {
-    	title: 'Здесь будет Доставка',
-        border: true,
-        layout: 'center',
+    layout: 'auto',
+    region: 'center',
+    title: 'Заказы для доставки',
+    loadMask: false,
+
+    collapsible: true,
+    
+    items: [  
+            {
+            	xtype: 'button',
+            	text: 'Подтвердить',
+            	scale: 'large',
+            	listeners: {
+            		click: function() {
+            			console.log("click");
+        	    		Ext.TaskManager.stop(task);
+            			
+            			var model = new DeliveryModel();
+        	    		
+            			model.data.orders = new Array();
+            				for (var i=0; i<countOrdersInArray; i++)
+            					model.data.orders[i]={orderNumber: arrayCourierOrders[i]};
+            	    	
+            	    	model.data.id = 0;
+            	    	var data = model.getData();
+            			
+                        Ext.Ajax.request({
+                    	    url: 'rest/order/delivery/take/store/read',
+                    	    method: 'POST',
+                    	    jsonData: data,
+
+                    	    failure: function(batch) {
+                    	    	Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
+                    		}
+                    	});
+            		}
+            	}
+            },
+              {
+    	layout: 'fit',
+        store: store,
+    	xtype: 'dataview',
+        scroll: true,
+        split: true,
         autoScroll: true,
-        width: '350px',
-        height: '420px',
-    },
+        columnWidth: 200,
+        trackOver: true,
+        loadMask: false,
+
+        
+        tpl: Ext.create('Ext.XTemplate',  
+     		'<tpl for=".">', 
+     			'<tpl if="status==0">',
+   					'<div style="" class="orderinfo green">',
+   				'</tpl>',
+   	     		'<tpl if="status==1">',
+   	     			'<div style="" class="orderinfo yellow">',
+   				'</tpl>',
+   	     		'<tpl if="status==2">',
+   	     			'<div style="" class="orderinfo red">',
+   				'</tpl>',
+   					'<span> {timer} </span><br>',
+   					'<span>Заказ <b>#{orderNumber}</b> </span><br>',
+   					'<tpl if="statusType==0 || statusType==1">',
+   						'<span>Тип доставки: Доставка</span><br>',
+   					'</tpl>',
+   					'<tpl if="statusType==2 || statusType==3">',
+   						'<span>Тип доставки: Доставка ко времени</span><br>',
+   					'</tpl>',
+   					'<span>Время доставки: {deliveryDateDelivery}</span><br>',
+   					'<span>Адрес доставки: {clientAddress}</span><br>',
+   					'<span>Сумма заказа: {sum}</span><br>',
+   					'<span>Сдача с: {clientCash}</span><br>',
+   					'<span>Комментарий: {comment}</span><br>',
+   					'<tpl if="this.isStatus (orderNumber, statusType)">',
+   					'<span>Уже Вы взяли данный заказ</span><br>',
+   					'<tpl else>',
+   							'<input type="button" class="courierTakeOrderBtn" value="Взять заказ">',
+   						'</tpl>',
+   						
+   					   				'</div>',
+   			'</tpl>',
+   			{
+   			isStatus: function(orderNumber, statusType) {
+   				for (var i = 0; i < countOrdersInArray; i++) {
+   					if (arrayCourierOrders[i] == orderNumber) {
+   						
+   						return statusType != 4;
+   					}
+   					}
+   				
+   				
+   				}
+   			}
+              ),
+
+        emptyText: 'Нет заказов',
+        itemSelector: 'div.orderinfo',
+        listeners: {
+            itemmousedown: function (me, record, item, index, e) {
+                var className = e.target.className;
+                               
+                if ("courierTakeOrderBtn" == className) {
+                	console.log("courierTakeOrderBtn");
+                	arrayCourierOrders[countOrdersInArray] = record.get('orderNumber');
+                	countOrdersInArray++;
+                	console.log("All array:");
+                	for (var i=0; i<countOrdersInArray; i++)
+                		console.log(arrayCourierOrders[i]);
+                	store.load();
+                	
+                }
+            }
+        },
+        }],
     
     initComponent: function() {
     	//create the delayed task instance with our callback
@@ -44,6 +284,9 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
         	    		Ext.getCmp('authUserNameLabel').setText(json.data.name);
         	    		Ext.getCmp('authUserNameLabel').setHidden(false);
         	    		Ext.getCmp('logoutBtn').setHidden(false);
+        	    		Ext.TaskManager.start(task);
+        	    		arrayCourierOrders = new Array();
+        	    		countOrdersInArray = 0;
         	    	} else {
         	    		ctrl.redirectTo('logout');
         	    	}
