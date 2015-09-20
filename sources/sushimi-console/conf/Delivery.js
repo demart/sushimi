@@ -104,25 +104,10 @@ var task = {
                 }, 
            
     			callback: function(records, operation, success) {
-        			//	 console.log(store.getCount());
-        				//console.log (records[store.getCount() - 1]);
-        		      //  console.log(records[store.getCount() - 1].data.lastUpdateTime);
-        		       // console.log(lastUpdateTime);
     				store.sort('deliveryDate', 'ASC');
-    				
-   
-    				
-    	    		
-   				
-    		        }
-        		    
-   		    
-		
+  		        }
     		});
-    	
-
-		},
-			
+    	},
 		interval: periodReload
 };
 
@@ -145,7 +130,7 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
 	width: 500,
     height: 400,
     layout: 'auto',
-    region: 'center',
+    //region: 'center',
     title: 'Заказы для доставки',
     loadMask: false,
 
@@ -155,7 +140,15 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
             {
             	xtype: 'button',
             	text: 'Подтвердить',
+            	id: 'acceptButton',
             	scale: 'large',
+               /*
+            	buttonAlign: 'center',
+                align: 'center',
+                pack: 'center',
+*/
+            	
+            	disabled: true,
             	listeners: {
             		click: function() {
             			console.log("click");
@@ -180,12 +173,24 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
                     	    	if (json.success == true) {
                     	    		//console.log('json: ' + response.responseText);
  
-                    	    			Ext.MessageBox.show({
+            		        		Ext.toast({
+            				            html: '<span class="courierToast">' + json.message + '</span>',
+            				            title: 'Оповещение',
+            				            width: 200,
+            				            align: 'tr',
+            				            autoClose: true,
+            				            autoCloseDelay: 10000,
+            				        });
+                    	    		
+                    	    		
+                    	    		/*
+                    	    		Ext.MessageBox.show({
                      	    	           title: 'Внимание',
                      	    	           msg: json.message,
                      	    	           buttons: Ext.MessageBox.OK,
                      	    	           icon: Ext.MessageBox.WARNING
                      	    	       });
+                     	    	       */
                     	    			arrayCourierOrders = new Array();
                     	    			countOrdersInArray = 0;
                     	    			store.load();
@@ -242,33 +247,29 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
    					'<span>Сдача с: {clientCash}</span><br>',
    					'<span>Комментарий: {comment}</span><br>',
    					'<tpl if="this.isStatus (id, statusType)">',
-   					'<span class="courierTakingOrder">Уже Вы взяли данный заказ</span><br>',
+   						'<input type="button" class="courierRefuseOrderBtn" value="Отказаться от заказа">',
+   						//'<span class="courierTakingOrder">Уже Вы взяли данный заказ</span><br>',
    					'<tpl else>',
    						'<tpl if="status==3">', 
-   						'<span class="courierOrderInProgress">Заказ еще готовится</span>',
+   							'<span class="courierOrderInProgress">Заказ еще готовится</span>',
    						'<tpl else>',
    							'<input type="button" class="courierTakeOrderBtn" value="Взять заказ">',
-   							'</tpl>',
    						'</tpl>',
-   						
-   					   				'</div>',
+   					'</tpl>',
+   				'</div>',
    			'</tpl>',
    			{
-   			isStatus: function(id, statusType) {
-   				for (var i = 0; i < countOrdersInArray; i++) {
-   					if (arrayCourierOrders[i] == id) {
-   						
+   				isStatus: function(id, statusType) {
+   					for (var i = 0; i < countOrdersInArray; i++) {
+   						if (arrayCourierOrders[i] == id) {
    						return statusType != 4;
+   						}
    					}
-   					}
-   				
-   				
-   				}
    			}
-              ),
-
-        emptyText: 'Нет заказов',
+   			}),
+   		emptyText: 'Нет заказов',
         itemSelector: 'div.orderinfo',
+        
         listeners: {
             itemmousedown: function (me, record, item, index, e) {
                 var className = e.target.className;
@@ -280,8 +281,31 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
                 	console.log("All array:");
                 	for (var i=0; i<countOrdersInArray; i++)
                 		console.log(arrayCourierOrders[i]);
-                	store.load();
                 	
+                	Ext.getCmp('acceptButton').setDisabled(false);
+                	store.load();
+                }
+                
+                if ("courierRefuseOrderBtn" == className) {
+                	console.log("courierRefuseOrderBtn");
+                	var tmp = 0;
+                	for (var i=0; i<countOrdersInArray; i++) {
+                		if (arrayCourierOrders[i] == record.get('id')) {
+                			//arrayCourierOrders.remove(record.get('id'));
+                			tmp = i;
+                			for (var j=tmp; j<countOrdersInArray; j++ )
+                				if (j == countOrdersInArray - 1)
+                					arrayCourierOrders[j] = arrayCourierOrders[j+1]
+                			countOrdersInArray--;
+                	}
+                	}
+                	
+                	if (countOrdersInArray == 0)
+                		Ext.getCmp('acceptButton').setDisabled(true);
+                	
+                	for (var i=0; i< countOrdersInArray; i++)
+                		console.log(arrayCourierOrders[i]);
+                	store.load();
                 }
             }
         },

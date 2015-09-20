@@ -249,6 +249,19 @@ Ext.define('SushimiConsoleARM.view.kitchen.Kitchen' ,{
 					 '<tpl if="status==7">',
 					 	'<div style="" class="orderinfo green">',
 					'</tpl>',
+	   	     		'<tpl if="status==9">',
+	   	     			'<div style="" class="orderinfo red">',
+	   	     		'</tpl>',
+	   	     		'<tpl if="status==10">',
+	     			'<div style="" class="orderinfo yellow">',
+				'</tpl>',
+				
+   	     		'<tpl if="status==12">',
+     			'<div style="" class="orderinfo yellow">',
+			'</tpl>',
+	     		'<tpl if="status==11">',
+     			'<div style="" class="orderinfo red">',
+			'</tpl>',
 
 		              		'<span class="label">Заказ #</span>',
 		              		'<span><b>{orderNumber}</b></span></br>', 
@@ -290,11 +303,11 @@ Ext.define('SushimiConsoleARM.view.kitchen.Kitchen' ,{
 					              			
 			
 		              		'</tpl>',
-		           		'<tpl if="status==7">',
+		           		'<tpl if="status &gt; 7 || status==7">',
 		    		      	'<input type="button" class="kitchenCompleteOrderBtn red" value="Завершить заказ">',
 		    		      	'<input type="button" class="kitchenPrintOrderBtn red" value="Распечатать заказ">',
 		    		    '</tpl>',
-		    		    '<tpl if="status!=7">',
+		    		    '<tpl if="status < 7">',
 		              		'<input type="button" class="kitchenTakeOrderBtn" value="Взять заказ">',
 		              	'</tpl>',
 		              '</div>', 
@@ -335,6 +348,18 @@ Ext.define('SushimiConsoleARM.view.kitchen.Kitchen' ,{
             			}
             		});
                    	store.reload();
+                }
+                
+                if ("kitchenPrintOrderBtn red" == className) {
+                	console.log(record.get('orderNumber'));
+                  	Ext.Ajax.request({
+            		    url: 'rest/order/kitchen/print/store/read?orderId=' + record.get('id'),
+            		    method: 'POST',
+            		    failure: function(batch) {
+            				Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
+            			}
+            		});
+                   //	store.reload();
                 }
             }
         },

@@ -33,6 +33,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
+import java.awt.Graphics;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+
 public class ArmApplication extends Controller {
 	
 	//Время по кухне
@@ -43,6 +49,8 @@ public class ArmApplication extends Controller {
 	static long yellowDeliveryInTimeFirstTime = 4200000;
 	static long yellowDeliveryInTimeSecondTime = 3600000;
 	static long orderMoreTwoHours = 7200000;
+	
+	static String str;
 	
 	//Время по доставке
 	static long yellowDeliveryFirstTimeForCourier = 4200000;
@@ -291,8 +299,36 @@ public class ArmApplication extends Controller {
 				}
 				*/
 					
+			/**
+			 * 9 - если заказ взят в работу, и до доставки 60-0 красный
+			 * 10 - если заказ взят в работу, и 70-60 минут желтый
+			 * 11 - самовывоз, 40-0 красный
+			 * 12 - самовывоз, 50-40 - желттый
+			 */
+			
 			if (order.getOrderState() == OrderState.REGISTERED  && lastUpdateTime != null && (System.currentTimeMillis() - order.getModifiedDate().getTimeInMillis() < periodReload)  && (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < orderMoreTwoHours))
 				model.setStatus(0);
+			
+			else if (order.getOrderState() == OrderState.IN_PROGRESS &&
+					 (order.getType() == OrderType.DELIVERY || order.getType() == OrderType.DELIVERY_IN_TIME) &&
+					 (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < redDeliveryTime))
+				model.setStatus(9);
+			
+			else if (order.getOrderState() == OrderState.IN_PROGRESS &&
+					 (order.getType() == OrderType.DELIVERY || order.getType() == OrderType.DELIVERY_IN_TIME) &&
+					 (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < yellowDeliveryInTimeFirstTime) && 
+					 (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > yellowDeliveryInTimeSecondTime))
+				model.setStatus(10);
+			
+			else if (order.getOrderState() == OrderState.IN_PROGRESS &&
+					(order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < yellowDeliveryFirstTime) && 
+					(order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > yellowDeliverySecondTime))
+				model.setStatus(12);
+			
+			else if (order.getOrderState() == OrderState.IN_PROGRESS &&
+					(order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() < redDeliveryTime))
+				model.setStatus(11);
+			
 			
 			else if (order.getOrderState() == OrderState.REGISTERED && (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > orderMoreTwoHours))
 				model.setStatus(8);
@@ -459,7 +495,8 @@ public class ArmApplication extends Controller {
 			if (order.getOrderState() == OrderState.COMPLITED && order.getType() == OrderType.DELIVERY )
 				model.setStatusType(0);
 			
-			else if (order.getOrderState() == OrderState.COMPLITED && order.getType() == OrderType.DELIVERY_IN_TIME)
+			else if (order.getOrderState() == OrderState.COMPLITED &&
+					 order.getType() == OrderType.DELIVERY_IN_TIME)
 				model.setStatusType(1);
 			
 			else if (order.getOrderState() == OrderState.IN_PROGRESS && order.getType() == OrderType.DELIVERY)
@@ -469,7 +506,12 @@ public class ArmApplication extends Controller {
 				model.setStatusType(3);
 			
 			SimpleDateFormat timer = new SimpleDateFormat("HH:mm:ss");
-			model.setTimer (timer.format(order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() - 21600000));
+			if (order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() > 0)
+				model.setTimer ("-" + timer.format(order.getDeliveryDate().getTimeInMillis() - System.currentTimeMillis() - 21600000));
+			
+			else
+				model.setTimer("+" + timer.format(System.currentTimeMillis() - order.getDeliveryDate().getTimeInMillis() - 21600000));
+			
 			
 			if (StringUtils.isNotEmpty(order.getComment()))
 				model.setComment(order.getComment());
@@ -531,7 +573,7 @@ public class ArmApplication extends Controller {
 			JPA.em().createQuery("update Order set orderState = 'ON_DELIVERY' where id in (:ids)").setParameter("ids", ids).executeUpdate();
 			rw.success = true;
 			if (StringUtils.isNotEmpty(messageAboutError))
-				rw.message = "Заказы были отменены: " + messageAboutError + " | " + "Взятые заказы: " + rw.message;
+				rw.message = "Заказы были отменены: " + messageAboutError + " ||| " + "Взятые заказы: " + rw.message;
 			else
 				rw.message = "Вы взяли заказы: " + rw.message;
 			renderJSON(rw);
@@ -546,5 +588,7 @@ public class ArmApplication extends Controller {
 		
 	
 	}
+	
+
 	
 }

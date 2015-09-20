@@ -16,6 +16,7 @@ GET		/arm/user											ArmApplication.getUser
 GET 	/rest/order/kitchen/store/read 						ArmApplication.readOrders
 POST 	/rest/order/kitchen/take/store/read 				ArmApplication.takeOrder
 POST 	/rest/order/kitchen/complete/store/read 			ArmApplication.completeOrder
+POST 	/rest/order/kitchen/print/store/read				ArmApplication.printOrder
 
 # DELIVERY
 GET     /rest/order/delivery/store/read						ArmApplication.readDeliveryOrders
