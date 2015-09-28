@@ -145,6 +145,17 @@ Ext.define('SushimiConsole.view.order.window.PreviewOrderWindowController', {
 	   window.open(btn.href);
     },
     
+    onPrintOrderPosPrinterClick: function(record) {
+       // console.log(btn);
+		Ext.Ajax.request({
+		    url: 'rest/order/print/store/read?orderId=' + record.data.id,
+		    method: 'POST',
+		    failure: function(batch) {
+				Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
+			}
+		});
+     },
+    
     onResetFormClick: function() {
     	// TODO RESET FORM
     	this.view.hide();

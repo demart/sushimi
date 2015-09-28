@@ -2,7 +2,10 @@ package controllers;
 
 import java.util.List;
 
+import javax.xml.transform.TransformerException;
+
 import org.apache.commons.lang.StringUtils;
+import org.w3c.dom.Element;
 
 import com.google.gson.Gson;
 
@@ -25,6 +28,7 @@ import kz.sushimi.console.persistence.users.User;
 import kz.sushimi.console.services.OrderService;
 import kz.sushimi.console.services.UserService;
 import kz.sushimi.console.services.dictionaries.ProductService;
+import kz.sushimi.console.services.PrintService;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.mvc.Controller;
@@ -33,12 +37,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
-
 import java.io.*;
 import java.net.*;
 
+
+
 public class ArmApplication extends Controller {
 	
+
 	//Время по кухне
 	static long yellowDeliveryFirstTime = 3000000;
 	static long yellowDeliverySecondTime = 2400000;
@@ -582,11 +588,15 @@ public class ArmApplication extends Controller {
 		}
 		
 		}
-		
+	
 		
 	
 	}
 	
-
+	public static void printOrder (Long orderId) throws ValidationException, TransformerException, IOException {
+		System.out.println("Print check: " + orderId);
+		PrintService.print(orderId);
+		
+	}
 	
 }

@@ -42,6 +42,11 @@ Ext.define('SushimiConsole.view.order.OrderList' ,{
         handler: 'printOrder',
         hidden: true,
     },{
+    	reference: 'printOrderPosPrinterBtn',
+        text: 'Чековый принтер',
+        handler: 'printOrderPosPrinter',
+        hidden: true,
+    },{
     	reference: 'sendOrderToWorkBtn',
         text: 'Отправить в работу',
         handler: 'sendOrderToWork',

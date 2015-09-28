@@ -1,3 +1,5 @@
+    var orderId = null;
+
 Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
     extend: 'Ext.app.ViewController',
 
@@ -9,6 +11,8 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
     
     routes : {
     },
+    
+
     
     siteOrder: null,
     
@@ -145,6 +149,7 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
     	this.lookupReference('orderProductGrid').getStore().removeAll();
     	this.lookupReference('siteClientInfoContainer').setVisible(false);
     	Ext.getCmp('printOrderBtn').setVisible(false);
+    	Ext.getCmp('printOrderPosPrinterBtn').setVisible(false);
 		Ext.getCmp('saveOrderBtn').setDisabled(false);
 		Ext.getCmp('orderDeliveryDate').setValue(new Date());
     },
@@ -791,9 +796,11 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
 		    	
 		    	if (response.success) {
 		    		Ext.getCmp('printOrderBtn').setVisible(true);
+		    		Ext.getCmp('printOrderPosPrinterBtn').setVisible(true);
 		    		Ext.getCmp('printOrderBtn').setHref('/order/print/' + response.orderId);
 		    		//Ext.getCmp('saveOrderBtn').setDisabled(true);
 		    		Ext.MessageBox.alert('Успешно','Заказ успешно создан. № заказа [' + response.orderNumber + '], теперь можно распечатать чек');
+		    		orderId = response.orderId;
 		    	} else {
 		    		Ext.MessageBox.alert('Внимание','Ошибка при сохранении заказа');
 		    	}
@@ -811,6 +818,17 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
        console.log(btn);
 	   window.open(btn.href, '_blank');
     },
+    
+    onPrintOrderPosPrinterClick: function(btn) {
+        console.log(btn);
+		Ext.Ajax.request({
+		    url: 'rest/order/print/store/read?orderId=' + orderId,
+		    method: 'POST',
+		    failure: function(batch) {
+				Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
+			}
+		});
+     },
     
     onResetFormClick: function() {
     	// TODO RESET FORM

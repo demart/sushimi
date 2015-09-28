@@ -1,8 +1,11 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.xml.transform.TransformerException;
 
 import kz.sushimi.console.exceptions.ValidationException;
 import kz.sushimi.console.models.StoreWrapper;
@@ -20,6 +23,7 @@ import kz.sushimi.console.persistence.orders.OrderState;
 import kz.sushimi.console.persistence.orders.OrderType;
 import kz.sushimi.console.persistence.orders.site.SiteOrderStatus;
 import kz.sushimi.console.services.OrderService;
+import kz.sushimi.console.services.PrintService;
 import kz.sushimi.console.services.dictionaries.ProductService;
 import play.Logger;
 import play.mvc.Controller;
@@ -271,5 +275,14 @@ public class OrderController extends Controller {
 		renderJSON(model);
 	}
 	
+	/**
+	 * Печать чека на POS принтере
+	 */
+	
+	public static void printOrderPosPrinter (Long orderId) throws ValidationException, TransformerException, IOException {
+		System.out.println("Print check: " + orderId);
+		PrintService.print(orderId);
+		
+	}
 	
 }
