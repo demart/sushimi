@@ -417,7 +417,7 @@ public class ArmApplication extends Controller {
 		Logger.info("complete order: " + requestBody);
 		
 		Order order = Order.findById(orderId);
-		order.setOrderState (OrderState.COMPLITED);
+		order.setOrderState (OrderState.WAITING_FOR_DELIVERY);
 		order.save();
 			
 	}
@@ -496,10 +496,10 @@ public class ArmApplication extends Controller {
 			 * 3 - заказ на кухне. Тип доставки Доставка ко времени
 			 */
 			
-			if (order.getOrderState() == OrderState.COMPLITED && order.getType() == OrderType.DELIVERY )
+			if (order.getOrderState() == OrderState.WAITING_FOR_DELIVERY && order.getType() == OrderType.DELIVERY )
 				model.setStatusType(0);
 			
-			else if (order.getOrderState() == OrderState.COMPLITED &&
+			else if (order.getOrderState() == OrderState.WAITING_FOR_DELIVERY &&
 					 order.getType() == OrderType.DELIVERY_IN_TIME)
 				model.setStatusType(1);
 			
