@@ -19,6 +19,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     	if (selectedRecord.data.state == 'REGISTERED') {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(true);
+    		this.lookupReference('printOrderPosPrinterBtn').setVisible(true);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(true);
     		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(true);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(true);
@@ -28,6 +29,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     	if (selectedRecord.data.state == 'IN_PROGRESS') {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(true);
+    		this.lookupReference('printOrderPosPrinterBtn').setVisible(true);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
     		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(true);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(true);
@@ -46,6 +48,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     	if (selectedRecord.data.state == 'ON_DELIVERY') {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(true);
+    		this.lookupReference('printOrderPosPrinterBtn').setVisible(true);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
     		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(false);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(false);
@@ -55,6 +58,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     	if (selectedRecord.data.state == 'DELIVERED') {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(false);
+    		this.lookupReference('printOrderPosPrinterBtn').setVisible(false);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
     		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(false);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(false);
@@ -64,6 +68,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     	if (selectedRecord.data.state == 'RETURNED') {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(false);
+    		this.lookupReference('printOrderPosPrinterBtn').setVisible(false);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
     		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(false);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(false);
@@ -73,11 +78,13 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     	if (selectedRecord.data.state == 'CANCELED') {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(false);
+    		this.lookupReference('printOrderPosPrinterBtn').setVisible(false);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
     		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(false);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(false);
     		this.lookupReference('completeOrderBtn').setVisible(false);
     		this.lookupReference('cancelOrderBtn').setVisible(false);
+    		
     		return;
     	}
     },
@@ -104,6 +111,20 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     		window.open('/order/print/' + selectedRecord.data.id);
     	}
     }, 
+    
+    // Распечатать заказ на POS принтере
+    printOrderPosPrinter: function(){
+    	var selectedRecord = this.view.getSelectionModel().getSelection()[0];
+    	if (selectedRecord) {
+    		Ext.Ajax.request({
+    		    url: 'rest/order/print/store/read?orderId=' + selectedRecord.data.id,
+    		    method: 'POST',
+    		    failure: function(batch) {
+    				Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
+    			}
+    		});
+    	}
+    },
     
     
     // Отправить заказ в работу

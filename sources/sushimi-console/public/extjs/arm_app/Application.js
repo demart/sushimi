@@ -17,6 +17,7 @@ Ext.define('SushimiConsoleARM.Application', {
     ],
 
     stores: [
+             //'KitchenStore',
     ],
     
     launch: function () {

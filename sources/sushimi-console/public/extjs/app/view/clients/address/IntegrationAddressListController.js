@@ -12,7 +12,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
     	var clientName = Ext.getCmp('searchClientNameField');
     	var clientPhone = Ext.getCmp('searchClientPhoneField');
     	var clientMainGrid = Ext.getCmp('integrationMainClientsStoreId');
-    	clientMainGrid.store.proxy.api.read = 'rest/clients/information/store/read';
+    	clientMainGrid.store.proxy.api.update = 'rest/clients/information/store/read';
     	clientMainGrid.getStore().reload();
     	clientName.reset();
     	clientPhone.reset();
@@ -119,7 +119,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
 		    success: function(response){
 		    	Ext.MessageBox.alert('Успешно','Адреса успешно объединены');
 		    	grid.getStore().reload();
-		    	address.getStore().reload();
+		    	address.getStore().removeAll();
 		    },
 		    failure: function(batch) {
 		    	

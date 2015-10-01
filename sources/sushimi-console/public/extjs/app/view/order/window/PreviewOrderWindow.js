@@ -284,6 +284,10 @@ Ext.define('SushimiConsole.view.order.window.PreviewOrderWindow', {
     	id: 'printPreviewOrderBtn',
         text: 'Печать заказа',
         handler: 'onPrintOrderClick'
+    },{
+    	id: 'printPreviewOrderPosPrinterBtn',
+        text: 'Чековый принтер',
+        handler: 'onPrintOrderPosPrinterClick'
     }, {
     	id: 'closePrewiewOrderBtn',
     	text: 'Закрыть',

@@ -12,6 +12,16 @@ POST	/arm/login											ArmApplication.login
 POST	/arm/logout											ArmApplication.logout
 GET		/arm/user											ArmApplication.getUser
 
+# KITCHEN
+GET 	/rest/order/kitchen/store/read 						ArmApplication.readOrders
+POST 	/rest/order/kitchen/take/store/read 				ArmApplication.takeOrder
+POST 	/rest/order/kitchen/complete/store/read 			ArmApplication.completeOrder
+POST	/rest/order/kitchen/print/store/read				ArmApplication.printOrder
+
+# DELIVERY
+GET     /rest/order/delivery/store/read						ArmApplication.readDeliveryOrders
+POST 	/rest/order/delivery/take/store/read				ArmApplication.takeOrdersByCourier
+
 # MANAGEMENT
 GET     /													Application.index
 GET		/rest/reports/orderPeriodStat/store/read			Report.readOrderPeriodStat	
@@ -118,6 +128,8 @@ GET		/order/print/{orderId}								OrderController.printOrder
 GET		/rest/order/site/store/read							OrderController.readSiteOrders
 POST	/rest/order/site/cancelOrder						OrderController.cancelSiteOrder
 GET		/rest/order/site/preview/{orderId}					OrderController.previewSiteOrder
+
+POST	/rest/order/print/store/read						OrderController.printOrderPosPrinter
 
 GET		/rest/client/search/store/read						ClientController.searchClient
 POST	/rest/client/add									ClientController.addClient

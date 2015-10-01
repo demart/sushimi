@@ -239,7 +239,9 @@ Ext.define('SushimiConsoleARM.view.auth.AuthForm' ,{
     listeners : { 
     	beforerender: function(viewport, eOpts) {
     		console.log("beforerender auth form");
+    		Ext.getCmp('ordersTwoHours').setHidden(true);
     		Ext.getCmp('authTextLabel').setHidden(true);
+    		Ext.TaskManager.stopAll();
     		Ext.getCmp('authUserNameLabel').setText('');
     		Ext.getCmp('authUserNameLabel').setHidden(true);
     		Ext.getCmp('logoutBtn').setHidden(true);
