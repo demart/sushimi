@@ -191,6 +191,7 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
                      	    	       */
                     	    			arrayCourierOrders = new Array();
                     	    			countOrdersInArray = 0;
+                    	    		//	this.getController().redirectTo('logout');
                     	    			store.load();
                     	    			//this.redirectTo('logout');
                     	    		
@@ -335,6 +336,7 @@ Ext.define('SushimiConsoleARM.view.delivery.Delivery' ,{
         	    		Ext.TaskManager.start(task);
         	    		arrayCourierOrders = new Array();
         	    		countOrdersInArray = 0;
+        	    		
         	    	} else {
         	    		ctrl.redirectTo('logout');
         	    	}
