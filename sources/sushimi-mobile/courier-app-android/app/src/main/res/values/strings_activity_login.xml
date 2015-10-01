@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Логин</string>
+    <string name="action_sign_in">Войти</string>
+    <string name="action_sign_in_short">Войти</string>
+
+    <string name="error_invalid_email">Логин не верный</string>
+    <string name="error_field_required">Обязательно поле</string>
+</resources>

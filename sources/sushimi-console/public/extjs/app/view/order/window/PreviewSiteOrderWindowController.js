@@ -30,7 +30,7 @@ Ext.define('SushimiConsole.view.order.window.PreviewSiteOrderWindowController', 
     },
     
     loadFormData: function(record) {
-    	this.lookupReference('previewOrderId').setValue(record.id);
+    	this.lookupReference('previewOrderId').setValue(record.orderNumber);
    	
     	var orderDate = Ext.Date.format(new Date(record.orderTime), 'd.m.Y H:i:s');
     	this.lookupReference('previewOrderTime').setValue(orderDate);

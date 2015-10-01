@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeliveriesInfo" rowHeight="475" id="KGk-i7-Jjw" customClass="DeliveryTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="335" height="475"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Доставка по Астане" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XDg-y2-nYO">
+                        <rect key="frame" x="17" y="21" width="300" height="20.5"/>
+                        <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="15"/>
+                        <color key="textColor" red="0.4012729578" green="0.79922217650000005" blue="0.39983381299999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Режим работы" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f1L-yj-3hc">
+                        <rect key="frame" x="17" y="41" width="300" height="21"/>
+                        <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="12"/>
+                        <color key="textColor" red="1" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="С 11:00 до 24:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mkm-BI-a6K">
+                        <rect key="frame" x="17" y="57" width="300" height="21"/>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Минимальная сумма заказа" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbu-UB-Mps">
+                        <rect key="frame" x="17" y="76" width="300" height="21"/>
+                        <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="12"/>
+                        <color key="textColor" red="1" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="2500 тг + бесплатная доставка" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8e-sM-KnF">
+                        <rect key="frame" x="17" y="92" width="300" height="21"/>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Бесплатная доставка в пределах" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VN9-LP-oLi">
+                        <rect key="frame" x="17" y="116" width="300" height="21"/>
+                        <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="12"/>
+                        <color key="textColor" red="1" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Ограничение доставки" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pu8-sa-8Mo">
+                        <rect key="frame" x="17" y="133" width="300" height="21"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                        </accessibility>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EgU-NS-tI0">
+                        <rect key="frame" x="8" y="177" width="319" height="250"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="250" id="AZl-6m-JSX"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="*" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qHt-zm-uiW">
+                        <rect key="frame" x="17" y="435" width="300" height="35"/>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="pu8-sa-8Mo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="0C3-5T-Ris"/>
+                    <constraint firstItem="VN9-LP-oLi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="218-ql-9Rk"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="x8e-sM-KnF" secondAttribute="trailing" constant="10" id="24T-wC-W68"/>
+                    <constraint firstItem="x8e-sM-KnF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="AQ1-Gg-QjD"/>
+                    <constraint firstItem="EgU-NS-tI0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Rjx-bD-8Dv"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="f1L-yj-3hc" secondAttribute="trailing" constant="10" id="W8n-mL-FXu"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="XDg-y2-nYO" secondAttribute="trailing" constant="10" id="aWY-7p-Bsv"/>
+                    <constraint firstItem="wbu-UB-Mps" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="ade-GH-r6B"/>
+                    <constraint firstAttribute="centerX" secondItem="EgU-NS-tI0" secondAttribute="centerX" id="awF-IL-fJn"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="qHt-zm-uiW" secondAttribute="trailing" constant="10" id="fmX-M4-XNO"/>
+                    <constraint firstItem="qHt-zm-uiW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="i6l-RE-DX2"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Mkm-BI-a6K" secondAttribute="trailing" constant="10" id="jFB-57-87u"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="pu8-sa-8Mo" secondAttribute="trailing" constant="10" id="jcE-0a-1Xx"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="VN9-LP-oLi" secondAttribute="trailing" constant="10" id="qUf-AF-O4O"/>
+                    <constraint firstItem="XDg-y2-nYO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="sza-hH-ySA"/>
+                    <constraint firstItem="EgU-NS-tI0" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="usF-dg-psb"/>
+                    <constraint firstItem="Mkm-BI-a6K" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="v0i-fK-IWo"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="wbu-UB-Mps" secondAttribute="trailing" constant="10" id="w7x-kv-Oee"/>
+                    <constraint firstItem="f1L-yj-3hc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="z5M-IG-OOB"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="deliveryArea" destination="pu8-sa-8Mo" id="zBg-4I-qRF"/>
+                <outlet property="deliveryAreaImage" destination="EgU-NS-tI0" id="Mxc-ny-EoA"/>
+                <outlet property="deliveryMinOrderSum" destination="x8e-sM-KnF" id="yDC-oz-XgN"/>
+                <outlet property="deliveryRemarks" destination="qHt-zm-uiW" id="X5V-my-3tZ"/>
+                <outlet property="deliveryTitle" destination="XDg-y2-nYO" id="1gr-3n-QuJ"/>
+                <outlet property="deliveryWorkhours" destination="Mkm-BI-a6K" id="S3f-MY-Bs7"/>
+            </connections>
+            <point key="canvasLocation" x="842.5" y="482.5"/>
+        </tableViewCell>
+    </objects>
+</document>

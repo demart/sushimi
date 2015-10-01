@@ -26,8 +26,8 @@ import kz.sushimi.console.persistence.orders.PayMethod;
 @Table(name = "orders_sites")
 public class SiteOrder extends PersistentObject {
 	
-	@Column(name="site_id")
-	private int siteId;
+	@Column(name="order_number")
+	private String orderNumber;
 	
 	@Enumerated(EnumType.STRING)
 	@Column
@@ -177,12 +177,12 @@ public class SiteOrder extends PersistentObject {
 		this.status = status;
 	}
 
-	public int getSiteId() {
-		return siteId;
+	public String getOrderNumber() {
+		return orderNumber;
 	}
 
-	public void setSiteId(int siteId) {
-		this.siteId = siteId;
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
 	public String getKey() {

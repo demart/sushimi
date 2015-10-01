@@ -15,6 +15,11 @@ public enum OrderSource {
 	/**
 	 * Заказы от оператора
 	 */
-	CALL_CENTER
+	CALL_CENTER,
+	
+	/**
+	 * Заказы в телевизоров
+	 */
+	SMART_TV,
 	
 }

@@ -47,6 +47,11 @@ Ext.define('SushimiConsole.view.order.OrderList' ,{
         handler: 'sendOrderToWork',
         hidden: true,
     },{
+    	reference: 'sendOrderToWaitingForDeliveryBtn',
+        text: 'Отправить в ожидание доставки',
+        handler: 'sendOrderToWaitingForDelivery',
+        hidden: true,
+    },{
     	reference: 'sendOrderToDeliveryBtn',
         text: 'Отправить на доставку',
         handler: 'sendOrderToDelivery',
@@ -69,9 +74,9 @@ Ext.define('SushimiConsole.view.order.OrderList' ,{
 
     
 	columns: [
-			{text: "№", dataIndex: 'orderNumber', width: 50},
+			{text: "№", dataIndex: 'orderNumber', width: 80},
 			{text: "Клиент", dataIndex: 'clientName' , flex: 1},
-			{text: "Телефон", dataIndex: 'clientPhone',  width:130},
+			{text: "Телефон", dataIndex: 'clientPhone',  width:110},
 			{text: "Сумма", dataIndex: 'sum', width:85, align: 'right',
 				renderer: function(val) {
 					return Ext.util.Format.number(val, '0,000').replace(',', ' ') + ' тнг.';
@@ -82,6 +87,7 @@ Ext.define('SushimiConsole.view.order.OrderList' ,{
 					if (val == 'NONE') return 'Неизвестно';
 					if (val == 'REGISTERED') return 'Ожидает';
 					if (val == 'IN_PROGRESS') return 'В работе';
+					if (val == 'WAITING_FOR_DELIVERY') return 'Ожидает доставки';
 					if (val == 'ON_DELIVERY') return 'На доставке';
 					if (val == 'DELIVERED') return 'Завершен';
 					if (val == 'RETURNED') return 'Возврат';

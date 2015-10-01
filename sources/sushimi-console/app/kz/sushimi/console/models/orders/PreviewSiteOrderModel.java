@@ -25,7 +25,7 @@ public class PreviewSiteOrderModel {
 
 	private Long id;
 	
-	private Integer siteId;
+	private String orderNumber;
 	
 	private SiteOrderStatus status;
 	
@@ -148,12 +148,12 @@ public class PreviewSiteOrderModel {
 		this.id = id;
 	}
 
-	public Integer getSiteId() {
-		return siteId;
+	public String getOrderNumber() {
+		return orderNumber;
 	}
 
-	public void setSiteId(Integer siteId) {
-		this.siteId = siteId;
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
 	public SiteOrderStatus getStatus() {

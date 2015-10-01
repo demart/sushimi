@@ -107,6 +107,7 @@ GET		/rest/order/store/read								OrderController.readOrders
 
 POST	/rest/order/cancel									OrderController.cancelOrder
 POST	/rest/order/sendToWork								OrderController.sendToWorkOrder
+POST	/rest/order/sendToWaitingForDelivery				OrderController.sendToWaitingForDeliveryOrder
 POST	/rest/order/sendToDelivery							OrderController.sendToDeliveryOrder
 POST	/rest/order/complete								OrderController.completeOrder
 POST	/rest/order/create									OrderController.createOrder

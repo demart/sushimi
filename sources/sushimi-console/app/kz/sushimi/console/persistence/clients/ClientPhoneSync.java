@@ -2,6 +2,8 @@ package kz.sushimi.console.persistence.clients;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import kz.sushimi.console.persistence.PersistentObject;
@@ -16,6 +18,7 @@ public class ClientPhoneSync extends PersistentObject {
 	@Column
 	public String name;
 	
+	@Enumerated(EnumType.STRING)
 	@Column
 	public ClientPhoneSyncStatus status;
 

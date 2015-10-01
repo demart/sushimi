@@ -52,7 +52,7 @@ Ext.define('SushimiConsole.view.order.SiteOrderList' ,{
     }],
 	
 	columns: [
-			{text: "№", dataIndex: 'id', width: 60},
+			{text: "№", dataIndex: 'orderNumber', width: 80},
 			{text: "Клиент", dataIndex: 'clientName' , flex: 3},
 			{text: "Телефон", dataIndex: 'clientPhone',  width:100},
             {text: "Сумма", dataIndex: 'sum', width:80, align: 'right',

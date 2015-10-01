@@ -27,6 +27,7 @@ public class OrderModel {
 	
 	private void buildModel(Order order) {
 		this.id = order.getId();
+		this.orderNumber = order.getOrderNumber();
 		this.source = order.getSource();
 		this.sourceDiscount = order.getSourceDiscount();
 		this.key = order.getKey();
@@ -71,6 +72,8 @@ public class OrderModel {
 	
 	
 	private int id;
+	
+	private String orderNumber;
 	
 	private String key; 
 	

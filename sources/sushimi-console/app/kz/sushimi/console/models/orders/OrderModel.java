@@ -15,7 +15,7 @@ public class OrderModel {
 	
 	private Long id;
 	
-	private Long orderNumber;
+	private String orderNumber;
 	
 	private String clientName;
 	
@@ -43,11 +43,11 @@ public class OrderModel {
 	
 	private String comment;
 	
-	public Long getOrderNumber() {
+	public String getOrderNumber() {
 		return orderNumber;
 	}
 
-	public void setOrderNumber(Long orderNumber) {
+	public void setOrderNumber(String orderNumber) {
 		this.orderNumber = orderNumber;
 	}
 

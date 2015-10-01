@@ -28,13 +28,14 @@ import com.google.gson.Gson;
  * @author Demart
  *
  */
-//@Every("30s")
+@Every("30s")
 public class SiteOrderMonitor extends Job {
 
 	/**
 	 * Адрес сайта куда обращаться за заказами
 	 */
-	public static final String URL_HOST = "http://sushimi.kz";
+	//public static final String URL_HOST = "http://sushimi.kz";
+	public static final String URL_HOST = "http://localhost:9001";
 	
 	/**
 	 * Путь до списка не обработанных заказов
@@ -73,14 +74,14 @@ public class SiteOrderMonitor extends Job {
 	    		
 	    		ids.add(orderModel.getId());
 	    		
-	    		if (SiteOrderService.isExist(orderModel.getId())) {
+	    		if (SiteOrderService.isExist(orderModel.getOrderNumber())) {
 	    			Logger.info("Order skipped, already exist");
 	    			continue;
 	    		}
 	    			
 	    		SiteOrder siteOrder = new SiteOrder();
 	    		siteOrder.setStatus(SiteOrderStatus.RECEIVED);
-	    		siteOrder.setSiteId(orderModel.getId());
+	    		siteOrder.setOrderNumber(orderModel.getOrderNumber());
 	    		
 	    		// discount & channels
 	    		siteOrder.setSource(SiteOrderSource.valueOf(orderModel.getSource()));

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactTextFieldCell" id="KGk-i7-Jjw" customClass="ContactTextFieldCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Нужна сдача с" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dvy-Lb-QdB">
+                        <rect key="frame" x="16" y="8" width="105" height="27.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="105" id="ia7-kI-uWh"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Dak-9r-rm7">
+                        <rect key="frame" x="129" y="8" width="183" height="27.5"/>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="dvy-Lb-QdB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="1lT-5z-LgP"/>
+                    <constraint firstItem="Dak-9r-rm7" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="IcO-p6-Cq7"/>
+                    <constraint firstItem="dvy-Lb-QdB" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="J8Q-vZ-OGx"/>
+                    <constraint firstItem="Dak-9r-rm7" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="LLY-mh-Dxx"/>
+                    <constraint firstItem="Dak-9r-rm7" firstAttribute="leading" secondItem="dvy-Lb-QdB" secondAttribute="trailing" constant="8" id="sJ7-3W-0Nq"/>
+                    <constraint firstItem="Dak-9r-rm7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="t6j-nk-knF"/>
+                    <constraint firstItem="dvy-Lb-QdB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="xFk-QK-luv"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="cellLabel" destination="dvy-Lb-QdB" id="yfi-qe-tJj"/>
+                <outlet property="cellTextField" destination="Dak-9r-rm7" id="ca3-rJ-CGP"/>
+            </connections>
+            <point key="canvasLocation" x="169" y="261"/>
+        </tableViewCell>
+    </objects>
+</document>

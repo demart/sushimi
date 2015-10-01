@@ -20,6 +20,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(true);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(true);
+    		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(true);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(true);
     		this.lookupReference('completeOrderBtn').setVisible(true);
     		this.lookupReference('cancelOrderBtn').setVisible(true);
@@ -28,6 +29,16 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(true);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
+    		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(true);
+    		this.lookupReference('sendOrderToDeliveryBtn').setVisible(true);
+    		this.lookupReference('completeOrderBtn').setVisible(true);
+    		this.lookupReference('cancelOrderBtn').setVisible(true);
+    	}
+    	if (selectedRecord.data.state == 'WAITING_FOR_DELIVERY') {
+    		this.lookupReference('previewOrderBtn').setVisible(true);
+    		this.lookupReference('printOrderBtn').setVisible(true);
+    		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
+    		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(false);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(true);
     		this.lookupReference('completeOrderBtn').setVisible(true);
     		this.lookupReference('cancelOrderBtn').setVisible(true);
@@ -36,6 +47,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(true);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
+    		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(false);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(false);
     		this.lookupReference('completeOrderBtn').setVisible(true);
     		this.lookupReference('cancelOrderBtn').setVisible(true);
@@ -44,6 +56,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(false);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
+    		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(false);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(false);
     		this.lookupReference('completeOrderBtn').setVisible(false);
     		this.lookupReference('cancelOrderBtn').setVisible(false);
@@ -52,6 +65,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(false);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
+    		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(false);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(false);
     		this.lookupReference('completeOrderBtn').setVisible(false);
     		this.lookupReference('cancelOrderBtn').setVisible(false);
@@ -60,6 +74,7 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     		this.lookupReference('previewOrderBtn').setVisible(true);
     		this.lookupReference('printOrderBtn').setVisible(false);
     		this.lookupReference('sendOrderToWorkBtn').setVisible(false);
+    		this.lookupReference('sendOrderToWaitingForDeliveryBtn').setVisible(false);
     		this.lookupReference('sendOrderToDeliveryBtn').setVisible(false);
     		this.lookupReference('completeOrderBtn').setVisible(false);
     		this.lookupReference('cancelOrderBtn').setVisible(false);
@@ -119,6 +134,31 @@ Ext.define('SushimiConsole.view.order.OrderListController', {
     	}
     }, 
         
+    // Отправить заказ в ожидаение доставки
+    sendOrderToWaitingForDelivery: function(){
+    	var selectedRecord = this.view.getSelectionModel().getSelection()[0];
+    	if (selectedRecord) {
+    		var view = this;
+    		Ext.MessageBox.confirm('Внимание', 'Вы уверены что хотите отправить в ожидание доставки?', 
+				function(btn,text) {
+    				if (btn == 'yes') {
+    					Ext.Ajax.request({
+    					    url: 'rest/order/sendToWaitingForDelivery',
+    					    params: { id: selectedRecord.data.id,},
+    					    success: function(response){
+    					    	view.view.getStore().reload();
+    					    	Ext.getCmp('refreshTreeGridButton').fireEvent('click');
+    					    },
+    					    failure: function(batch) {
+    							Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
+    						}
+    					});
+    				} else {
+    				}
+    			},
+			this);
+    	}
+    }, 
     
     // Отправить заказ на доставку
     sendOrderToDelivery: function(){

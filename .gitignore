@@ -24,3 +24,6 @@ sources/sushimi-rest-api/tmp/*
 sources/sushimi-rest-api/eclipse/*
 sources/sushimi-rest-api/precompiled/*
 sources/sushimi-rest-api/conf/application.conf
+.DS_Store
+sources/sushimi-mobile/courier-app-android/app/build/
+

@@ -53,6 +53,17 @@ POST	/v1/order/new/register						OrderController.registerOrder
 GET		/v1/order/{orderKey}/read					OrderController.readOrder
 
 
+###############################################
+############# COURIER APPLICATION #############
+###############################################
+
+POST	/v1/courier/auth							CourierAppController.authenticate
+POST	/v1/courier/geolocation						CourierAppController.updateGeolocationCoordinate
+POST	/v1/courier/orders/read						CourierAppController.readOrders
+POST	/v1/courier/orders/complete					CourierAppController.completeOrder
+POST	/v1/courier/orders/return					CourierAppController.returnOrder
+
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

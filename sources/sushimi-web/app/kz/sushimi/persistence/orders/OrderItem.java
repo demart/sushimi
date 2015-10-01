@@ -31,6 +31,12 @@ public class OrderItem {
 	private int count;
 	
 	/**
+	 * Кол-во бесплатных соусов
+	 */
+	@Column(name="free_count")
+	private Integer freeCount;
+	
+	/**
 	 * Цена за единицу (со скидкой если такая есть)
 	 */
 	@Column(name="price")
@@ -43,6 +49,14 @@ public class OrderItem {
 	private int sum;
 
 	
+	public Integer getFreeCount() {
+		return freeCount;
+	}
+
+	public void setFreeCount(Integer freeCount) {
+		this.freeCount = freeCount;
+	}
+
 	public int getPrice() {
 		return price;
 	}

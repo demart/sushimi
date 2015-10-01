@@ -17,7 +17,7 @@ public class PreviewOrderModel {
 	
 	private Long id;
 	
-	private Long orderNumber;
+	private String orderNumber;
 	
 	private OrderSource source;
 	
@@ -80,11 +80,11 @@ public class PreviewOrderModel {
 		this.sourceDiscount = sourceDiscount;
 	}
 
-	public Long getOrderNumber() {
+	public String getOrderNumber() {
 		return orderNumber;
 	}
 
-	public void setOrderNumber(Long orderNumber) {
+	public void setOrderNumber(String orderNumber) {
 		this.orderNumber = orderNumber;
 	}
 

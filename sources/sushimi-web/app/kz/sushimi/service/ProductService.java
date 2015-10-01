@@ -196,6 +196,15 @@ public class ProductService {
 	}
 	
 	
+	public static Product getProductByCode(String code) {
+		Query productsQuery = JPA.em().createQuery("from Product where code = :code");
+		productsQuery.setParameter("code", code);
+		List<Product> items = productsQuery.getResultList();
+		if (items.size() > 0) 
+			return items.get(0);
+		return null;
+	}
+	
 	/**
 	 * Возвращает продукт по типу
 	 * @param type

@@ -60,7 +60,7 @@ Ext.define('SushimiConsole.view.order.Order' ,{
             collapsed : false,
             collapsible : false,
         	store: 'OrderTreeStore',
-			height: 300,
+			height: 400,
         	columns: [{
                 xtype: 'treecolumn',
                 text: 'Раздел',

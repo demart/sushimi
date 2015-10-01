@@ -1,0 +1,13 @@
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/ColorGreen</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="fontPath">fonts/GillSansC_0.ttf</item>
+    </style>
+    <style name="TextAppearance.FontPath" parent="android:TextAppearance">
+        <item name="fontPath">fonts/GillSansC_0.ttf</item>
+    </style>
+    <style name="TextViewCustomFont">
+        <item name="fontPath">fonts/GillSansC_0.ttf</item>
+    </style>
+</resources>

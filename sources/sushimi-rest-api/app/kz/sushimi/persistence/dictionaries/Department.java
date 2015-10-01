@@ -31,6 +31,12 @@ public class Department {
 	@Column
 	private String address;
 	
+	@Column
+	private String latitude;
+	
+	@Column
+	private String longitude;
+	
 	@Column(name="start_work_hour")
 	private int startWorkHour;
 	
@@ -48,6 +54,18 @@ public class Department {
 	
 	public boolean isPublished() {
 		return isPublished;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 	public int getStartWorkHour() {
 		return startWorkHour;

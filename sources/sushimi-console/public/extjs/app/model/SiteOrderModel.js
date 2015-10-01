@@ -3,6 +3,7 @@ Ext.define('SushimiConsole.model.SiteOrderModel', {
     idProperty: 'id',
     fields: [
 		{ name: 'id', type: 'int'},
+		{ name: 'orderNumber'},
 		{ name: 'clientName'}, 
 		{ name: 'clientPhone'},
 		{ name: 'clientAddress'},

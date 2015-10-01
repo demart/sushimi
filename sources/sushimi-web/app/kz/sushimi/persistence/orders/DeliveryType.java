@@ -9,6 +9,11 @@ package kz.sushimi.persistence.orders;
 public enum DeliveryType {
 
 	/**
+	 * Заказ на баре
+	 */
+	BAR,
+	
+	/**
 	 * Доставка товара
 	 */
 	DELIVERY,

@@ -1,0 +1,263 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="kz.aphion.sushimi.mobile.courierapp.fragments.OrderDetailFragment"
+    android:background="@color/ColorWhite">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/ColorWhite"
+            android:scrollbars="vertical"
+            android:layout_marginBottom="65dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Заказ №"
+                    />
+                <TextView
+                    android:id="@+id/inpOrderNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:text="0100000"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Клиент:"/>
+                <TextView
+                    android:id="@+id/inpClientName"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Демидович Артем"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Телефон:"/>
+                <TextView
+                    android:id="@+id/inpClientPhone"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+7 (701) 551-51-01"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Заказ от"/>
+                <TextView
+                    android:id="@+id/inpOderTime"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="02.10.2015 15:34"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Доставка к"/>
+                <TextView
+                    android:id="@+id/inpDeliveryTime"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="02.10.2015 16:34"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Способ:"/>
+                <TextView
+                    android:id="@+id/inpDeliveryType"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Доставка ко времени"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Статус:"/>
+                <TextView
+                    android:id="@+id/inpOrderState"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="На доставке"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Оплата:"/>
+                <TextView
+                    android:id="@+id/inpPayMethod"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Наличными"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Адрес:"/>
+                <TextView
+                    android:id="@+id/inpClientAddress"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="г. Астана, ул Жиенкулова д 10/3 кв 34 г. Астана, ул Жиенкулова д 10/3 кв 34 г. Астана, ул Жиенкулова д 10/3 кв 34 г. Астана, ул Жиенкулова д 10/3 кв 34 г. Астана, ул Жиенкулова д 10/3 кв 34 г. Астана, ул Жиенкулова д 10/3 кв 34 г. Астана, ул Жиенкулова д 10/3 кв 34"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="Коммент:"/>
+                <TextView
+                    android:id="@+id/inpClientComment"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Возьмите колу по дороге"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:text="Сумма:"/>
+                <TextView
+                    android:id="@+id/inpOrderSum"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1 000 тнг."/>
+            </LinearLayout>
+        </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/orderDetailButtons"
+            android:visibility="invisible"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:background="@color/bright_foreground_disabled_material_dark">
+            <Button
+                android:id="@+id/orderDetailDeliveredButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Доставлен"
+                android:clickable="true"
+                android:focusable="false"
+                android:background="@color/ColorGreen"
+                android:textColor="@color/ColorWhite"
+                fontPath="fonts/GillSansC_0.ttf"/>
+            <Button
+                android:id="@+id/orderDetailReturnedButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Возврат"
+                android:clickable="true"
+                android:focusable="false"
+                android:layout_marginLeft="30dp"
+                android:background="@color/ColorRed"
+                android:textColor="@color/ColorWhite"
+                fontPath="fonts/GillSansC_0.ttf"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</FrameLayout>

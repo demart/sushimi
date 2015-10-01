@@ -15,6 +15,11 @@ public enum SiteOrderSource {
 	/**
 	 * Заказы от оператора
 	 */
-	CALL_CENTER
+	CALL_CENTER,
+	
+	/**
+	 * Заказы с телевизоров
+	 */
+	SMART_TV,
 	
 }

@@ -11,6 +11,7 @@ import kz.sushimi.models.order.RegisteredOrderModel;
 import kz.sushimi.persistence.Cart;
 import kz.sushimi.persistence.dictionaries.City;
 import kz.sushimi.persistence.orders.Order;
+import kz.sushimi.persistence.orders.OrderProcess;
 import kz.sushimi.service.CartService;
 import kz.sushimi.service.DictionaryService;
 import kz.sushimi.service.OrderService;
@@ -89,12 +90,20 @@ public class OrderController extends Controller {
     	
     	// DATA
     	Order order = OrderService.getOrderByKey(orderId);
-    	RegisteredOrderModel orderModel = new RegisteredOrderModel(order);
     	
-    	if (JPA.em().getTransaction() != null && JPA.em().getTransaction().isActive())
-    		JPA.em().getTransaction().rollback();
-    	
-    	renderTemplate("/Products/completed_order.html", orderModel, page);
+    	if (order.getProcessed() == OrderProcess.NOT_PROCESSED ||
+    		order.getProcessed() == OrderProcess.NOT_PROCESSED_MOBI ||
+    		order.getProcessed() == OrderProcess.PROCESSED ||
+    		order.getProcessed() == OrderProcess.PROCESSED_MOBI) {
+    		RegisteredOrderModel orderModel = new RegisteredOrderModel(order);
+    		if (JPA.em().getTransaction() != null && JPA.em().getTransaction().isActive())
+    			JPA.em().getTransaction().rollback();
+    		renderTemplate("/Products/completed_order.html", orderModel, page);
+    	} else {
+    		// TODO Вставить информацию о процессе заказа
+    		// Пока передаю объект заказа, чтобы побыстрому всё отобразить
+    		renderTemplate("/Products/registered_order.html", order, page);
+    	}
     }	
 	
 }

@@ -9,13 +9,10 @@ import javax.persistence.Query;
 
 import kz.sushimi.console.exceptions.ValidationException;
 import kz.sushimi.console.models.orders.CancelOrderModel;
-import kz.sushimi.console.models.orders.CancelSiteOrderModel;
 import kz.sushimi.console.models.orders.CreateOrderItemModel;
 import kz.sushimi.console.models.orders.CreateOrderModel;
 import kz.sushimi.console.models.orders.PreviewOrderItemModel;
 import kz.sushimi.console.models.orders.PreviewOrderModel;
-import kz.sushimi.console.models.orders.PreviewSiteOrderItemModel;
-import kz.sushimi.console.models.orders.PreviewSiteOrderModel;
 import kz.sushimi.console.persistence.clients.Client;
 import kz.sushimi.console.persistence.clients.ClientAddress;
 import kz.sushimi.console.persistence.clients.ClientDiscount;
@@ -24,12 +21,13 @@ import kz.sushimi.console.persistence.dictionaries.Product;
 import kz.sushimi.console.persistence.dictionaries.ProductCosting;
 import kz.sushimi.console.persistence.dictionaries.ProductType;
 import kz.sushimi.console.persistence.orders.Order;
+import kz.sushimi.console.persistence.orders.OrderHistory;
 import kz.sushimi.console.persistence.orders.OrderItem;
 import kz.sushimi.console.persistence.orders.OrderSource;
 import kz.sushimi.console.persistence.orders.OrderState;
 import kz.sushimi.console.persistence.orders.OrderType;
+import kz.sushimi.console.persistence.orders.PayMethod;
 import kz.sushimi.console.persistence.orders.site.SiteOrder;
-import kz.sushimi.console.persistence.orders.site.SiteOrderItem;
 import kz.sushimi.console.persistence.orders.site.SiteOrderStatus;
 import kz.sushimi.console.persistence.promotions.Promotion;
 import kz.sushimi.console.persistence.promotions.PromotionValueType;
@@ -40,9 +38,6 @@ import kz.sushimi.console.services.dictionaries.DeliveryPriceService;
 import kz.sushimi.console.services.dictionaries.ProductService;
 
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.jdt.internal.core.JavaModelManager.PerProjectInfo;
-
-import com.google.gdata.util.common.base.PercentEscaper;
 
 import play.db.jpa.JPA;
 
@@ -59,6 +54,15 @@ public class OrderService {
 	 */
 	private static final int FREE_SAUCE_PER_ORDER_SUM = 2000;
 
+	public static Order getOrderByNumber(String orderNumber) {
+		List<Order> orders = JPA.em().createQuery("from Order where orderNumber = :orderNumber")
+				.setParameter("orderNumber", orderNumber)
+				.getResultList();
+		if (orders.size() > 0)
+			return orders.get(0);
+		return null;
+	}
+	
 	public static List<Order> getOrders(OrderState state, int start, int limit) {
 		Query query = null;
 		if (state == OrderState.NONE) { 
@@ -80,18 +84,6 @@ public class OrderService {
 		return query.setMaxResults(limit).setFirstResult(start).getResultList();
 	}
 
-	public static List<SiteOrder> getSiteOrders(SiteOrderStatus status, int start, int limit) {
-		Query query = null;
-		if (status == SiteOrderStatus.NONE) { 
-			query = JPA.em().createQuery("from SiteOrder order by deliveryTime asc");
-		} else {
-			query = JPA.em().createQuery("from SiteOrder where status=:status order by deliveryTime asc ")
-				.setParameter("status", status);
-		}
-		return query.setMaxResults(limit).setFirstResult(start).getResultList();
-	}
-	
-	
 	public static Long getOrderCountByState(OrderState state){
 		Query query = null;
 		if (state == OrderState.NONE) { 
@@ -102,34 +94,7 @@ public class OrderService {
 		}
 		return (Long)query.getSingleResult();
 	}
-	
-	public static Long getSiteOrderCountByStatus(SiteOrderStatus status){
-		Query query = null;
-		if (status == SiteOrderStatus.NONE) { 
-			query = JPA.em().createQuery("select count(*) from SiteOrder");
-		} else {
-			query = JPA.em().createQuery("select count(*) from SiteOrder where status=:status")
-				.setParameter("status", status);
-		}
-		return (Long)query.getSingleResult();
-	}
 
-	
-	public static Long getSiteOrderCountByStatus(SiteOrderStatus status, Long lastCheck){
-		Query query = null;
-		Calendar createdDate = Calendar.getInstance();
-		createdDate.setTimeInMillis(lastCheck);
-		if (status == SiteOrderStatus.NONE) { 
-			query = JPA.em().createQuery("select count(*) from SiteOrder where createdDate > :lastCheck")
-				.setParameter("lastCheck", createdDate);
-		} else {
-			query = JPA.em().createQuery("select count(*) from SiteOrder where status=:status and createdDate > :lastCheck")
-				.setParameter("lastCheck", createdDate)
-				.setParameter("status", status);
-		}
-		return (Long)query.getSingleResult();
-	}	
-	
 	public static void cancelOrder(CancelOrderModel model, String connected) throws ValidationException {
 		if (model == null)
 			throw new ValidationException("Model is null");
@@ -167,32 +132,10 @@ public class OrderService {
 			WarehouseService.deleteWarehouseOutcome(outcomeId, connected);
 		}
 		
-	}
-
-	public static void cancelSiteOrder(CancelSiteOrderModel model, String connected) throws ValidationException {
-		if (model == null)
-			throw new ValidationException("Model is null");
+		// Add history record
+		User user = UserService.getUserByLogin(connected);
+		addOrderHistoryRecord(order, user);
 		
-		if (model.getSiteOrderId() == null || model.getSiteOrderId() < 1)
-			throw new ValidationException("SiteOrderId is null");
-		
-		if (StringUtils.isEmpty(model.getReason()))
-			throw new ValidationException("Reason is null");
-		
-		if (model.getState() == null)
-			throw new ValidationException("State is null");
-	
-	
-		
-		SiteOrder order = SiteOrder.findById(model.getSiteOrderId());
-		if (order == null)
-			throw new ValidationException("SiteOrder not found");
-		
-		order.setStatus(model.getState());
-		order.setReason(model.getReason());
-		
-		
-		order.save();
 	}
 
 
@@ -206,10 +149,28 @@ public class OrderService {
 		
 		order.setOrderState(OrderState.IN_PROGRESS);
 		// TODO Вставить время
+		
+		// Add history record
+		User user = UserService.getUserByLogin(connected);
+		addOrderHistoryRecord(order, user);
+		
 		order.save();
 	}	
 
-
+	public static void sendToWaitingForDeliveryOrder(Long orderId, String connected) throws ValidationException {
+		if (orderId == null || orderId < 1)
+			throw new ValidationException("OrderId is null");
+		Order order = Order.findById(orderId);
+		if (order == null)
+			throw new ValidationException("Order not found");
+		order.setOrderState(OrderState.WAITING_FOR_DELIVERY);
+		// TODO Вставить время
+		// Add history record
+		User user = UserService.getUserByLogin(connected);
+		addOrderHistoryRecord(order, user);
+		order.save();
+	}		
+	
 	public static void sendToDeliveryOrder(Long orderId, String connected) throws ValidationException {
 		if (orderId == null || orderId < 1)
 			throw new ValidationException("OrderId is null");
@@ -219,6 +180,11 @@ public class OrderService {
 			throw new ValidationException("Order not found");
 		
 		order.setOrderState(OrderState.ON_DELIVERY);
+		
+		// Add history record
+		User user = UserService.getUserByLogin(connected);
+		addOrderHistoryRecord(order, user);
+		
 		// TODO Вставить время
 		order.save();
 	}	
@@ -244,6 +210,10 @@ public class OrderService {
 			client.setTotalOrderSum(totalOrderSum);
 			client.save();
 		}
+		
+		// Add history record
+		User user = UserService.getUserByLogin(connected);
+		addOrderHistoryRecord(order, user);
 		
 		order.save();
 	}
@@ -283,6 +253,9 @@ public class OrderService {
 		order.setClientCash(model.getPersonCash());
 		order.setComment(model.getComment());
 		
+		// TODO добравить при оформлении заказа + брать то что выбрал человек на сайте
+		order.setPayMethod(PayMethod.CASH);
+		
 		// TODO если заказ с сайта то нужно брать из модели
 		order.setOrderDate(Calendar.getInstance());
 		
@@ -292,12 +265,18 @@ public class OrderService {
 		if (model.getSiteId() != null && model.getSiteId() > 0) {
 			SiteOrder siteOrder = SiteOrder.findById(model.getSiteId());
 			order.setSiteOrder(siteOrder);
+			// Устанавлием значение для синхронизации
+			order.setSiteOrderNumber(siteOrder.getOrderNumber());
+			
 			if (model.getOrderTime() != null)
 				order.getOrderDate().setTime(model.getOrderTime());
-			source = OrderSource.valueOf(siteOrder.getSource().toString());
+			if (siteOrder.getSource() != null)
+				source = OrderSource.valueOf(siteOrder.getSource().toString());
 			sourceDiscount = siteOrder.getSourceDiscount();
 		}
 		
+		if (sourceDiscount == null) 
+			sourceDiscount = 0;
 		order.setSource(source);
 		order.setSourceDiscount(sourceDiscount);
 		
@@ -478,6 +457,9 @@ public class OrderService {
 					sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((clientDiscountPercent+sourceDiscount) * 0.01)));
 				}
 			} else {
+				System.out.println("sumWithoutSushi: " + sumWithoutSushi);
+				System.out.println("clientDiscountPercent: " + clientDiscountPercent);
+				System.out.println("sourceDiscount: " + sourceDiscount);
 				sumWithoutSushi = (int)Math.round(sumWithoutSushi * (1-((clientDiscountPercent + sourceDiscount) * 0.01)));
 			}
 		}
@@ -709,8 +691,13 @@ public class OrderService {
 		order.save();
 		
 		// Следующей номер заказа
-		Query q = JPA.em().createNativeQuery("select nextval('order_sequence')");
-		order.setOrderNumber(((BigInteger)q.getSingleResult()).longValue());
+		//Query q = JPA.em().createNativeQuery("select nextval('order_sequence')");
+		//order.setOrderNumber(((BigInteger)q.getSingleResult()).longValue());
+		if (order.getSiteOrder() != null) {
+			order.setOrderNumber(order.getSiteOrderNumber());
+		} else {
+			order.setOrderNumber(generateOrderNumber());
+		}
 		order.save();
 		
 		if (order.getSiteOrder() != null) {
@@ -723,7 +710,33 @@ public class OrderService {
 		if (order.getClient() != null)
 			ClientService.addClientPhoneToSyncQueue(order.getClient().getPhoneNumber(), order.getClient().getName());
 		
+		// Add record to history of current order
+		addOrderHistoryRecord(order, user);
+		
 		return order;
+	}
+	
+	/**
+	 * Метод добавляет запись в историю изменения заказа.
+	 * @param order Заказ
+	 * @param user Пользователь совершивших действие
+	 */
+	private static void addOrderHistoryRecord(Order order, User user) {
+		Calendar ohCT = Calendar.getInstance();
+		OrderHistory orderHistory = new OrderHistory();
+		orderHistory.setOrder(order);
+		orderHistory.setDate(ohCT);
+		orderHistory.setIsSynchronized(false);
+		orderHistory.setOrderState(order.getOrderState());
+		orderHistory.setUser(user);
+		orderHistory.setCreatedDate(ohCT);
+		orderHistory.setModifiedDate(ohCT);
+		
+		// TODO Вставить геопозицию текущего заведения где обрабатывается заказ 
+		//orderHistory.setGeoLatitude(geoLatitude);
+		//orderHistory.setGeoLongitude(geoLongitude);
+		
+		orderHistory.save();
 	}
 	
 	private static void buildSauceOrderItem(Order order, OrderItem sauceOrderItem, ProductType type, int freeSauceCount, User user) throws ValidationException {
@@ -751,6 +764,21 @@ public class OrderService {
 		order.setNetCost(order.getNetCost() + sauceOrderItem.getFreeCount() * sauceOrderItem.getProduct().getCostPrice());
 	}
 
+	public static final String ORDER_NUMBER_PREFIX = "01";
+	public static final Integer ORDER_NUMBER_LENGTH = 6;
+	
+	private static String generateOrderNumber() {
+		Query q = JPA.em().createNativeQuery("select nextval('order_sequence')");
+		Long orderNumber = ((BigInteger)q.getSingleResult()).longValue();
+		String orderNumberString = orderNumber.toString();
+		String generatedNumber = ORDER_NUMBER_PREFIX;
+		for (int i=0; i < ORDER_NUMBER_LENGTH - orderNumberString.length(); i++)
+			generatedNumber += "0";
+		generatedNumber += orderNumberString;
+		return generatedNumber;
+	}
+	
+	
 	public static Order getOrder(Long orderId) {
 		// TODO Auto-generated method stub
 		return Order.findById(orderId);
@@ -830,82 +858,25 @@ public class OrderService {
 			return model;
 	}
 	
+	public static List<Order> getNotSychronizedOrdersWithWeb() {
+		List<Order> orders = JPA.em().createQuery("from Order where isSynchronized = false order by id")
+					.getResultList();
+		return orders;
+	}
 	
+	public static List<OrderHistory> getNotSychronizedOrdersHistoryWithWeb() {
+		List<OrderHistory> ordersHistory = JPA.em().createQuery("from OrderHistory where isSynchronized = false and order.isSynchronized = true order by id")
+				.getResultList();
+		return ordersHistory; 
+	}
 
-	public static PreviewSiteOrderModel previewSiteOrder(Long orderId, String connected) throws ValidationException {
-		SiteOrder order = SiteOrder.findById(orderId);
-		if (order == null)
-			throw new ValidationException("SiteOrder not found");
-		
-		PreviewSiteOrderModel model = new PreviewSiteOrderModel();
-		model.setId(order.getId());
-		
-		model.setSource(order.getSource());
-		model.setSourceDiscount(order.getSourceDiscount());
-		
-		model.setStatus(order.getStatus());
-		model.setSiteId(order.getSiteId());
-		
-		if (order.getDeliveryTime() != null) {
-			model.setDeliveryTime(order.getDeliveryTime().getTime());
-			model.setDeliveryTimeLong(order.getDeliveryTime().getTimeInMillis());
-		}
-		
-		if (order.getOrderTime() != null) {
-			model.setOrderTime(order.getOrderTime().getTime());
-			model.setOrderTimeLong(order.getOrderTime().getTimeInMillis());
-		}
-		
-		model.setOrderSum(order.getOrderSum());
-		model.setOrderType(order.getOrderType());
-		model.setPayMethod(order.getPayMethod());
-		model.setPersonCash(order.getPersonCash());
-		model.setPersonCount(order.getPersonCount());
-		model.setPersonEmail(order.getPersonEmail());
-		model.setPersonName(order.getPersonName());
-		model.setPersonPhone(order.getPersonPhone());
-		model.setPersonRemark(order.getPersonRemark());
-		
-		model.setAddressBuilding(order.getAddressBuilding());
-		model.setAddressCityName(order.getAddressCityName());
-		model.setAddressCorpus(order.getAddressCorpus());
-		model.setAddressDoorCode(order.getAddressDoorCode());
-		model.setAddressFlat(order.getAddressFlat());
-		model.setAddressFloor(order.getAddressFloor());
-		model.setAddressHouse(order.getAddressHouse());
-		model.setAddressOffice(order.getAddressOffice());
-		model.setAddressPorch(order.getAddressPorch());
-		model.setAddressRoom(order.getAddressRoom());
-		model.setAddressStreetName(order.getAddressStreetName());
-		model.setAddress(order.getFullAddress());
-
-		model.setGeoLatitude(order.getGeoLatitude());
-		model.setGeoLongitude(order.getGeoLongitude());
-		
-		model.setReason(order.getReason());
-		
-		model.setItems(new ArrayList<PreviewSiteOrderItemModel>());
-		for (SiteOrderItem orderItem : order.getOrderItems()) {
-			PreviewSiteOrderItemModel item = new PreviewSiteOrderItemModel();
-			
-			Product product = ProductService.getProductByCode(orderItem.getProductCode());
-			if (product == null)
-				throw new ValidationException("Product by code not found, Code: " + orderItem.getProductCode());
-			
-			item.setCategory(product.getCategory().getName());
-			item.setProductId(product.getId());
-			item.setCode(product.getCode());
-			item.setCost(product.getCost());
-			item.setCount(orderItem.getCount());
-			item.setName(product.getName());
-			item.setSiteId(orderItem.getSiteId());
-			item.setSum(orderItem.getSum());
-			item.setType(product.getType());
-			
-			model.getItems().add(item);
-		}
-		
-		return model;
+	public static OrderHistory geOrderHistoryBySiteRecordId(Long id) {
+		List<OrderHistory> ordersHistory = JPA.em().createQuery("from OrderHistory where siteRecordId = :siteRecordId")
+				.setParameter("siteRecordId", id)
+				.getResultList();
+		if (ordersHistory.size() > 0)
+			return ordersHistory.get(0);
+		return null; 
 	}
 	
 }

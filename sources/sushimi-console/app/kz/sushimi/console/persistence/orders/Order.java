@@ -37,7 +37,7 @@ import kz.sushimi.console.persistence.users.User;
 public class Order extends PersistentObject {
 	
 	@Column(name="order_number")	
-	private Long orderNumber;
+	private String orderNumber;
 	
 	/**
 	 * Клиент
@@ -86,6 +86,18 @@ public class Order extends PersistentObject {
 	 */
 	@ManyToOne
 	private SiteOrder siteOrder;
+	
+	/**
+	 * Синхронизированный ID заказа на сайте
+	 */
+	@Column(name="site_order_number")
+	private String siteOrderNumber;
+
+	/**
+	 * Признак того, что данный заказ синхронизировали с сайтом
+	 */
+	@Column(name="is_synchronized")
+	private Boolean isSynchronized = false;
 	
 	/**
 	 * Сумма заказа 
@@ -171,6 +183,13 @@ public class Order extends PersistentObject {
 	private OrderType type;
 	
 	/**
+	 * Способ оплаты
+	 */
+	@Enumerated(EnumType.STRING)
+	@Column
+	private PayMethod payMethod;
+	
+	/**
 	 * Какой акцией воспользовался клиент
 	 */
 	@ManyToOne
@@ -191,7 +210,6 @@ public class Order extends PersistentObject {
 	@ManyToOne
 	private User operatorUser;
 	
-
 	/**
 	 * Кто приготовил заказ
 	 */
@@ -199,10 +217,55 @@ public class Order extends PersistentObject {
 	private User cookUser;
 
 	/**
+	 * Кто доставил заказ
+	 */
+	@ManyToOne
+	private User deliveryUser;
+	
+	/**
 	 * Причина отмены заказа
 	 */
 	@Column(length=500)
 	private String reason;
+
+	public PayMethod getPayMethod() {
+		return payMethod;
+	}
+
+
+	public void setPayMethod(PayMethod payMethod) {
+		this.payMethod = payMethod;
+	}
+
+
+	public String getSiteOrderNumber() {
+		return siteOrderNumber;
+	}
+
+
+	public void setSiteOrderNumber(String siteOrderNumber) {
+		this.siteOrderNumber = siteOrderNumber;
+	}
+
+
+	public Boolean getIsSynchronized() {
+		return isSynchronized;
+	}
+
+
+	public void setIsSynchronized(Boolean isSynchronized) {
+		this.isSynchronized = isSynchronized;
+	}
+
+
+	public User getDeliveryUser() {
+		return deliveryUser;
+	}
+
+
+	public void setDeliveryUser(User deliveryUser) {
+		this.deliveryUser = deliveryUser;
+	}
 
 
 	public OrderSource getSource() {
@@ -319,12 +382,12 @@ public class Order extends PersistentObject {
 	}
 
 
-	public Long getOrderNumber() {
+	public String getOrderNumber() {
 		return orderNumber;
 	}
 
 
-	public void setOrderNumber(Long orderNumber) {
+	public void setOrderNumber(String orderNumber) {
 		this.orderNumber = orderNumber;
 	}
 

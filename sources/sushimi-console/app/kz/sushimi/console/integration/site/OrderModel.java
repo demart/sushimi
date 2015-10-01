@@ -17,7 +17,9 @@ import javax.persistence.Enumerated;
  */
 public class OrderModel {
 	
-	private int id;
+	private Integer id;
+	
+	private String orderNumber;
 	
 	private String key; 
 	
@@ -92,6 +94,14 @@ public class OrderModel {
 	private String GeoLongitude;
 
 	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getSource() {
 		return source;
 	}
@@ -108,12 +118,12 @@ public class OrderModel {
 		this.sourceDiscount = sourceDiscount;
 	}
 
-	public int getId() {
-		return id;
+	public String getOrderNumber() {
+		return orderNumber;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
 	public String getKey() {

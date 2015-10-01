@@ -20,6 +20,7 @@ import kz.sushimi.console.persistence.orders.OrderState;
 import kz.sushimi.console.persistence.orders.OrderType;
 import kz.sushimi.console.persistence.orders.site.SiteOrderStatus;
 import kz.sushimi.console.services.OrderService;
+import kz.sushimi.console.services.SiteOrderService;
 import kz.sushimi.console.services.dictionaries.ProductService;
 import play.Logger;
 import play.mvc.Controller;
@@ -36,8 +37,8 @@ import com.google.gson.GsonBuilder;
 public class OrderController extends Controller {
 
 	public static void getNewOrdersCount(Long lastCheck) {
-		Long totalCount = OrderService.getSiteOrderCountByStatus(SiteOrderStatus.RECEIVED);
-		Long newCount = OrderService.getSiteOrderCountByStatus(SiteOrderStatus.RECEIVED, lastCheck);
+		Long totalCount = SiteOrderService.getSiteOrderCountByStatus(SiteOrderStatus.RECEIVED);
+		Long newCount = SiteOrderService.getSiteOrderCountByStatus(SiteOrderStatus.RECEIVED, lastCheck);
 		lastCheck = Calendar.getInstance().getTimeInMillis();	
 		
 		renderJSON("{\"success\":true, \"count\": " + totalCount + ", \"newCount\":" +  newCount +  ", \"lastCheck\":" +  lastCheck + "}");
@@ -56,12 +57,14 @@ public class OrderController extends Controller {
 		order.setChildren(new ArrayList<OrderTreeModel>());
 		
 		OrderTreeModel orderCurrent = new OrderTreeModel(2l, "Ожидающие", OrderService.getOrderCountByState(OrderState.REGISTERED), "task-folder", OrderState.REGISTERED, true, false);
-		
 		order.getChildren().add(orderCurrent);
 		
 		OrderTreeModel orderInProgress = new OrderTreeModel(3l, "В обработке", OrderService.getOrderCountByState(OrderState.IN_PROGRESS), "task-folder", OrderState.IN_PROGRESS, true, false);
 		order.getChildren().add(orderInProgress);
 
+		OrderTreeModel orderWaitingForDelivery = new OrderTreeModel(8l, "Ожидают доставки", OrderService.getOrderCountByState(OrderState.WAITING_FOR_DELIVERY), "task-folder", OrderState.WAITING_FOR_DELIVERY, true, false);
+		order.getChildren().add(orderWaitingForDelivery);
+		
 		OrderTreeModel orderOnDelivery = new OrderTreeModel(4l, "На доставке", OrderService.getOrderCountByState(OrderState.ON_DELIVERY), "task-folder", OrderState.ON_DELIVERY, true, false);
 		order.getChildren().add(orderOnDelivery);
 
@@ -74,17 +77,17 @@ public class OrderController extends Controller {
 		OrderTreeModel orderReturned = new OrderTreeModel(7l, "Возврат", OrderService.getOrderCountByState(OrderState.RETURNED), "task-folder", OrderState.RETURNED, true, false);
 		order.getChildren().add(orderReturned);
 		
-		OrderTreeModel orderSite = new OrderTreeModel(50l, "Заказы c сайта", OrderService.getSiteOrderCountByStatus(SiteOrderStatus.NONE), "task-folder", SiteOrderStatus.NONE, false, true);
+		OrderTreeModel orderSite = new OrderTreeModel(50l, "Заказы c сайта", SiteOrderService.getSiteOrderCountByStatus(SiteOrderStatus.NONE), "task-folder", SiteOrderStatus.NONE, false, true);
 		models.add(orderSite);
 		orderSite.setChildren(new ArrayList<OrderTreeModel>());
 		
-		OrderTreeModel orderSiteCurrent = new OrderTreeModel(51l, "Поступившие", OrderService.getSiteOrderCountByStatus(SiteOrderStatus.RECEIVED), "task-folder", SiteOrderStatus.RECEIVED, true, false);
+		OrderTreeModel orderSiteCurrent = new OrderTreeModel(51l, "Поступившие", SiteOrderService.getSiteOrderCountByStatus(SiteOrderStatus.RECEIVED), "task-folder", SiteOrderStatus.RECEIVED, true, false);
 		orderSite.getChildren().add(orderSiteCurrent);
 		
-		OrderTreeModel orderSiteProcessed = new OrderTreeModel(52l, "Обработанные", OrderService.getSiteOrderCountByStatus(SiteOrderStatus.REGISTERED), "task-folder", SiteOrderStatus.REGISTERED, true, false);
+		OrderTreeModel orderSiteProcessed = new OrderTreeModel(52l, "Обработанные", SiteOrderService.getSiteOrderCountByStatus(SiteOrderStatus.REGISTERED), "task-folder", SiteOrderStatus.REGISTERED, true, false);
 		orderSite.getChildren().add(orderSiteProcessed);
 		
-		OrderTreeModel orderSiteCanceled = new OrderTreeModel(53l, "Отмененные", OrderService.getSiteOrderCountByStatus(SiteOrderStatus.CANCELED), "task-folder", SiteOrderStatus.CANCELED, true, false);
+		OrderTreeModel orderSiteCanceled = new OrderTreeModel(53l, "Отмененные", SiteOrderService.getSiteOrderCountByStatus(SiteOrderStatus.CANCELED), "task-folder", SiteOrderStatus.CANCELED, true, false);
 		orderSite.getChildren().add(orderSiteCanceled);
 		
 		renderJSON(root);
@@ -102,6 +105,7 @@ public class OrderController extends Controller {
 			OrderModel model = new OrderModel();
 			
 			model.setId(order.getId());
+			
 			model.setOrderNumber(order.getOrderNumber());
 			
 			if (order.getOrderDate() != null)
@@ -146,13 +150,14 @@ public class OrderController extends Controller {
 		String requestBody = params.current().get("body");
 		Logger.info("SiteOrders.read: " + requestBody);
 	
-		List<kz.sushimi.console.persistence.orders.site.SiteOrder> list = OrderService.getSiteOrders(status, start, limit);
+		List<kz.sushimi.console.persistence.orders.site.SiteOrder> list = SiteOrderService.getSiteOrders(status, start, limit);
 		
 		ArrayList<SiteOrderModel> models = new ArrayList<SiteOrderModel>(); 
 		for (kz.sushimi.console.persistence.orders.site.SiteOrder order : list) {
 			SiteOrderModel model = new SiteOrderModel();
 			
 			model.setId(order.getId());
+			model.setOrderNumber(order.getOrderNumber());
 			
 			if (order.getOrderTime() != null)
 				model.setOrderDate(order.getOrderTime().getTime());
@@ -186,7 +191,7 @@ public class OrderController extends Controller {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 		CreateOrderModel model = gson.fromJson(requestBody, CreateOrderModel.class);
 		Order order = OrderService.createOrder(model, Security.connected());
-		renderJSON("{\"success\":true, \"orderId\": " + order.getId() + ", \"orderNumber\": " + order.getOrderNumber() + "}");
+		renderJSON("{\"success\":true, \"orderId\": " + order.getId() + ", \"orderNumber\": \"" + order.getOrderNumber() + "\"}");
 	}
 	
 	
@@ -217,6 +222,16 @@ public class OrderController extends Controller {
 		renderJSON(wrapper);
 	}
 		
+	public static void sendToWaitingForDeliveryOrder(Long id) throws ValidationException {
+		String requestBody = params.current().get("body");
+		Logger.info("Send to waiting for delivery Order: " + requestBody);
+		OrderService.sendToWaitingForDeliveryOrder(id, Security.connected());
+		
+		StoreWrapper wrapper = new StoreWrapper();
+		wrapper.success = true;
+		renderJSON(wrapper);
+	}	
+	
 
 	public static void sendToDeliveryOrder(Long id) throws ValidationException {
 		String requestBody = params.current().get("body");
@@ -257,7 +272,7 @@ public class OrderController extends Controller {
 		Logger.info("Cancel Order: " + requestBody);
 		Gson gson = new Gson();
 		CancelSiteOrderModel model = gson.fromJson(requestBody, CancelSiteOrderModel.class);
-		OrderService.cancelSiteOrder(model, Security.connected());
+		SiteOrderService.cancelSiteOrder(model, Security.connected());
 		
 		StoreWrapper wrapper = new StoreWrapper();
 		wrapper.success = true;
@@ -267,7 +282,7 @@ public class OrderController extends Controller {
 	public static void previewSiteOrder(Long orderId) throws ValidationException {
 		String requestBody = params.current().get("body");
 		Logger.info("Preview Site Order: " + requestBody);
-		PreviewSiteOrderModel model = OrderService.previewSiteOrder(orderId, Security.connected());
+		PreviewSiteOrderModel model = SiteOrderService.previewSiteOrder(orderId, Security.connected());
 		renderJSON(model);
 	}
 	

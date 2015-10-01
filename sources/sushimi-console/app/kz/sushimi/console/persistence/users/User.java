@@ -21,6 +21,9 @@ import kz.sushimi.console.persistence.PersistentObject;
 @Table(name = "users")
 public class User extends PersistentObject {
 	
+	@Column(name="code", nullable=false)
+	private String code;
+	
 	@Column(name="name")
 	private String name;
 
@@ -33,6 +36,14 @@ public class User extends PersistentObject {
 	@Enumerated(EnumType.STRING)
 	@Column(name="role")
 	private UserRole role = UserRole.OPERATOR;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 	public String getLogin() {
 		return login;

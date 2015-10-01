@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ColorGreen">#66CC66</color>
+    <color name="ColorPrimaryDark">#66CC66</color>
+    <color name="ColorOrange">#FF9900</color>
+    <color name="ColorWhite">#FFFFFF</color>
+    <color name="ColorRed">#FF0000</color>
+    <color name="ColorSelectedTabScrollColor">#FF9900</color>
+</resources>

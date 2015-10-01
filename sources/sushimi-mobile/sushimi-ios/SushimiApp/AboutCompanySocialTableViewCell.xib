@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="75" id="KGk-i7-Jjw" customClass="AboutCompanySocialTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Мы с социальных сетях" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oo8-ZK-q7k">
+                        <rect key="frame" x="8" y="8" width="304" height="21"/>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RWh-mt-dgu">
+                        <rect key="frame" x="110" y="31" width="100" height="38"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="aboutCompanyIstagramLogo" translatesAutoresizingMaskIntoConstraints="NO" id="CJ7-uf-fdy">
+                                <rect key="frame" x="8" y="4" width="30" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="PyP-fF-jNc"/>
+                                    <constraint firstAttribute="height" constant="30" id="iGA-CO-fRa"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="aboutCompanyVkLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Khq-po-LOZ">
+                                <rect key="frame" x="62" y="4" width="30" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="GNT-TM-DgF"/>
+                                    <constraint firstAttribute="height" constant="30" id="lF8-dl-NWP"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Khq-po-LOZ" secondAttribute="trailing" constant="8" id="12g-fF-tdM"/>
+                            <constraint firstItem="Khq-po-LOZ" firstAttribute="top" secondItem="RWh-mt-dgu" secondAttribute="top" constant="4" id="KEQ-xw-NGA"/>
+                            <constraint firstItem="CJ7-uf-fdy" firstAttribute="leading" secondItem="RWh-mt-dgu" secondAttribute="leading" constant="8" id="V3v-vp-zW3"/>
+                            <constraint firstAttribute="bottom" secondItem="CJ7-uf-fdy" secondAttribute="bottom" constant="4" id="hZf-H7-vub"/>
+                            <constraint firstItem="CJ7-uf-fdy" firstAttribute="top" secondItem="RWh-mt-dgu" secondAttribute="top" constant="4" id="kth-ec-d3I"/>
+                            <constraint firstAttribute="bottom" secondItem="Khq-po-LOZ" secondAttribute="bottom" constant="4" id="nCL-MW-HnW"/>
+                            <constraint firstAttribute="width" constant="100" id="pSi-Fa-GIs"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Oo8-ZK-q7k" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="JfK-3d-VAg"/>
+                    <constraint firstAttribute="centerX" secondItem="RWh-mt-dgu" secondAttribute="centerX" id="WWf-84-3ek"/>
+                    <constraint firstItem="Oo8-ZK-q7k" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="Ypu-hI-901"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="RWh-mt-dgu" secondAttribute="bottom" constant="-2.5" id="fka-PL-Tbc"/>
+                    <constraint firstItem="RWh-mt-dgu" firstAttribute="top" secondItem="Oo8-ZK-q7k" secondAttribute="bottom" constant="2" id="sUy-5V-oZI"/>
+                    <constraint firstAttribute="centerX" secondItem="Oo8-ZK-q7k" secondAttribute="centerX" id="seB-ly-pzY"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="istagramLogoImage" destination="CJ7-uf-fdy" id="6jR-jR-H5i"/>
+                <outlet property="vkLogoImage" destination="Khq-po-LOZ" id="B6R-Gx-Qbt"/>
+            </connections>
+            <point key="canvasLocation" x="190" y="256.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="aboutCompanyIstagramLogo" width="362" height="362"/>
+        <image name="aboutCompanyVkLogo" width="200" height="200"/>
+    </resources>
+</document>

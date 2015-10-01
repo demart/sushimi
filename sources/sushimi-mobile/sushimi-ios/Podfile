@@ -1,0 +1,6 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '8.0'
+
+pod 'RestKit', '~> 0.20.0'
+pod 'RestKit/Testing', '~> 0.20.0'
+pod 'RestKit/Search',  '~> 0.20.0'

@@ -60,7 +60,7 @@ Ext.define('SushimiConsole.view.order.window.PreviewOrderWindow', {
                 	reference: 'previewOrderId',
                 	xtype: 'textfield',
                     labelWidth: 65,
-                    width: 60,
+                    width: 90,
                     margin: '0 15 0 0',
                 }, {
                 	reference: 'previewOrderTime',

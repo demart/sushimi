@@ -21,4 +21,9 @@ public class ErrorCode {
 	 * Данные не найдены
 	 */
 	public static final String DATA_NOT_FOUND = "004";
+	
+	/**
+	 * Ошибка авторизации
+	 */
+	public static final String AUTH_ERROR = "004";	
 }

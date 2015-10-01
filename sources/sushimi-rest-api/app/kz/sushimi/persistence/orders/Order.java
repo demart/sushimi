@@ -19,6 +19,8 @@ import kz.sushimi.persistence.dictionaries.Department;
 
 import org.apache.commons.lang.StringUtils;
 
+import play.Logger;
+
 
 /**
  * Заказ пользователя
@@ -50,7 +52,7 @@ public class Order {
 	 * Скидка при получении заказа (Например на мобильники по умолчанию 5 процентов)
 	 */
 	@Column(name="source_discount")
-	private Integer sourceDiscount;
+	private Integer sourceDiscount;	
 	
 	@Column(name="source_system_name")
 	private String sourceSystemName;
@@ -60,7 +62,6 @@ public class Order {
 	
 	@Column(name="source_app_version")
 	private String sourceAppVersion;
-	
 	
 	
 	@Column(name="order_number")	
@@ -78,6 +79,9 @@ public class Order {
 	@Enumerated(EnumType.STRING)
 	@Column(name="processed")
 	private OrderProcess processed;
+	
+	@OneToMany(mappedBy="order")
+	private List<OrderHistory> orderHistory;	
 	
 	// Person Info
 	
@@ -99,6 +103,12 @@ public class Order {
 	@Column(name="person_cash")
 	private int personCash;	
 	
+	/**
+	 * Персональная скидка клиента (Накапливаемый процент)
+	 */
+	@Column(name="client_discount")
+	private Integer clientDiscount;
+	
 	// Delivery Detail
 	
 	@ManyToOne
@@ -115,6 +125,48 @@ public class Order {
 	@Column(name="pay_method")
 	private PayMethod payMethod;
 
+	// ====================
+	// ===== EXTRA ========
+	// ====================
+	
+	/**
+	 * Дополнительная цена доставки
+	 */
+	@Column(name="delivery_extra_price")
+	private Integer deliveryExtraPrice;
+	
+	/**
+	 * Название акции в заказе
+	 */
+	@Column(name="promo_name")
+	private String promotionName;
+	
+	/**
+	 * Процент скидки по акции в заказе
+	 */
+	@Column(name="promo_discount")
+	private Integer promotionDiscount;
+	
+	/**
+	 * Тип промо, товар в подарок, скидка и т.д.
+	 */
+	@Enumerated(EnumType.STRING)
+	@Column(name="promo_value_type")
+	private PromotionValueType promotionValueType;
+	
+	/**
+	 * Код продукта по акции
+	 */
+	@Column(name="promo_product_code")
+	private String promotionProductCode;
+	
+	/**
+	 * Причина отказа или отмены заказа
+	 */
+	@Column(name="reason")
+	private String reason;
+	
+	
 	// ====================
 	// === ADDRESS ========
 	// ====================
@@ -161,10 +213,132 @@ public class Order {
 	@Column(name="geo_longitude")
 	private String GeoLongitude;	
 	
+	@Column(name="operator_code")
+	private String operatorCode;
+	
+	@Column(name="cook_code")
+	private String cookCode;
+	
+	@Column(name="courier_code")
+	private String courierCode;
+	
 	// ========================
 	
+	public OrderHistory getLastOrderHistory() {
+		OrderHistory orderHistory = null;
+		for (OrderHistory oh: this.orderHistory) {
+			if (orderHistory == null) 
+				orderHistory = oh;
+			if (orderHistory.getId() <= oh.getId())
+				orderHistory = oh;
+		}
+		
+		Logger.info("Last orderHistory status: " + orderHistory.getOrderState());
+		
+		return orderHistory;
+	}
+	
+	
+	// ========================
+	
+	public List<OrderHistory> getOrderHistory() {
+		return orderHistory;
+	}
+
+
+	public void setOrderHistory(List<OrderHistory> orderHistory) {
+		this.orderHistory = orderHistory;
+	}
+
+
+	public String getOperatorCode() {
+		return operatorCode;
+	}
+
+
+	public void setOperatorCode(String operatorCode) {
+		this.operatorCode = operatorCode;
+	}
+
+
+	public String getCookCode() {
+		return cookCode;
+	}
+
+
+	public void setCookCode(String cookCode) {
+		this.cookCode = cookCode;
+	}
+
+
+	public String getCourierCode() {
+		return courierCode;
+	}
+
+
+	public void setCourierCode(String courierCode) {
+		this.courierCode = courierCode;
+	}
+
+
 	public String getGeoLatitude() {
 		return GeoLatitude;
+	}
+
+	public Integer getClientDiscount() {
+		return clientDiscount;
+	}
+
+	public void setClientDiscount(Integer clientDiscount) {
+		this.clientDiscount = clientDiscount;
+	}
+
+	public PromotionValueType getPromotionValueType() {
+		return promotionValueType;
+	}
+
+	public void setPromotionValueType(PromotionValueType promotionValueType) {
+		this.promotionValueType = promotionValueType;
+	}
+
+	public String getPromotionProductCode() {
+		return promotionProductCode;
+	}
+
+	public void setPromotionProductCode(String promotionProductCode) {
+		this.promotionProductCode = promotionProductCode;
+	}
+
+	public Integer getDeliveryExtraPrice() {
+		return deliveryExtraPrice;
+	}
+
+	public void setDeliveryExtraPrice(Integer deliveryExtraPrice) {
+		this.deliveryExtraPrice = deliveryExtraPrice;
+	}
+
+	public String getPromotionName() {
+		return promotionName;
+	}
+
+	public void setPromotionName(String promotionName) {
+		this.promotionName = promotionName;
+	}
+
+	public Integer getPromotionDiscount() {
+		return promotionDiscount;
+	}
+
+	public void setPromotionDiscount(Integer promotionDiscount) {
+		this.promotionDiscount = promotionDiscount;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
 	public String getSourceSystemName() {
@@ -191,20 +365,20 @@ public class Order {
 		this.sourceAppVersion = sourceAppVersion;
 	}
 
-	public OrderSource getSource() {
-		return source;
-	}
-
-	public void setSource(OrderSource source) {
-		this.source = source;
-	}
-
 	public Integer getSourceDiscount() {
 		return sourceDiscount;
 	}
 
 	public void setSourceDiscount(Integer sourceDiscount) {
 		this.sourceDiscount = sourceDiscount;
+	}
+
+	public OrderSource getSource() {
+		return source;
+	}
+
+	public void setSource(OrderSource source) {
+		this.source = source;
 	}
 
 	public String getPersonEmail() {

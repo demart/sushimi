@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="OrdersDetailCell" rowHeight="85" id="KGk-i7-Jjw" customClass="OrdersDetailCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="85"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="# 23232" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wyb-5d-GYC">
+                        <rect key="frame" x="8" y="8" width="70" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="KhO-69-FKe"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
+                        <color key="textColor" red="1" green="0.59999999999999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="15:30   13.12.2015" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4xk-Le-4at">
+                        <rect key="frame" x="198" y="8" width="114" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="114" id="UHf-Sk-QMs"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
+                        <color key="textColor" red="0.40000000000000002" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Надежда" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESD-oe-zfQ">
+                        <rect key="frame" x="8" y="31" width="182" height="21"/>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Статус заказа" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aax-XA-3tR">
+                        <rect key="frame" x="8" y="55" width="90" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="90" id="9Go-Yv-mAR"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="100 000 т." textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxa-MD-3Sb">
+                        <rect key="frame" x="247" y="31" width="65" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="65" id="cIc-Jx-aac"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="15"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Статус заказа" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q5a-oA-x2V">
+                        <rect key="frame" x="106" y="55" width="206" height="21"/>
+                        <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="15"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Сумма" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="klG-dc-POH">
+                        <rect key="frame" x="198" y="31" width="46" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="46" id="2at-SV-Pnr"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="q5a-oA-x2V" firstAttribute="top" secondItem="pxa-MD-3Sb" secondAttribute="bottom" constant="3" id="1oc-W5-hGW"/>
+                    <constraint firstItem="ESD-oe-zfQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="2ed-FD-DtU"/>
+                    <constraint firstItem="pxa-MD-3Sb" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="4Tx-Tk-AiW"/>
+                    <constraint firstItem="pxa-MD-3Sb" firstAttribute="leading" secondItem="klG-dc-POH" secondAttribute="trailing" constant="3" id="9kP-R5-uU4"/>
+                    <constraint firstItem="q5a-oA-x2V" firstAttribute="leading" secondItem="Aax-XA-3tR" secondAttribute="trailing" constant="8" id="Cwq-np-7FP"/>
+                    <constraint firstItem="q5a-oA-x2V" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="F1Y-qN-mNg"/>
+                    <constraint firstItem="q5a-oA-x2V" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="JsR-H0-wew"/>
+                    <constraint firstItem="pxa-MD-3Sb" firstAttribute="top" secondItem="4xk-Le-4at" secondAttribute="bottom" constant="2" id="MPm-Rf-bRU"/>
+                    <constraint firstItem="ESD-oe-zfQ" firstAttribute="top" secondItem="wyb-5d-GYC" secondAttribute="bottom" constant="2" id="MUc-yG-Qzu"/>
+                    <constraint firstItem="Aax-XA-3tR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="STC-Lq-sOu"/>
+                    <constraint firstItem="q5a-oA-x2V" firstAttribute="top" secondItem="klG-dc-POH" secondAttribute="bottom" constant="3" id="Tiu-Hd-TXx"/>
+                    <constraint firstItem="4xk-Le-4at" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="W1s-QQ-a9o"/>
+                    <constraint firstItem="wyb-5d-GYC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Z5A-qC-usE"/>
+                    <constraint firstItem="Aax-XA-3tR" firstAttribute="top" secondItem="ESD-oe-zfQ" secondAttribute="bottom" constant="3" id="dAW-Bc-8oe"/>
+                    <constraint firstItem="q5a-oA-x2V" firstAttribute="top" secondItem="klG-dc-POH" secondAttribute="bottom" constant="3" id="ezs-sB-eDC"/>
+                    <constraint firstItem="Aax-XA-3tR" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="gaL-mE-mLc"/>
+                    <constraint firstItem="klG-dc-POH" firstAttribute="leading" secondItem="ESD-oe-zfQ" secondAttribute="trailing" constant="8" id="hoK-fM-TEC"/>
+                    <constraint firstItem="q5a-oA-x2V" firstAttribute="top" secondItem="ESD-oe-zfQ" secondAttribute="bottom" constant="3" id="mwM-cm-MC1"/>
+                    <constraint firstItem="wyb-5d-GYC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="suh-Dj-Acl"/>
+                    <constraint firstItem="klG-dc-POH" firstAttribute="top" secondItem="4xk-Le-4at" secondAttribute="bottom" constant="2" id="wTD-fc-TJF"/>
+                    <constraint firstItem="4xk-Le-4at" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="zTh-4Y-xz6"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="orderNumber" destination="wyb-5d-GYC" id="KXv-Qf-BNo"/>
+                <outlet property="orderPersonName" destination="ESD-oe-zfQ" id="AdE-n5-CO4"/>
+                <outlet property="orderStatus" destination="q5a-oA-x2V" id="Pg6-oV-USh"/>
+                <outlet property="orderSum" destination="pxa-MD-3Sb" id="eUv-XN-uH2"/>
+                <outlet property="orderTime" destination="4xk-Le-4at" id="0CQ-N6-TlA"/>
+            </connections>
+            <point key="canvasLocation" x="245" y="261.5"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedbackTextFieldCell" id="KGk-i7-Jjw" customClass="FeedbackTextFieldTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваше имя" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fft-md-UTY">
+                        <rect key="frame" x="8" y="8" width="100" height="27.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="Ywc-c9-YaU"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Yrn-uF-l8Z">
+                        <rect key="frame" x="116" y="0.0" width="196" height="43.5"/>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Fft-md-UTY" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="0Br-cP-w7e"/>
+                    <constraint firstItem="Yrn-uF-l8Z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-8" id="0NW-mU-fBu"/>
+                    <constraint firstItem="Yrn-uF-l8Z" firstAttribute="leading" secondItem="Fft-md-UTY" secondAttribute="trailing" constant="8" id="8Rv-9Q-NTK"/>
+                    <constraint firstItem="Yrn-uF-l8Z" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="Bb1-zx-MNB"/>
+                    <constraint firstItem="Fft-md-UTY" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="Nue-DP-cBo"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Yrn-uF-l8Z" secondAttribute="bottom" constant="-8" id="PXz-rA-SgR"/>
+                    <constraint firstItem="Fft-md-UTY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="UWL-0R-FoI"/>
+                    <constraint firstItem="Fft-md-UTY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="qkg-cd-rp1"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="Nue-DP-cBo"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="fbLabelField" destination="Fft-md-UTY" id="I5H-ZW-LHA"/>
+                <outlet property="fbTextField" destination="Yrn-uF-l8Z" id="T5q-JV-hIE"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

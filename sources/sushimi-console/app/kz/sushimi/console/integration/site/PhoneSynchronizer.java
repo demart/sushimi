@@ -13,14 +13,14 @@ import play.jobs.Job;
 import play.libs.WS;
 
 
-@Every("45s")
+@Every("12s")
 public class PhoneSynchronizer extends Job {
 	
 	/**
 	 * Адрес сайта куда обращаться за заказами
 	 */
-	public static final String URL_HOST = "http://sushimi.kz";
-	//public static final String URL_HOST = "http://localhost:9001";
+	//public static final String URL_HOST = "http://sushimi.kz";
+	public static final String URL_HOST = "http://localhost:9001";
 	/**
 	 * Путь до регистрации телефонов
 	 */

@@ -16,6 +16,8 @@ public class SiteOrderModel {
 	
 	private Long id;
 	
+	private String orderNumber;
+	
 	private String clientName;
 	
 	private String clientPhone;
@@ -47,6 +49,14 @@ public class SiteOrderModel {
 	private Integer sourceDiscount;
 	
 	
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
 	public SiteOrderSource getSource() {
 		return source;
 	}
