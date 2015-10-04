@@ -419,9 +419,11 @@ public class ArmApplication extends Controller {
 		String requestBody = params.current().get("body");
 		Logger.info("complete order: " + requestBody);
 		
-		Order order = Order.findById(orderId);
-		order.setOrderState (OrderState.WAITING_FOR_DELIVERY);
-		order.save();
+		//Order order = Order.findById(orderId);
+		//order.setOrderState (OrderState.WAITING_FOR_DELIVERY);
+		System.out.println (Security.connected());
+		OrderService.sendToWaitingForDeliveryOrder(orderId, Security.connected());
+
 			
 	}
 	
