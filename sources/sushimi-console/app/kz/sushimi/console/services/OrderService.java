@@ -878,5 +878,10 @@ public class OrderService {
 			return ordersHistory.get(0);
 		return null; 
 	}
+
+	public static void takeOrder(Long orderId, String connected) throws ValidationException {
+		sendToWorkOrder(orderId, connected);
+		
+	}
 	
 }

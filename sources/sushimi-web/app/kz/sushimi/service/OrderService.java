@@ -287,7 +287,7 @@ public class OrderService {
 		JPA.em().persist(o);
 		
 		// delete existing order items
-		JPA.em().createQuery("delete from OrderItem where orderId = :orderId")
+		JPA.em().createQuery("delete from OrderItem where order.id = :orderId")
 			.setParameter("orderId", o.getId()).executeUpdate();
 		if (o.getOrderItems() != null)
 			o.getOrderItems().clear();

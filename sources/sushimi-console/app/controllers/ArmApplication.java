@@ -401,9 +401,12 @@ public class ArmApplication extends Controller {
 		String requestBody = params.current().get("body");
 		Logger.info("take order: " + requestBody);
 
+		/*
 		Order order = Order.findById(orderId);
 		order.setOrderState (OrderState.IN_PROGRESS);
 		order.save();
+		*/
+		OrderService.takeOrder(orderId, Security.connected());
 			
 	}
 	
@@ -424,7 +427,7 @@ public class ArmApplication extends Controller {
 	
 	public static void readDeliveryOrders (Long periodReload) throws ValidationException {
 		String requestBody = params.current().get("body");
-		Logger.info("complete order: " + requestBody);
+		Logger.info("delivery order: " + requestBody);
 		
 		List<kz.sushimi.console.persistence.orders.Order> list;
 		
@@ -441,7 +444,7 @@ public class ArmApplication extends Controller {
 		 * .setParameter("timeForRequest", timeForRequest)
 		 */
 		
-		list = JPA.em().createQuery("from Order where ( (orderState = 'COMPLITED' and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME')) or (orderState = 'IN_PROGRESS' and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME') ) )").getResultList();
+		list = JPA.em().createQuery("from Order where ( (orderState = 'WAITING_FOR_DELIVERY' and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME')) or (orderState = 'IN_PROGRESS' and (type = 'DELIVERY' or type = 'DELIVERY_IN_TIME') ) )").getResultList();
 		
 		for (kz.sushimi.console.persistence.orders.Order order : list) {
 			PreviewOrderModel model = new PreviewOrderModel();
@@ -575,6 +578,12 @@ public class ArmApplication extends Controller {
 		
 		try {
 			JPA.em().createQuery("update Order set orderState = 'ON_DELIVERY' where id in (:ids)").setParameter("ids", ids).executeUpdate();
+
+
+for (int j=0; j<ids.size(); j++) 
+	OrderService.sendToDeliveryOrder((Long) ids.get(j), Security.connected());
+
+			
 			rw.success = true;
 			if (StringUtils.isNotEmpty(messageAboutError))
 				rw.message = "Заказы были отменены: " + messageAboutError + " ||| " + "Взятые заказы: " + rw.message;
