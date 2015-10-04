@@ -89,7 +89,7 @@ public class SushimiWebOrderHistorySynchronizer extends Job {
 		model.id = orderHistory.id;
 		model.orderNumber = orderHistory.getOrder().getOrderNumber();
 		model.orderState = orderHistory.getOrderState();
-		model.user = orderHistory.getUser() != null ? orderHistory.getUser().getLogin() : null;
+		model.user = orderHistory.getUser() != null ? orderHistory.getUser().getCode() : null;
 		
 		return model;
 	}
