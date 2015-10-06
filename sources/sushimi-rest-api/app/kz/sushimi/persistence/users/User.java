@@ -103,7 +103,7 @@ public class User {
 	/**
 	 * Идентификатор для отправки PUSH уведомлений курьерам и другим
 	 */
-	@Column(name="m_push_key")
+	@Column(name="m_push_key", length=500)
 	private String mobilePushKey;
 	
 	/**

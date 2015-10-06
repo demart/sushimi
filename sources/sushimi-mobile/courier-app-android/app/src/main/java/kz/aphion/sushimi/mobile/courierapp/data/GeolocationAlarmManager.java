@@ -76,6 +76,8 @@ public class GeolocationAlarmManager extends BroadcastReceiver {
     public void cancelAlarmService(Context context) {
         Intent intent = new Intent(context, GeolocationAlarmManager.class);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, GeolocationAlarmManager.class);
+        pi = PendingIntent.getBroadcast(context, 0, i, 0);
         alarmManager.cancel(pi);
         pi.cancel();
         pi = null;

@@ -1,6 +1,8 @@
 package kz.aphion.sushimi.mobile.courierapp.data;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 /**
  * Created by artem.demidovich on 9/16/15.
@@ -40,5 +42,15 @@ public class LocalStorage {
         return _username;
     }
 
+
+    public static void storePushToken(Context context, String pushToken) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putString("CourierAppPushToken", pushToken).apply();
+    }
+
+    public static String getPushToken(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString("CourierAppPushToken", null);
+    }
 
 }

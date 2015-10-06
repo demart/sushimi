@@ -8,6 +8,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,6 +23,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private static String TAG = "MainActivity";
 
     Toolbar toolbar;
     private LocationManager locationManager;
@@ -75,6 +79,13 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(this).edit();
         e.putString("last_activity", getClass().getSimpleName());
         e.commit();
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.i(TAG, "OnNewIntent: " + intent.getDataString());
     }
 
     @Override

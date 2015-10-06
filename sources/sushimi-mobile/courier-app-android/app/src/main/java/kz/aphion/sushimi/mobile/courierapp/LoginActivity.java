@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +29,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -54,6 +60,8 @@ import kz.aphion.sushimi.mobile.courierapp.data.LocalStorage;
 import kz.aphion.sushimi.mobile.courierapp.data.models.ResponseStatus;
 import kz.aphion.sushimi.mobile.courierapp.data.models.UserAuthenticateResultModel;
 import kz.aphion.sushimi.mobile.courierapp.data.models.WrappedResponse;
+import kz.aphion.sushimi.mobile.courierapp.gcm.QuickstartPreferences;
+import kz.aphion.sushimi.mobile.courierapp.gcm.RegistrationIntentService;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -62,6 +70,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private static final String TAG = "LoginActivity";
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -109,7 +121,52 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mProgressView.setVisibility(ProgressBar.GONE);
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+                    //mInformationTextView.setText(getString(R.string.gcm_send_message));
+                } else {
+                    //mInformationTextView.setText(getString(R.string.token_error_message));
+                }
+            }
+        };
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+
+
     }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
 
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
@@ -133,6 +190,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(this).edit();
         e.putString("last_activity", getClass().getSimpleName());
         e.commit();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.i(TAG, "OnNewIntent: " + intent.getDataString());
     }
 
     /**
@@ -302,9 +365,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 holder.put("appVersion", "1.0");
                 holder.put("operationSystemVersion", "1.1");
                 holder.put("mobileOperationSystem", "ANDROID");
-                holder.put("latitude", "51.0");
-                holder.put("longitude", "54.3");
-                holder.put("pushKey", "asdads");
+
+                if (GeolocationManager.getInstance().getLastLocation() != null) {
+                    holder.put("latitude", GeolocationManager.getInstance().getLastLocation().getLatitude());
+                    holder.put("longitude", GeolocationManager.getInstance().getLastLocation().getLongitude());
+                }
+
+                String pushToken = LocalStorage.getPushToken(getApplicationContext());
+                holder.put("pushKey", pushToken);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -343,6 +411,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         LocalStorage.setSsoToken(userAuthResponse.data.authToken);
                         LocalStorage.setUsername(userAuthResponse.data.username);
                     }
+                } else {
+                    return false;
                 }
                 // TODO Сделать обработку ошибок
 
@@ -372,6 +442,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             } else {
+                mLoginView.setError("Ошибка входа, проверьте логин");
             }
         }
 
