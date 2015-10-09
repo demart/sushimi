@@ -18,6 +18,7 @@
 		8D0FAB3A1AF7848800FC74D3 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0FAB391AF7848800FC74D3 /* OrderModel.m */; };
 		8D0FAB3D1AF785E900FC74D3 /* OrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0FAB3C1AF785E900FC74D3 /* OrderManager.m */; };
 		8D0FAB401AF7A19300FC74D3 /* OrderItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0FAB3F1AF7A19300FC74D3 /* OrderItemModel.m */; };
+		8D18391B1BC688F10095959C /* UrlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D18391A1BC688F10095959C /* UrlHelper.m */; settings = {ASSET_TAGS = (); }; };
 		8D1C49131A7E9773004291CA /* MenuNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C49121A7E9773004291CA /* MenuNavigationViewController.m */; };
 		8D1C49161A7E9894004291CA /* CategoriesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C49151A7E9894004291CA /* CategoriesTableViewController.m */; };
 		8D1C491F1A7E9FA9004291CA /* CategoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C491E1A7E9FA9004291CA /* CategoryItem.m */; };
@@ -194,6 +195,8 @@
 		8D0FAB3C1AF785E900FC74D3 /* OrderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManager.m; sourceTree = "<group>"; };
 		8D0FAB3E1AF7A19300FC74D3 /* OrderItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderItemModel.h; sourceTree = "<group>"; };
 		8D0FAB3F1AF7A19300FC74D3 /* OrderItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderItemModel.m; sourceTree = "<group>"; };
+		8D1839191BC688F10095959C /* UrlHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UrlHelper.h; sourceTree = "<group>"; };
+		8D18391A1BC688F10095959C /* UrlHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UrlHelper.m; sourceTree = "<group>"; };
 		8D1C49111A7E9773004291CA /* MenuNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuNavigationViewController.h; sourceTree = "<group>"; };
 		8D1C49121A7E9773004291CA /* MenuNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuNavigationViewController.m; sourceTree = "<group>"; };
 		8D1C49141A7E9894004291CA /* CategoriesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesTableViewController.h; sourceTree = "<group>"; };
@@ -591,6 +594,8 @@
 				8D2218591B500B74003A332C /* HeaderManager.m */,
 				8DED95301B66779700583D77 /* FeedbackDataManager.h */,
 				8DED95311B66779700583D77 /* FeedbackDataManager.m */,
+				8D1839191BC688F10095959C /* UrlHelper.h */,
+				8D18391A1BC688F10095959C /* UrlHelper.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -1146,7 +1151,13 @@
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 4W3DP52J38;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -1281,6 +1292,7 @@
 				8D22185A1B500B74003A332C /* HeaderManager.m in Sources */,
 				8DED95491B66BE2C00583D77 /* FeedbackComboboxFieldTableViewCell.m in Sources */,
 				8DD376261AFA554800CA1880 /* Settings.m in Sources */,
+				8D18391B1BC688F10095959C /* UrlHelper.m in Sources */,
 				8DD3760F1AF945F800CA1880 /* UIViewController+TDSemiModalExtension.m in Sources */,
 				8DD3762F1AFBDF6C00CA1880 /* ContactLoadSettingsCell.m in Sources */,
 				8D75EFFC1AE0056A00AE9B54 /* CartProductModel.m in Sources */,

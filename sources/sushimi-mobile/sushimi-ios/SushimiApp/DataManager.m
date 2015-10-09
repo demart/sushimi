@@ -24,6 +24,8 @@
 #import "DeliveryInfo.h"
 #import "AboutCompany.h"
 
+#import "UrlHelper.h"
+
 
 @implementation DataManager
 
@@ -92,12 +94,16 @@ static NSMutableDictionary *loadedCachedData;
     
     NSURL *targetUrl = nil;
     if (rootCategoryId == nil) {
-        targetUrl = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/category/list"];
+        targetUrl = [NSURL URLWithString:[UrlHelper getCategoriesUrl]];
+//        targetUrl = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/category/list"];
     } else {
+        targetUrl = [NSURL URLWithString:[UrlHelper getCategoriesUrlByParent:rootCategoryId]];
+        /*
         NSString *subCategoryURL = @"http://api.sushimi.kz/rest-api/v1/category/";
         subCategoryURL =  [subCategoryURL stringByAppendingString: rootCategoryId];
         subCategoryURL =  [subCategoryURL stringByAppendingString:@"/children"];
         targetUrl = [NSURL URLWithString:subCategoryURL];
+        */
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:targetUrl];
@@ -190,10 +196,13 @@ static NSMutableDictionary *loadedCachedData;
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
+    /*
     NSString *productsURL = @"http://api.sushimi.kz/rest-api/v1/product/list/in/category/";
     productsURL =  [productsURL stringByAppendingString: categoryId];
-    
     NSURL *URL = [NSURL URLWithString:productsURL];
+    */
+    
+    NSURL *URL = [NSURL URLWithString:[UrlHelper getProductsUrlByCategory:categoryId]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     [HeaderManager addApplicationHeaderToObjectRequestOperations:request];
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseWrapperDescriptor ]];
@@ -273,11 +282,14 @@ static NSMutableDictionary *loadedCachedData;
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
+    /*
     NSString *productsURL = @"http://api.sushimi.kz/rest-api/v1/product/";
     productsURL =  [productsURL stringByAppendingString: [@(productId) stringValue]];
     productsURL = [productsURL stringByAppendingString:@"/detail"];
-    
     NSURL *URL = [NSURL URLWithString:productsURL];
+     */
+    
+    NSURL *URL = [NSURL URLWithString:[UrlHelper getProductUrlWithId:productId]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     [HeaderManager addApplicationHeaderToObjectRequestOperations:request];
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseWrapperDescriptor ]];
@@ -345,7 +357,9 @@ static NSMutableDictionary *loadedCachedData;
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/restaurant/list"];
+    //NSURL *URL = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/restaurant/list"];
+    
+    NSURL *URL = [NSURL URLWithString:[UrlHelper getRestuarantsUrl]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     [HeaderManager addApplicationHeaderToObjectRequestOperations:request];
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseWrapperDescriptor ]];
@@ -392,7 +406,13 @@ static NSMutableDictionary *loadedCachedData;
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
+    
+    NSURL *URL = [NSURL URLWithString:[UrlHelper getAnnouncementsUrlWithType:announcementType]];
+    
+    /*
     NSURL *URL = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"http://api.sushimi.kz/rest-api/v1/announcement/list/%ld",(long)announcementType ]];
+    */
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     [HeaderManager addApplicationHeaderToObjectRequestOperations:request];
     
@@ -451,7 +471,9 @@ static NSMutableDictionary *loadedCachedData;
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/company/delivery"];
+    //NSURL *URL = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/company/delivery"];
+    NSURL *URL = [NSURL URLWithString:[UrlHelper getDeliveryPointsUrl]];
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     [HeaderManager addApplicationHeaderToObjectRequestOperations:request];
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseWrapperDescriptor ]];
@@ -502,7 +524,9 @@ static NSMutableDictionary *loadedCachedData;
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/company/info"];
+    //NSURL *URL = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/company/info"];
+    
+    NSURL *URL = [NSURL URLWithString:[UrlHelper getCompanyInfoUrl]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     [HeaderManager addApplicationHeaderToObjectRequestOperations:request];
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseWrapperDescriptor ]];

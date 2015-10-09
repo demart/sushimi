@@ -9,7 +9,8 @@ import android.preference.PreferenceManager;
  */
 public class LocalStorage {
 
-    private static String _hostname = "http://10.0.2.2:9002";
+    //private static String _hostname = "http://10.0.2.2:9002";
+    private static String _hostname = "http://api.sushimi.kz/rest-api";
 
     public static String getHostname() {
         return _hostname;

@@ -24,6 +24,15 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    // Register notification
+    [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+    
+    
+    // =================
+    //  Other settings
+    // =================
     UIStoryboard *storyboard = self.window.rootViewController.storyboard;
     
     NSString *settings = SYSTEM_SETTINGS_FIST_TIME_OPENED;
@@ -65,9 +74,50 @@
     [[UISegmentedControl appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
     [[UISegmentedControl appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateSelected];
 
-    
     return YES;
 }
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"PUSH: registered in APNS with deviceToken: %@", deviceToken);
+    
+    // Проверить есть ли такой ID в локальной БД если нет или не совпадает
+        // Сохранить в локальной БД
+        // Отправить на сервер
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"PUSH: error during regisntration in APNS, error: %@", error);
+}
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    NSLog(@"PUSH: supported notificaiton settings: %@", notificationSettings);
+    // Посмотреть что поддерживается пользователем
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler {
+    NSLog(@"PUSH: receive push: %@", userInfo);
+    NSLog(@"PUSH: receive push (handler): %@", handler);
+    
+    // Проверить что работает только при выключенном приложении
+    if (application.applicationState == UIApplicationStateInactive) {
+    }
+    if (application.applicationState == UIApplicationStateActive) {
+    }
+    if (application.applicationState == UIApplicationStateBackground) {
+    }
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"PUSH: receive push and app is running: %@", userInfo);
+    // Проверить что работает только при включенном приложении
+    if (application.applicationState == UIApplicationStateInactive) {
+    }
+    if (application.applicationState == UIApplicationStateActive) {
+    }
+    if (application.applicationState == UIApplicationStateBackground) {
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

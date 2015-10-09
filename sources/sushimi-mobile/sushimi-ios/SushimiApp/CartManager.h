@@ -47,10 +47,7 @@
 -(void)addProductToCart:(BaseViewController*) viewController cartItem:(CartItem*)cartItem;
 -(void)removeProductFromCart:(BaseViewController*) viewController cartItem:(CartItem*)cartItem;
 
-// Needed to change amount of products or remove unneeded one
--(void)synchronizeLocalAndRemoteCart:(BaseViewController*) viewController;
 -(void) cleanExistingCartAndInitNewCart;
-
 -(void) loadCartInfo:(BaseViewController*) viewController;
 
 

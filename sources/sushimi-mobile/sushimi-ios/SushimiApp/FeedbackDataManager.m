@@ -27,6 +27,9 @@
 #import "RKLog.h"
 #import "RKMIMETypes.h"
 
+#import "Constants.h"
+#import "UrlHelper.h"
+
 @implementation FeedbackDataManager
 
 
@@ -68,12 +71,8 @@
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString:
-                  [[NSString alloc] initWithFormat:@"http://localhost:9000/v1/feedback/list/page/%li/size/%li", (long)page, (long)pageSize]];
-    /*
-    NSURL *URL = [NSURL URLWithString:
-                  [[NSString alloc] initWithFormat:@"http://api.sushimi.kz/rest-api/v1/feedback/list/page/%li/size/%li", (long)page, (long)pageSize]];
-     */
+    NSURL *URL = [NSURL URLWithString:[UrlHelper getFeedbacksUrlWithPage:page andSize:pageSize]];
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     [HeaderManager addApplicationHeaderToObjectRequestOperations:request];
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseWrapperDescriptor ]];
@@ -138,7 +137,12 @@
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString: @"http://localhost:9000/v1/feedback/meta"];
+    NSURL *URL = [NSURL URLWithString: [UrlHelper getFeedbacksMetaUrl]];
+    
+    //NSURL *URL = [NSURL URLWithString: [[NSString alloc]  initWithFormat:@"%@%@",
+    //                                 [Constants getRestAPIBaseUrl], @"/v1/feedback/meta"]];
+                  
+    //NSURL *URL = [NSURL URLWithString: @"http://localhost:9000/v1/feedback/meta"];
     /*
      NSURL *URL = [NSURL URLWithString: @"http://api.sushimi.kz/rest-api/v1/feedback/cities"];
      */
@@ -180,7 +184,9 @@
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString: @"http://localhost:9000/v1/feedback/city/list"];
+    NSURL *URL = [NSURL URLWithString: [UrlHelper getFeedbacksCitiesUrl]];
+    
+    //NSURL *URL = [NSURL URLWithString: @"http://localhost:9000/v1/feedback/city/list"];
     /*
     NSURL *URL = [NSURL URLWithString: @"http://api.sushimi.kz/rest-api/v1/feedback/cities"];
      */
@@ -220,8 +226,12 @@
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString:
-                  [[NSString alloc] initWithFormat:@"http://localhost:9000/v1/feedback/city/%li/restaurants", (long)cityId]];
+    
+    NSURL *URL = [NSURL URLWithString: [UrlHelper getFeedbacksRestaurantsUrlByCityId:cityId]];
+    
+    /*
+    NSURL *URL = [NSURL URLWithString: [[NSString alloc] initWithFormat:@"http://localhost:9000/v1/feedback/city/%li/restaurants", (long)cityId]];
+    */
     /*
      NSURL *URL = [NSURL URLWithString: @"http://api.sushimi.kz/rest-api/v1/feedback/cities"];
      */
@@ -256,7 +266,10 @@
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString: @"http://localhost:9000/v1/feedback/"];
+    
+    NSURL *URL = [NSURL URLWithString: [UrlHelper getFeedbacksRegisterNewFeedbackUrl]];
+    
+    //NSURL *URL = [NSURL URLWithString: @"http://localhost:9000/v1/feedback/"];
     
     RKObjectMapping* requestNewFeedbackModelMapping = [RKObjectMapping requestMapping];
     [requestNewFeedbackModelMapping addAttributeMappingsFromDictionary:@{

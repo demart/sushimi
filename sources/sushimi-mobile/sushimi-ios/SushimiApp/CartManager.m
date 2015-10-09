@@ -33,6 +33,8 @@
 
 #import "MainTabBarController.h"
 
+#import "UrlHelper.h"
+
 
 @implementation CartManager
 
@@ -298,7 +300,9 @@ NSMutableDictionary *cartItems = nil;
     
     RKResponseDescriptor *responseWrapperDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:wrapperMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/cart/info"];
+    //NSURL *URL = [NSURL URLWithString:@"http://api.sushimi.kz/rest-api/v1/cart/info"];
+    
+    NSURL *URL = [NSURL URLWithString:[UrlHelper getCartInfoUrl]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     [HeaderManager addApplicationHeaderToObjectRequestOperations:request];
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseWrapperDescriptor ]];
@@ -368,10 +372,13 @@ NSMutableDictionary *cartItems = nil;
 /// ============ ================ ===========
 
 -(RKObjectRequestOperation *) buildClearCartRequestOperation {
+    /*
     NSURL *clearCartTargetUrl = [NSURL URLWithString:
                                  [[NSString alloc]
                                   initWithFormat:@"http://api.sushimi.kz/rest-api/v1/cart/%@/clear", self.getCartId]];
+    */
     
+    NSURL *clearCartTargetUrl = [NSURL URLWithString:[UrlHelper getCartCleanUrlWithId: self.getCartId]];
     NSMutableURLRequest *clearCartRequest = [NSMutableURLRequest requestWithURL:clearCartTargetUrl];
     [clearCartRequest setHTTPMethod:@"POST"];
     
@@ -389,10 +396,12 @@ NSMutableDictionary *cartItems = nil;
 }
 
 -(RKObjectManager *) buildAddProductsToCartObjectManager {
+    /*
     NSURL *targetUrl = [NSURL URLWithString:
                                  [[NSString alloc]
                                   initWithFormat:@"http://api.sushimi.kz/rest-api/v1/cart/%@/", self.getCartId]];
-    
+    */
+    NSURL *targetUrl = [NSURL URLWithString:[UrlHelper getCartAddProductsUrlWithId:self.getCartId]];
     RKObjectMapping* productItemImages = [RKObjectMapping mappingForClass:[CartProductItemFileModel class]];
     [productItemImages addAttributeMappingsFromDictionary:@{
                                                           @"description": @"_description",
