@@ -51,7 +51,7 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsList' ,{
                         		items: [{
                         			xtype: 'textfield',
                         			id:'ClientNameField',
-                        			name: 'clientName',
+                        			name: 'clientNameInfo',
                         			margin: '0 15 0 0',
                         			width: 150,
                         			listeners:{
@@ -66,7 +66,7 @@ Ext.define('SushimiConsole.view.clients.information.InfoClientsList' ,{
                         			fieldLabel: 'Телефон',
                         			xtype: 'textfield',
                         			id: 'ClientPhoneField',
-                        			name: 'clientPhoneField',
+                        			name: 'clientPhoneInfo',
                         			margin: '0 15 0 0',
                         			width: 65,
                         			listeners:{

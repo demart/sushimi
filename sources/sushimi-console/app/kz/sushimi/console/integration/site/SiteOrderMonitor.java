@@ -28,7 +28,7 @@ import com.google.gson.Gson;
  * @author Demart
  *
  */
-@Every("30s")
+//@Every("30s")
 public class SiteOrderMonitor extends Job {
 
 	/**

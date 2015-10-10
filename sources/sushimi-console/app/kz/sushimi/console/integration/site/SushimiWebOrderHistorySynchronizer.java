@@ -17,7 +17,7 @@ import play.libs.WS;
 import play.libs.WS.HttpResponse;
 
 
-@Every("10s")
+//@Every("10s")
 public class SushimiWebOrderHistorySynchronizer extends Job {
 
 	/**

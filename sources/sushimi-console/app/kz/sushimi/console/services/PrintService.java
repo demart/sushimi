@@ -34,7 +34,7 @@ public class PrintService {
 		Order order = Order.findById(orderId);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy'  'HH:mm:ss");
 		
-		Socket s = new Socket("61.69.79.39", 9100);
+		Socket s = new Socket("192.168.1.87", 9100);
 		DataOutputStream printer = new DataOutputStream (s.getOutputStream());
 		
 		/*
@@ -143,11 +143,11 @@ public class PrintService {
 		printer.write("a".getBytes());
 		printer.write(0);
 		
-		printer.write(("Сумма заказа:                               " + sumOrder).getBytes("Cp1251"));
+		printer.write(("Сумма заказа:                              " + sumOrder).getBytes("Cp1251"));
 		printer.write(0xA);
 		
 		if (order.getType() == OrderType.SELF_SERVICE) {
-			printer.write(("Скидка при самовывозе:                      " +  "10%").getBytes("Cp1251"));
+			printer.write(("Скидка при самовывозе:                     " +  "10%").getBytes("Cp1251"));
 			printer.write(0xA);
 		}
 		
@@ -155,7 +155,7 @@ public class PrintService {
 		if (order.getPromotion() != null) {
 			//System.out.println ("Zawel");
 			if (order.getPromotion().getDiscount() != 0.0) {
-			printer.write(("Скидка по акциям:                           " + order.getPromotion().getDiscount().intValue() + "%").getBytes("Cp1251"));
+			printer.write(("Скидка по акциям:                          " + order.getPromotion().getDiscount().intValue() + "%").getBytes("Cp1251"));
 			printer.write(0xA);
 		}
 		}
@@ -165,17 +165,22 @@ public class PrintService {
 		
 		
 		if (order.getClientDiscountCurrentPercent() != null) {
-			printer.write(("Скидка постоянного клиента:                 " + order.getClientDiscountCurrentPercent() + "%").getBytes("Cp1251"));
+			printer.write(("Скидка постоянного клиента:                " + order.getClientDiscountCurrentPercent() + "%").getBytes("Cp1251"));
+			printer.write(0xA);
+		}
+		
+		if (order.getSourceDiscount() != null || order.getSourceDiscount() != 0) {
+			printer.write(("Дополнительная скидка:                     " + order.getSourceDiscount() + "%").getBytes("Cp1251"));
 			printer.write(0xA);
 		}
 		
 
 		if (order.getType() != OrderType.SELF_SERVICE) {
-			printer.write(("Стоимость доставки:                         " + order.getDeliveryExtraCost()).getBytes("Cp1251"));
+			printer.write(("Стоимость доставки:                        " + order.getDeliveryExtraCost()).getBytes("Cp1251"));
 			printer.write(0xA);
 		}
 		
-		printer.write(("Итоговая сумма:                             " + (order.getOrderSum()+order.getDeliveryExtraCost())).getBytes("Cp1251"));
+		printer.write(("Итоговая сумма:                            " + (order.getOrderSum())).getBytes("Cp1251"));
 		printer.write(0xA);
 		printer.write(0xA);
 		
@@ -184,7 +189,7 @@ public class PrintService {
 		printer.write(1);
 		if (order.getClientCash() != 0)
 			printer.write(("Сдача с " + order.getClientCash() + ". Всего: " + 
-					(order.getClientCash()-order.getOrderSum()-order.getDeliveryExtraCost())).getBytes("Cp1251"));
+					(order.getClientCash()-order.getOrderSum())).getBytes("Cp1251"));
 			printer.write(0xA);
 			
 		printer.write(0xA);

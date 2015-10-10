@@ -1,3 +1,5 @@
+var orderId = null;
+
 Ext.define('SushimiConsole.view.order.window.PreviewOrderWindowController', {
     extend: 'Ext.app.ViewController',
 
@@ -32,6 +34,7 @@ Ext.define('SushimiConsole.view.order.window.PreviewOrderWindowController', {
     loadFormData: function(record) {
     	// this.lookupReference('previewOrderId').setValue(record.id);
     	this.lookupReference('previewOrderId').setValue(record.orderNumber);
+    	orderId = record.id;
     	
     	var orderDate = Ext.Date.format(new Date(record.orderDate), 'd.m.Y H:i:s');
     	this.lookupReference('previewOrderTime').setValue(orderDate);
@@ -148,7 +151,7 @@ Ext.define('SushimiConsole.view.order.window.PreviewOrderWindowController', {
     onPrintOrderPosPrinterClick: function(record) {
        // console.log(btn);
 		Ext.Ajax.request({
-		    url: 'rest/order/print/store/read?orderId=' + record.data.id,
+		    url: 'rest/order/print/store/read?orderId=' + orderId,
 		    method: 'POST',
 		    failure: function(batch) {
 				Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
