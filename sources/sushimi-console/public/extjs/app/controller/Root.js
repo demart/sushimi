@@ -29,6 +29,15 @@ Ext.define('SushimiConsole.controller.Root', {
     	'reports' : 'onReports',
     	
     	'temp' : 'onTemp',
+    	
+    	'operator/currentorders' : 'onCurrentOrdersList',
+    },
+    
+    //Операторская: текущие заказы
+    onCurrentOrdersList : function() {
+        console.log("onCurrentOrdersList route");
+        this.getMain().getComponent('mainBody').removeAll(true);
+        this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.operator.currentorders.CurrentOrdersList'));
     },
 
     // справочник городов

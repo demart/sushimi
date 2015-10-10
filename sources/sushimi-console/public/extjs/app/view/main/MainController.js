@@ -109,4 +109,22 @@ Ext.define('SushimiConsole.view.main.MainController', {
     	this.redirectTo('reports');
     },
     
+    //Операторская: текущие заказы
+    onCurrentOrdersClick: function() {
+    	console.log('CurrentOrders clicked');
+    	this.redirectTo('operator/currentorders');
+    },
+    
+    //Операторская: завершенные заказы
+    onDeliveredOrdersClick: function() {
+    	console.log('DeliveredOrders clicked');
+    	this.redirectTo('deliveredorders');
+    },
+    
+    //Операторская: карта
+    onMapsClick: function() {
+    	console.log('Maps clicked');
+    	this.redirectTo('maps');
+    },
+    
 });

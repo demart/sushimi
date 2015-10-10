@@ -22,6 +22,9 @@ POST	/rest/order/kitchen/print/store/read				ArmApplication.printOrder
 GET     /rest/order/delivery/store/read						ArmApplication.readDeliveryOrders
 POST 	/rest/order/delivery/take/store/read				ArmApplication.takeOrdersByCourier
 
+# OPERATOR
+GET		/rest/operator/order/store/read						OperatorController.readCurrentOrders
+
 # MANAGEMENT
 GET     /													Application.index
 GET		/rest/reports/orderPeriodStat/store/read			Report.readOrderPeriodStat	

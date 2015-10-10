@@ -32,7 +32,47 @@ Ext.define('SushimiConsole.view.main.Main', {
 	        region:'north',
 	        floatable: false,
 	        margin: '0 0 0 0',
-	        tbar : [{
+	        tbar : [
+	                //Начало: кнопки для операторской
+	    	        {
+	    	        	id: 'currentOrdersBtn',
+	    	            text:'Текущие заказы',
+	    	            iconCls: null,
+	    	            scale: 'small',
+	    	            hidden: true,
+	    	            listeners : {click : 'onCurrentOrdersClick', },
+	    	            
+	    	        },
+	    	        {
+	    	        	id: 'newOrderBtn',
+	    	            text:'Новый заказ',
+	    	            iconCls: null,
+	    	            scale: 'small',
+	    	            hidden: true,
+	    	            listeners : {click : 'onNewOrderClick', },
+	    	            
+	    	        },
+	    	        {
+	    	        	id: 'deliveredOrdersBtn',
+	    	            text:'Выполненные заказы',
+	    	            iconCls: null,
+	    	            scale: 'small',
+	    	            hidden: true,
+	    	            listeners : {click : 'onDeliveredOrdersClick', },
+	    	            
+	    	        },
+	    	        {
+	    	        	id: 'mapsBtn',
+	    	            text:'Карта',
+	    	            iconCls: null,
+	    	            scale: 'small',
+	    	            hidden: true,
+	    	            listeners : {click : 'onMapsClick', },
+	    	            
+	    	        },
+	    	        //конец: кнопки для операторской
+	                
+	                {
 	        	id: 'menuOrdersBtn',
 	            xtype:'button',
 	            text:'Управление заказами',
@@ -140,7 +180,10 @@ Ext.define('SushimiConsole.view.main.Main', {
 	            scale: 'small',
 	            value: 0,
 	            hidden: true,
-	        },]
+	        },
+
+	        
+	        ]
         },
         
         {
@@ -199,6 +242,22 @@ Ext.define('SushimiConsole.view.main.Main', {
         		Ext.getCmp('menuWarehouseBtn').setVisible(true);
         		Ext.getCmp('menuDictionariesBtn').setVisible(true);
         		Ext.getCmp('menuClientsBtn').setVisible(true);
+        		Ext.getCmp('currentOrdersBtn').setVisible(false);
+        		Ext.getCmp('deliveredOrdersBtn').setVisible(false);
+        		Ext.getCmp('mapsBtn').setVisible(false);
+        		Ext.getCmp('newOrderBtn').setVisible(false);
+        	}
+        	
+        	if (role == 'OPERATOR') {
+        		Ext.getCmp('menuOrdersBtn').setVisible(false);
+        		Ext.getCmp('menuStatsBtn').setVisible(false);
+        		Ext.getCmp('menuWarehouseBtn').setVisible(false);
+        		Ext.getCmp('menuDictionariesBtn').setVisible(false);
+        		Ext.getCmp('menuClientsBtn').setVisible(false);
+        		Ext.getCmp('currentOrdersBtn').setVisible(true);
+        		Ext.getCmp('deliveredOrdersBtn').setVisible(true);
+        		Ext.getCmp('mapsBtn').setVisible(true);
+        		Ext.getCmp('newOrderBtn').setVisible(true);
         	}
     	}
     },
