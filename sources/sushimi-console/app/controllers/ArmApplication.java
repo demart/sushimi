@@ -227,7 +227,7 @@ public class ArmApplication extends Controller {
 				model.setComment(order.getComment());
 				
 			
-			if (order.getType() == OrderType.DELIVERY) {
+			if (order.getType() == OrderType.DELIVERY || order.getType() == OrderType.DELIVERY_IN_TIME) {
 				if (order.getClientAddress() != null) 
 					model.setClientAddress(order.getClientAddress().getFullAddress());
 							
