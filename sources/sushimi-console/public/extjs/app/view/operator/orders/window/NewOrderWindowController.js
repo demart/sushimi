@@ -1,13 +1,13 @@
     var orderId = null;
 
-Ext.define('SushimiConsole.view.operator.orders.new.NewOrderWindowController', {
+Ext.define('SushimiConsole.view.operator.orders.window.NewOrderWindowController', {
     extend: 'Ext.app.ViewController',
 
     requires: [
         'Ext.MessageBox'
     ],
 
-    alias: 'controller.operator.orders.newnewOrderWindow',
+    alias: 'controller.operator.orders.window.newOrderWindow',
     
     routes : {
     },

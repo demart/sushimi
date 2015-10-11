@@ -1,11 +1,11 @@
-Ext.define('SushimiConsole.view.operator.currentorders.CurrentOrdersList' ,{
+Ext.define('SushimiConsole.view.operator.orders.current.CurrentOrdersList' ,{
     extend: 'Ext.grid.Panel',
-    controller: 'operator.currentorders',
+    controller: 'operator.orders.current',
     alias: 'widget.operator.CurrentOrdersList',
     requires: [
    		'Ext.MessageBox',
-   	    'SushimiConsole.view.operator.currentorders.CurrentOrdersListController',
-   	    'SushimiConsole.view.operator.currentorders.CurrentOrdersEditWindow'
+   	    'SushimiConsole.view.operator.orders.current.CurrentOrdersListController',
+   	    'SushimiConsole.view.operator.orders.current.CurrentOrdersEditWindow'
 	],
 
 	viewConfig: {

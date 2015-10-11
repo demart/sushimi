@@ -1,10 +1,10 @@
-Ext.define('SushimiConsole.view.operator.orders.new.AddClientAddressWindow', {
+Ext.define('SushimiConsole.view.operator.orders.window.AddClientAddressWindow', {
     extend: 'Ext.window.Window',
     xtype: 'order-add-client-address-window',
     
     id: 'addClientAddressWindow',
     reference: 'addClientAddressWindow',
-    controller: 'operator.orders.new.newOrderWindow',
+    controller: 'operator.orders.window.newOrderWindow',
 
     title: 'Адрес клиента',
     width: 600,

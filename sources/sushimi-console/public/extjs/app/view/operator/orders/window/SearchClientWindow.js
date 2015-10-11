@@ -1,10 +1,10 @@
-Ext.define('SushimiConsole.view.operator.orders.new.SearchClientWindow', {
+Ext.define('SushimiConsole.view.operator.orders.window.SearchClientWindow', {
     extend: 'Ext.window.Window',
     xtype: 'order-search-client-window',
     
     id: 'searchClientGridWindow',
     reference: 'searchClientWindow',
-    controller: 'operator.orders.new.newOrderWindow',
+    controller: 'operator.orders.window.newOrderWindow',
 
     title: 'Поиск клиента',
     width: 600,

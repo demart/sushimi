@@ -1,4 +1,4 @@
-Ext.define('SushimiConsole.view.operator.currentorders.CurrentOrdersEditWindow', {
+Ext.define('SushimiConsole.view.operator.orders.current.CurrentOrdersEditWindow', {
     extend: 'Ext.window.Window',
     xtype: 'currentorders-edit-window',
     

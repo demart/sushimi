@@ -1,18 +1,18 @@
-Ext.define('SushimiConsole.view.operator.orders.new.NewOrderWindow', {
+Ext.define('SushimiConsole.view.operator.orders.window.NewOrderWindow', {
     extend: 'Ext.window.Window',
     xtype: 'create-new-order-window',
     
-    reference: 'newOrderWindow',
-    controller: 'operator.orders.new.newOrderWindow',
+    reference: 'newOrderOperatorWindow',
+    controller: 'operator.orders.window.newOrderWindow',
     
     requires: [
-           'SushimiConsole.view.operator.orders.new.NewOrderWindowController',
+           'SushimiConsole.view.operator.orders.window.NewOrderWindowController',
            
-           'SushimiConsole.view.operator.orders.new.ProductWindow',
+           'SushimiConsole.view.operator.orders.window.ProductWindow',
            
-           'SushimiConsole.view.operator.orders.new.SearchClientWindow',
-           'SushimiConsole.view.operator.orders.new.AddClientWindow',
-           'SushimiConsole.view.operator.orders.new.AddClientAddressWindow',
+           'SushimiConsole.view.operator.orders.window.SearchClientWindow',
+           'SushimiConsole.view.operator.orders.window.AddClientWindow',
+           'SushimiConsole.view.operator.orders.window.AddClientAddressWindow',
            
            'SushimiConsole.model.PromotionModel',
            'SushimiConsole.model.DeliveryExtraPriceModel',

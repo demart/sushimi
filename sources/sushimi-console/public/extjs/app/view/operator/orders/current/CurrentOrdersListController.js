@@ -1,13 +1,13 @@
-Ext.define('SushimiConsole.view.operator.currentorders.CurrentOrdersListController', {
+Ext.define('SushimiConsole.view.operator.orders.current.CurrentOrdersListController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.operator.currentorders',
+    alias: 'controller.operator.orders.current',
     
     windowMode : 'add',
     
     showAddWindow: function() {
         var win = this.lookupReference('currentOrdersEditWindow');
         if (!win) {
-            win = new SushimiConsole.view.operator.currentorders.CurrentOrdersEditWindow();
+            win = new SushimiConsole.view.operator.order.current.CurrentOrdersEditWindow();
             this.getView().add(win);
         }
         record = Ext.create('SushimiConsole.model.operator.CurrentOrdersModel');
@@ -21,7 +21,7 @@ Ext.define('SushimiConsole.view.operator.currentorders.CurrentOrdersListControll
     showEditWindow: function() {
         var win = this.lookupReference('currentOrdersEditWindow');
         if (!win) {
-            win = new SushimiConsole.view.operator.currentorders.CurrentOrdersEditWindow();
+            win = new SushimiConsole.view.operator.orders.current.CurrentOrdersEditWindow();
             this.getView().add(win);
         }
         var selectedRecord = this.view.getSelectionModel().getSelection()[0];

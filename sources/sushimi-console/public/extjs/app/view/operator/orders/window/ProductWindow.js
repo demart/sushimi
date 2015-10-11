@@ -1,10 +1,10 @@
-Ext.define('SushimiConsole.operator.orders.new.ProductWindow', {
+Ext.define('SushimiConsole.operator.orders.window.ProductWindow', {
     extend: 'Ext.window.Window',
     xtype: 'create-new-order-product-window',
     
     id: 'newOrderProductGridWindow',
     reference: 'newOrderProductWindow',
-    controller: 'operator.orders.new.newOrderWindow',
+    controller: 'operator.orders.window.newOrderWindow',
 
     title: 'Продукция',
     width: 600,

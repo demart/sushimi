@@ -1,10 +1,10 @@
-Ext.define('SushimiConsole.view.operator.orders.new.AddClientWindow', {
+Ext.define('SushimiConsole.view.operator.orders.window.AddClientWindow', {
     extend: 'Ext.window.Window',
     xtype: 'order-add-client-window',
     
     id: 'addClientWindow',
     reference: 'addClientWindow',
-    controller: 'operator.orders.new.newOrderWindow',
+    controller: 'operator.orders.window.newOrderWindow',
 
     title: 'Информация о клиенте',
     width: 400,

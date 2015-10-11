@@ -49,7 +49,7 @@ Ext.define('SushimiConsole.view.main.Main', {
 	    	            iconCls: null,
 	    	            scale: 'small',
 	    	            hidden: true,
-	    	            listeners : {click : 'onNewOrderClick', },
+	    	            listeners : {click : 'onNewOrderOperatorClick', },
 	    	            
 	    	        },
 	    	        {

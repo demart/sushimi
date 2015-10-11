@@ -18,7 +18,7 @@ Ext.define('SushimiConsole.view.main.MainController', {
     },
  
     
-    // Новый заказ
+    //Новый заказ
     onNewOrderClick : function() {
         var win = this.getView().lookupReference('newOrderWindow');
         if (!win) {
@@ -30,6 +30,19 @@ Ext.define('SushimiConsole.view.main.MainController', {
         win.show();
         
     },      
+    
+    //Операторская: Новый заказ
+    onNewOrderOperatorClick : function() {
+        var win = this.getView().lookupReference('newOrderOperatorWindow');
+        if (!win) {
+            win = new SushimiConsole.view.operator.NewOrderWindow({id: 'newOrderOperatorWindow'});
+            this.getView().add(win);
+        }
+        
+        win.controller.resetOrderForm();
+        win.show();
+        
+    },  
     
     // Справочник городов
     onCityDicClick : function() {
@@ -112,7 +125,7 @@ Ext.define('SushimiConsole.view.main.MainController', {
     //Операторская: текущие заказы
     onCurrentOrdersClick: function() {
     	console.log('CurrentOrders clicked');
-    	this.redirectTo('operator/currentorders');
+    	this.redirectTo('operator/orders/current');
     },
     
     //Операторская: завершенные заказы
