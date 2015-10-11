@@ -44,14 +44,14 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
                         		},
                         		items: [{
                         			xtype: 'textfield',
-                        			id:'searchClientNameField',
+                        			id:'searchClientNameAddressField',
                         			name: 'clientNameAddress',
                         			margin: '0 15 0 0',
                         			width: 150,
                         			listeners:{
                         				specialkey: function(f,o){
                         					if(o.getKey()==13){
-                        						Ext.getCmp('searchClientButton').fireEvent('click');
+                        						Ext.getCmp('searchClientAddressButton').fireEvent('click');
                         					}
                         				}
                         			},  
@@ -59,14 +59,14 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
                         		{
                         			fieldLabel: 'Телефон',
                         			xtype: 'textfield',
-                        			id: 'searchClientPhoneField',
+                        			id: 'searchClientPhoneAddressField',
                         			name: 'clientPhoneAddress',
                         			margin: '0 15 0 0',
                         			width: 65,
                         			listeners:{
                         				specialkey: function(f,o){
                         					if(o.getKey()==13){
-                        						Ext.getCmp('searchClientButton').fireEvent('click');
+                        						Ext.getCmp('searchClientAddressButton').fireEvent('click');
                         					}
                         				}
                         			},
@@ -94,7 +94,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
                         		{
                         			region: 'center',
                         			items: [{
-                        				id: 'searchClientButton',
+                        				id: 'searchClientAddressButton',
                         				region: 'east',
                             			margin: '0 15 0 0',
                         				xtype: 'button',
@@ -107,7 +107,7 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressList' ,{
                         			{
                         				region: 'west',
                         				xtype: 'button',
-                            			id: 'onRefreshStoreButton',
+                            			id: 'onRefreshStoreAddressButton',
                         				text: 'Очистить фильтры',
                         				listeners: {
                             				click : 'onRefreshStore' 

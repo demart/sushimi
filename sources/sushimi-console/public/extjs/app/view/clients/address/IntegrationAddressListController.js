@@ -9,8 +9,8 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
      * Обновить стор (после поиска)
      */
     onRefreshStore : function() {
-    	var clientName = Ext.getCmp('searchClientNameField');
-    	var clientPhone = Ext.getCmp('searchClientPhoneField');
+    	var clientName = Ext.getCmp('searchClientNameAddressField');
+    	var clientPhone = Ext.getCmp('searchClientPhoneAddressField');
     	var clientMainGrid = Ext.getCmp('integrationMainClientsStoreId');
     	clientMainGrid.store.proxy.api.update = 'rest/clients/information/store/read';
     	clientMainGrid.getStore().reload();
@@ -45,8 +45,8 @@ Ext.define('SushimiConsole.view.clients.address.IntegrationAddressListController
      * Поиск клиента по параметрам
      */
     searchClient: function() {
-    	var clientMainNameField = Ext.getCmp('searchClientNameField');
-    	var clientMainPhoneField = Ext.getCmp('searchClientPhoneField');
+    	var clientMainNameField = Ext.getCmp('searchClientNameAddressField');
+    	var clientMainPhoneField = Ext.getCmp('searchClientPhoneAddressField');
     	var clientMainSearchGrid = Ext.getCmp('integrationMainClientsStoreId');
     	clientMainSearchGrid.store.proxy.api.read = 'rest/client/search/store/read?name=' + clientMainNameField.getValue() + '&phone=' + clientMainPhoneField.getValue();
     	clientMainSearchGrid.getStore().reload();
