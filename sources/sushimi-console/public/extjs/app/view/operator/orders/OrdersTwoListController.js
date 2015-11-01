@@ -561,7 +561,7 @@ Ext.define('SushimiConsole.view.operator.orders.OrdersTwoListController', {
 
     // Отображает окно завершения заказа
     cancelSiteOrder: function() {
-    	if (cancelSiteWindow == null)
+    	if (this.cancelSiteWindow == null)
     		this.cancelSiteWindow = Ext.widget('operator.orders.cancelSiteWindow');
         Ext.getCmp('cancelSiteOrderWindowForm').getForm().reset();
     	record = Ext.create('SushimiConsole.model.order.CancelSiteOrderModel');
