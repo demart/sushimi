@@ -95,72 +95,82 @@ Ext.define('SushimiConsole.view.dictionaries.promotion.PromotionEditWindow', {
 			  // allowBlank: false
 	        },
 	        {
-    			fieldLabel: 'Опубликовать',
-                xtype: 'checkbox',
-                boxLabel: 'ДА',
-	           // itemId: 'isPublished',
-                name: 'isPublished',
-                inputValue: 'true',
-              //  checked:'false',
+	            xtype      : 'fieldcontainer',
+	            fieldLabel : 'Публикация',
+	            defaultType: 'checkboxfield',
+	            items: [
+	                {
+	                    boxLabel  : 'Да',
+	                    name      : 'isPublished',
+	                    inputValue: 'true',
+	                    //checked: true,
+	                    id        : 'checkbox1'
+	                }, {
+	                    boxLabel  : 'Нет',
+	                    name      : 'isPublished',
+	                    inputValue: 'false',
+	                    //checked   : true,
+	                    id        : 'checkbox2'
+	                }]
 	        },
+	       
 	        {
-                xtype: 'checkbox',
-                boxLabel: 'НЕТ',
-	           // itemId: 'isPublished',
-                name: 'isPublished',
-                inputValue: 'false',
-                //checked:'false',
+	            xtype      : 'fieldcontainer',
+	            fieldLabel : 'Тип акции',
+	            defaultType: 'checkboxfield',
+	            items: [
+	                {
+	                    boxLabel  : 'По времени',
+	                    name      : 'type',
+	                    inputValue: 'PERIOD',
+	                    id        : 'checkbox3'
+	                   // checked: true,
+	                   // id        : 'checkbox1'
+	                }, {
+	                    boxLabel  : 'День рождение',
+	                    name      : 'type',
+	                    inputValue: 'BIRTHDATE',
+	                    id        : 'checkbox4'
+	                   // checked   : true,
+	                    //id        : 'checkbox2'
+	                },
+	                
+	                ]
 	        },
-
 	        
 	        {
-    			fieldLabel: 'Тип акции',
-                xtype: 'checkbox',
-                boxLabel: 'По времени',
-                name: 'type',
-                inputValue: 'PERIOD',
-               // checked:'true',
-	        },
-	        {
-                xtype: 'checkbox',
-                boxLabel: 'День рождение',
-                name: 'type',
-                inputValue: 'BIRTHDATE',
-              //  checked:'true',
-	        },
-	       {
-	        			fieldLabel: 'Тип подарка',
-	                    xtype: 'checkbox',
-	                    boxLabel: 'Продукт',
+	            xtype      : 'fieldcontainer',
+	            fieldLabel : 'Тип подарка',
+	            defaultType: 'checkboxfield',
+	            items: [
+	                {
+	                    boxLabel: 'Скидка',
 	                    name: 'valueType',
-	    	            itemId: 'valueType',
-	                    inputValue: 'PRODUCT',
-	                    //checked:'true',
+	                    inputValue: 'DISCOUNT',
+	                    id        : 'checkbox5'
+	                }, {
+	                    boxLabel: 'Скидка на все',
+	                     name: 'valueType',
+	                     inputValue: 'DISCOUNT_ALL',
+	                     id        : 'checkbox6'
+	                }, {
+	                	 boxLabel: 'Скидка и продукт',
+	                      name: 'valueType',
+	                      inputValue: 'DP',
+	                      id        : 'checkbox7'
+	                },
+	                {
+	                	 boxLabel: 'Продукт',
+	                      name: 'valueType',
+	                      inputValue: 'PRODUCT',
+	                      id        : 'checkbox8'
+	                }
+	                
+	                
+	                ]
 	        },
-		    {
-                xtype: 'checkbox',
-                boxLabel: 'Скидка',
-	          //  itemId: 'valueType',
-                name: 'valueType',
-                inputValue: 'DISCOUNT',
-               // checked:'true',
-		    },
-		    {
-                xtype: 'checkbox',
-                boxLabel: 'Скидка на все',
-	           // itemId: 'valueType',
-                name: 'valueType',
-                inputValue: 'DISCOUNT_ALL',
-               // checked:'true',
-		    },
-		    {
-                xtype: 'checkbox',
-                boxLabel: 'Скидка и продукт',
-	           // itemId: 'valueType',
-                name: 'valueType',
-                inputValue: 'DP',
-               // checked:'true',
-		    },
+	       
+
 		    {
 	            reference: 'product',
 	            flex: 1,

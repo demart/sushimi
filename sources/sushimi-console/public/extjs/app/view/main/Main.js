@@ -32,7 +32,57 @@ Ext.define('SushimiConsole.view.main.Main', {
 	        region:'north',
 	        floatable: false,
 	        margin: '0 0 0 0',
-	        tbar : [{
+	        tbar : [
+	                //Начало: кнопки для операторской
+	    	        {
+	    	        	id: 'currentOrdersBtn',
+	    	            text:'Текущие заказы',
+	    	            iconCls: null,
+	    	            scale: 'small',
+	    	            hidden: true,
+	    	            listeners : {click : 'onCurrentOrdersClick', },
+	    	            
+	    	        },
+	    	        {
+	    	        	id: 'newOrderBtn',
+	    	            text:'Новый заказ',
+	    	            iconCls: null,
+	    	            scale: 'small',
+	    	            hidden: true,
+	    	            listeners : {click : 'onNewOrderOperatorClick', },
+	    	            
+	    	        },
+	    	        {
+	    	        	id: 'deliveredOrdersBtn',
+	    	            text:'Выполненные заказы',
+	    	            iconCls: null,
+	    	            scale: 'small',
+	    	            hidden: true,
+	    	            listeners : {click : 'onDeliveredOrdersClick', },
+	    	            
+	    	        },
+	    	        {
+	    	        	id: 'courierListBtn',
+	    	            text:'Информация по курьерам',
+	    	            iconCls: null,
+	    	            scale: 'small',
+	    	            hidden: true,
+	    	            listeners : {click : 'onCourierListClick', },
+	    	            
+	    	        },
+	    	        {
+	    	        	id: 'mapsBtn',
+	    	            text:'Карта',
+	    	            iconCls: null,
+	    	            scale: 'small',
+	    	            hidden: true,
+	    	            listeners : {click : 'onMapsClick', },
+	    	            
+	    	        },
+
+	    	        //конец: кнопки для операторской
+	                
+	                {
 	        	id: 'menuOrdersBtn',
 	            xtype:'button',
 	            text:'Управление заказами',
@@ -140,7 +190,19 @@ Ext.define('SushimiConsole.view.main.Main', {
 	            scale: 'small',
 	            value: 0,
 	            hidden: true,
-	        },]
+	        },
+	        '-',  {
+	        	id: 'deliveredOrdersCountField',
+	            text:'Идет проверка...',
+	            iconCls: null,
+	            margin: '0 0 0 20',
+	            alignTarget: 'right',
+	            scale: 'small',
+	        },
+	        
+
+	        
+	        ]
         },
         
         {
@@ -160,7 +222,7 @@ Ext.define('SushimiConsole.view.main.Main', {
     		    url: '/rest/order/new?lastCheck=' + Ext.getCmp('newSiteOrdersCountLastTimeField').getValue(),		    
     		    success: function(response){
     		    	response = Ext.decode(response.responseText);
-
+		    		Ext.getCmp('newSiteOrdersCountLastTimeField').setValue(response.lastCheck);
     		    	if (response.count > 0) {
     		    		Ext.getCmp('newSiteOrdersCountField').setText('<span style="font-weight:bold;">Новые заказы</span> <span style="color:red; font-weight:bold; text-decoration: blink;">' + response.count + ' шт.</span>');
     		    		Ext.getCmp('newSiteOrdersCountLastTimeField').setValue(response.lastCheck);
@@ -171,6 +233,8 @@ Ext.define('SushimiConsole.view.main.Main', {
 	    		            });
     		    			var mySound = soundManager.createSound({ url: '/music/Temple.wav'});
     		    			mySound.play();
+    		    			var store = Ext.getCmp('ordersAll');
+    		    			store.getStore().reload();
     		    		}
     		    	} else {
     		    		Ext.getCmp('newSiteOrdersCountField').setText('Нет заказов с сайта');	
@@ -180,6 +244,49 @@ Ext.define('SushimiConsole.view.main.Main', {
     		    	Ext.getCmp('newSiteOrdersCountField').setText('<span style="color:red; font-weight:bold;">Ошибка!</span>');
     			}
     		});
+          
+    		Ext.Ajax.request({
+        	    url: 'rest/order/delivery/count/store/read',
+        	    method: 'POST',
+        	    //jsonData: data,
+        	    
+        	    success: function(response, conn, options, eOpts) {
+        	    	var json = Ext.util.JSON.decode(response.responseText);
+        	    	if (json.success == true) {
+        	    		Ext.getCmp('deliveredOrdersCountField').setText(json.message);
+        	    		
+        	    	} 
+        	    }, 
+
+        	    failure: function(batch) {
+        	    	Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
+        		}
+        	});
+    		
+            Ext.Ajax.request({
+            	url: '/rest/order/state?lastUpdateTime=' + Ext.getCmp('newSiteOrdersCountLastTimeField').getValue(),		    
+        	    method: 'POST',
+        	    //jsonData: data,
+        	    
+        	    success: function(response, conn, options, eOpts) {
+        	    	var store = Ext.getCmp('ordersAll');
+        	    	store.getStore().load();
+        	    	var json = Ext.util.JSON.decode(response.responseText);
+        	    	if (json.success == true) {
+    		    		Ext.toast({
+    		                html: json.message,
+				            autoCloseDelay: 8000,
+    		                closable: false, align: 'tr', slideInDuration: 400, minWidth: 240
+    		            });
+    		    		
+        	    		
+        	    	} 
+        	    }, 
+
+        	    failure: function(batch) {
+        	    	Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
+        		}
+        	});
     	    task.delay(10000);
     	}, this);
 
@@ -199,6 +306,31 @@ Ext.define('SushimiConsole.view.main.Main', {
         		Ext.getCmp('menuWarehouseBtn').setVisible(true);
         		Ext.getCmp('menuDictionariesBtn').setVisible(true);
         		Ext.getCmp('menuClientsBtn').setVisible(true);
+        		Ext.getCmp('currentOrdersBtn').setVisible(false);
+        		Ext.getCmp('deliveredOrdersBtn').setVisible(false);
+        		Ext.getCmp('mapsBtn').setVisible(false);
+        		Ext.getCmp('newOrderBtn').setVisible(false);
+        		//Ext.getCmp('newSiteOrdersBtn').setVisible(false);
+        		Ext.getCmp('courierListBtn').setVisible(false);
+        	//	Ext.getCmp('deliveredOrdersMoneyCountField').setVisible(false);
+        		Ext.getCmp('deliveredOrdersCountField').setVisible(false);
+        	}
+        	
+        	if (role == 'OPERATOR') {
+        		Ext.getCmp('menuOrdersBtn').setVisible(false);
+        		Ext.getCmp('menuStatsBtn').setVisible(false);
+        		Ext.getCmp('menuWarehouseBtn').setVisible(false);
+        		Ext.getCmp('menuDictionariesBtn').setVisible(false);
+        		Ext.getCmp('menuClientsBtn').setVisible(false);
+        		Ext.getCmp('currentOrdersBtn').setVisible(true);
+        		Ext.getCmp('deliveredOrdersBtn').setVisible(true);
+        		Ext.getCmp('mapsBtn').setVisible(true);
+        		Ext.getCmp('newOrderBtn').setVisible(true);
+        		//Ext.getCmp('newSiteOrdersBtn').setVisible(false);
+        		Ext.getCmp('courierListBtn').setVisible(false);
+        		//Ext.getCmp('deliveredOrdersMoneyCountField').setVisible(true);
+        		Ext.getCmp('deliveredOrdersCountField').setVisible(true);
+        		window.document.location = "#operator/orders";
         	}
     	}
     },

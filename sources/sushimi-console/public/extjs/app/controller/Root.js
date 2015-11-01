@@ -29,8 +29,41 @@ Ext.define('SushimiConsole.controller.Root', {
     	'reports' : 'onReports',
     	
     	'temp' : 'onTemp',
+    	
+    	//'operator/orders' : 'onCurrentOrdersList',
+    	'operator/orders/delivered' : 'onDeliveredOrdersList',
+    	//'operator/orders/site' : 'onNewSiteOrdersList',
+    	'operator/courier' : 'onCourierList',
+    	//'operator/orders' : 'onOrdersList',
+    	'operator/orders' : 'onOrdersTwoList',
     },
-
+    
+    //Операторская: заказы
+    onOrdersTwoList : function() {
+        console.log("onOrdersList route");
+        this.getMain().getComponent('mainBody').removeAll(true);
+        this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.operator.orders.OrdersTwoList'));
+    },
+    
+    
+    
+    
+    //Операторская: список курьеров
+    onCourierList : function() {
+        console.log("onCourierList route");
+        this.getMain().getComponent('mainBody').removeAll(true);
+        this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.operator.courier.CourierList'));
+    },
+    
+     
+    //Операторская: выполненные заказы
+    onDeliveredOrdersList : function() {
+        console.log("onDeliveredOrdersList route");
+        this.getMain().getComponent('mainBody').removeAll(true);
+        this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.operator.orders.delivered.DeliveredOrdersList'));
+    },
+    
+ 
     // справочник городов
     onDictionaryCityList : function() {
         console.log("onDictionaryCityList route");

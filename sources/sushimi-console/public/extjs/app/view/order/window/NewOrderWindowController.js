@@ -795,12 +795,16 @@ Ext.define('SushimiConsole.view.order.window.NewOrderWindowController', {
 		    	console.log(response);
 		    	
 		    	if (response.success) {
+		    		//var store = Ext.getCmp('ordersAll');
+		    		//store.getStore().reload();
 		    		Ext.getCmp('printOrderBtn').setVisible(true);
 		    		Ext.getCmp('printOrderPosPrinterBtn').setVisible(true);
 		    		Ext.getCmp('printOrderBtn').setHref('/order/print/' + response.orderId);
 		    		//Ext.getCmp('saveOrderBtn').setDisabled(true);
 		    		Ext.MessageBox.alert('Успешно','Заказ успешно создан. № заказа [' + response.orderNumber + '], теперь можно распечатать чек');
 		    		orderId = response.orderId;
+		    		//var st = Ext.getCmp('currentOrdersGridId');
+		    		//st.getStore().reload();
 		    	} else {
 		    		Ext.MessageBox.alert('Внимание','Ошибка при сохранении заказа');
 		    	}

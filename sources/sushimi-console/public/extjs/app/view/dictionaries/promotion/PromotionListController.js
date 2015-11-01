@@ -11,7 +11,7 @@ Ext.define('SushimiConsole.view.dictionaries.promotion.PromotionListController',
             this.getView().add(win);
         }
        
-        
+        this.lookupReference('promotionEditWindowForm').getForm().reset();
         record = Ext.create('SushimiConsole.model.PromotionModel');
 		record.set(win.down("form").getValues());
 		win.down("form").loadRecord(record);
@@ -28,6 +28,52 @@ Ext.define('SushimiConsole.view.dictionaries.promotion.PromotionListController',
         }
         var selectedRecord = this.view.getSelectionModel().getSelection()[0];
     	win.down('form').loadRecord(selectedRecord);
+    	
+    	if (selectedRecord.data.isPublished == true) {
+    		Ext.getCmp('checkbox1').setValue(true);
+    		Ext.getCmp('checkbox2').setValue(false);
+    	}
+    	else {
+    		Ext.getCmp('checkbox1').setValue(false);
+    		Ext.getCmp('checkbox2').setValue(true);
+    	}
+    	
+    	if (selectedRecord.data.type == "PERIOD") {
+    		Ext.getCmp('checkbox3').setValue(true);
+    		Ext.getCmp('checkbox4').setValue(false);
+    	}
+    	else {
+    		Ext.getCmp('checkbox3').setValue(false);
+    		Ext.getCmp('checkbox4').setValue(true);
+    	}
+    	
+    	if (selectedRecord.data.valueType == "DISCOUNT") {
+    		Ext.getCmp('checkbox5').setValue(true);
+    		Ext.getCmp('checkbox6').setValue(false);
+    		Ext.getCmp('checkbox7').setValue(false);
+    		Ext.getCmp('checkbox8').setValue(false);
+    	}
+    	else if (selectedRecord.data.valueType == "DISCOUNT_ALL") {
+    		Ext.getCmp('checkbox5').setValue(false);
+    		Ext.getCmp('checkbox6').setValue(true);
+    		Ext.getCmp('checkbox7').setValue(false);
+    		Ext.getCmp('checkbox8').setValue(false);
+    	}
+    	else if (selectedRecord.data.valueType == "PRODUCT") {
+    		Ext.getCmp('checkbox5').setValue(false);
+    		Ext.getCmp('checkbox6').setValue(false);
+    		Ext.getCmp('checkbox7').setValue(false);
+    		Ext.getCmp('checkbox8').setValue(true);
+    	}
+    	else {
+    		Ext.getCmp('checkbox5').setValue(false);
+    		Ext.getCmp('checkbox6').setValue(false);
+    		Ext.getCmp('checkbox7').setValue(true);
+    		Ext.getCmp('checkbox8').setValue(false);
+    	}
+    	//console.log(Ext.util.Format.date(selectedRecord.data.fromTime, 'Y/m/d'));
+    	Ext.getCmp('fromTime').setValue(Ext.util.Format.date(selectedRecord.data.fromTime, 'm/d/Y'));
+    	Ext.getCmp('toTime').setValue(Ext.util.Format.date(selectedRecord.data.toTime, 'm/d/Y'));  	
     	this.windowMode = 'edit';
     	win.show();
     },    

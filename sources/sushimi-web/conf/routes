@@ -44,6 +44,7 @@ POST	/system/orders/history/synchronize				IntegrationController.synchronizeOrde
 POST	/system/orders/history/get/updates				IntegrationController.getOrderHistoryUpdates
 POST	/system/orders/history/confirm/updates			IntegrationController.comfirmOrderHistoryUpdates
 POST	/system/register/phone							IntegrationController.registerPhone
+POST	/system/orders/courier/position					IntegrationController.courierPosition
 
 # News pages
 GET		/news/											AnnouncementController.news
