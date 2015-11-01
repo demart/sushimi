@@ -221,6 +221,7 @@ Ext.define('SushimiConsole.view.operator.orders.OrdersTwoListController', {
 			}
 			//polyline.addPoint(point, i);
 		
+		
 
 		
 		console.log(coords);
