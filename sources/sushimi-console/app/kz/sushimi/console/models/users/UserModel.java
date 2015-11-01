@@ -33,6 +33,11 @@ public class UserModel {
 	private String password;
 	
 	/**
+	 * Взятые заказы курьером
+	 */
+	private String ordersOnDelivery;
+	
+	/**
 	 * Роль пользователя
 	 */
 	private UserRole role;
@@ -41,6 +46,25 @@ public class UserModel {
 	public String user;
 	public Date createdDate;
 	public Date modifiedDate;
+
+	private String addressesOnDelivery;
+	
+	public void setAddressesOnDelivery(String addressesOnDelivery) {
+		this.addressesOnDelivery = addressesOnDelivery;
+	}
+	
+	public String getAddressesOnDelivery () {
+		return addressesOnDelivery;
+	}
+	
+	
+	public void setOrdersOnDelivery(String ordersOnDelivery) {
+		this.ordersOnDelivery = ordersOnDelivery;
+	}
+	
+	public String getOrdersOnDelivery () {
+		return ordersOnDelivery;
+	}
 	
 	public String getUser() {
 		return user;
@@ -66,6 +90,8 @@ public class UserModel {
 		this.modifiedDate = modifiedDate;
 	}
 
+	
+	
 	public Long getId() {
 		return id;
 	}

@@ -33,9 +33,9 @@ Ext.define('SushimiConsole.view.main.MainController', {
     
     //Операторская: Новый заказ
     onNewOrderOperatorClick : function() {
-        var win = this.getView().lookupReference('newOrderOperatorWindow');
+        var win = this.getView().lookupReference('newOrderWindow');
         if (!win) {
-            win = new SushimiConsole.view.operator.NewOrderWindow({id: 'newOrderOperatorWindow'});
+            win = new SushimiConsole.view.order.window.NewOrderWindow({id: 'newOrderWindow'});
             this.getView().add(win);
         }
         
@@ -125,19 +125,28 @@ Ext.define('SushimiConsole.view.main.MainController', {
     //Операторская: текущие заказы
     onCurrentOrdersClick: function() {
     	console.log('CurrentOrders clicked');
-    	this.redirectTo('operator/orders/current');
+    	this.redirectTo('operator/orders');
     },
     
     //Операторская: завершенные заказы
     onDeliveredOrdersClick: function() {
     	console.log('DeliveredOrders clicked');
-    	this.redirectTo('deliveredorders');
+    	this.redirectTo('operator/orders/delivered');
+    },
+    
+    
+    //Операторская: список курьеров
+    onCourierListClick: function() {
+    	console.log('CourierOrders clicked');
+    	this.redirectTo('operator/courier');
     },
     
     //Операторская: карта
     onMapsClick: function() {
     	console.log('Maps clicked');
-    	this.redirectTo('maps');
+    	//this.redirectTo('maps');
+    	//window.document.location = "http://maps.yandex.ru/163/astana/";
+    	window.open ("https://maps.yandex.ru/163/astana/?ll=71.480124%2C51.153436&z=13&rtext=51.160596%2C71.451845&rtt=auto");
     },
     
 });

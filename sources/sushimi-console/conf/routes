@@ -24,6 +24,18 @@ POST 	/rest/order/delivery/take/store/read				ArmApplication.takeOrdersByCourier
 
 # OPERATOR
 GET		/rest/operator/order/store/read						OperatorController.readCurrentOrders
+GET     /rest/operator/delivered/order/store/read			OperatorController.readDeliveredOrdersToday
+POST 	/rest/operator/order/cancel							OperatorController.cancelOrder
+GET		/rest/operator/site/order/store/read				OperatorController.readNewSiteOrders
+POST	/operator/order/history								OperatorController.readOrderHistory
+POST	/operator/order/courier								OperatorController.readCourierOrder
+GET		/rest/operator/courier/store/read					OperatorController.readCourierPosition
+GET		/rest/operator/order2/store/read					OperatorController.read2
+POST 	/rest/order/delivery/count/store/read				OperatorController.coutDeliveredOrders
+POST	/rest/operator/order								OperatorController.read2
+POST	/rest/order/state									OperatorController.lastOrderState
+POST	/rest/operator/courier								OperatorController.takeCourier
+POST	/rest/operator/courier/update						OperatorController.updateCourier
 
 # MANAGEMENT
 GET     /													Application.index

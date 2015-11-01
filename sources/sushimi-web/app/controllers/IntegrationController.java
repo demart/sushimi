@@ -1,8 +1,11 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import kz.sushimi.models.integration.CourierGeoPosition;
+import kz.sushimi.models.integration.CourierModel;
 import kz.sushimi.models.integration.OrderModel;
 import kz.sushimi.models.integration.RegisterPhoneModel;
 import kz.sushimi.models.integration.order.SushimiWebOrderHistoryModel;
@@ -10,9 +13,12 @@ import kz.sushimi.models.integration.order.SushimiWebOrderModel;
 import kz.sushimi.models.integration.order.SushimiWebOrderSynchronizationResult;
 import kz.sushimi.persistence.orders.Order;
 import kz.sushimi.persistence.orders.OrderHistory;
+import kz.sushimi.persistence.users.User;
+import kz.sushimi.persistence.users.UserTracking;
 import kz.sushimi.service.IntegrationService;
 import kz.sushimi.service.broadcast.PhoneService;
 import play.Logger;
+import play.db.jpa.JPA;
 import play.mvc.Controller;
 
 import com.google.gson.Gson;
@@ -156,5 +162,59 @@ public class IntegrationController extends Controller {
 		Logger.info("Integration OrderHistory updats confirmation affected rows :" + ids.length);
 		renderJSON(rowAffected);
 	}
+	
+	/**
+	 * Отправка позиций курьера
+	 */
+	public static void courierPosition () {
+		//String requestBody = params.current().get("body");
+	//	Gson gson = new Gson();
+		Logger.info("Start site integration courier position");
+		
+		List<User> list = JPA.em().createQuery("from User where role = 'COURIER' order by id desc").getResultList();
+		
+		ArrayList<CourierModel> models = new ArrayList<CourierModel> ();
+		
+	
+		 
+		for (User model : list) {
+			CourierModel couriers = new CourierModel();
+			couriers.setId(model.getId());
+			
+			List<OrderHistory> list2 = JPA.em().createQuery("from OrderHistory where user = :nameCourier and orderState = 'ON_DELIVERY' order by id desc").setParameter("nameCourier", model.getName()).getResultList();
+			//Integer count = 0;
+			//Logger.info("ok");
+			Calendar date = Calendar.getInstance();
+			for (OrderHistory orders : list2) {
+				date = orders.getDate();
+				//Logger.info("" + date);
+				break;
+			}
+			
+			List<UserTracking> list3 = JPA.em().createQuery("from UserTracking where user.id = :idCourier and date > :date order by id asc").setParameter("idCourier", model.getId()).setParameter("date", date).getResultList();
+			
+			ArrayList<CourierGeoPosition> mods = new ArrayList<CourierGeoPosition>();
+			for (int i=0; i < list3.size(); i++) {
+				//System.out.println (i);
+				CourierGeoPosition mod = new CourierGeoPosition();
+				mod.setGeoLatitude(list3.get(i).getLatitude());
+				mod.setGeoLongitude(list3.get(i).getLongitude());
+				mods.add(mod);
+			}
+			couriers.setGeoPosition(mods);
+			
+			couriers.setName(model.getName());
+			couriers.setGeoLatitude(model.getLastLatitude());
+			couriers.setGeoLongitude(model.getLastLongitude());
+			couriers.setDate(model.getLastGeolocationSyncTime().getTime());
+			models.add(couriers);
+			//ids.add(model.getId());
+		}
+		
+
+		Logger.info("Finish site integration courier position");
+		renderJSON(models);
+	}
+	
 	
 }

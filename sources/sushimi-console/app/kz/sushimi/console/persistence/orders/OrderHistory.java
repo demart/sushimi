@@ -26,6 +26,8 @@ public class OrderHistory extends PersistentObject {
 	@ManyToOne
 	private Order order;
 	
+
+	
 	/**
 	 * Статус заказа
 	 */
@@ -62,6 +64,7 @@ public class OrderHistory extends PersistentObject {
 	 */
 	@Column(name="site_record_id")
 	private Long siteRecordId;
+
 
 
 	public Order getOrder() {

@@ -1,38 +1,37 @@
-Ext.define('SushimiConsole.view.operator.orders.current.CurrentOrdersList' ,{
+Ext.define('SushimiConsole.view.operator.orders.delivered.DeliveredOrdersList' ,{
     extend: 'Ext.grid.Panel',
-    controller: 'operator.orders.current',
-    alias: 'widget.operator.CurrentOrdersList',
+    controller: 'operator.orders.delivered.deliveredOrdersList',
+    alias: 'operator.orders.delivered.deliveredOrdersList',
+    xtype: 'deliveredOrdersList',
     requires: [
    		'Ext.MessageBox',
-   	    'SushimiConsole.view.operator.orders.current.CurrentOrdersListController',
-   	    'SushimiConsole.view.operator.orders.current.CurrentOrdersEditWindow'
+   	    'SushimiConsole.view.operator.orders.delivered.DeliveredOrdersListController',
+   	   // 'SushimiConsole.view.operator.orders.current.CurrentOrdersEditWindow',
+   	    
+   		'SushimiConsole.view.operator.orders.window.PreviewOrderWindow',
+   		'SushimiConsole.view.operator.orders.window.PreviewOrderWindowController',
 	],
 
 	viewConfig: {
         stripeRows: true
     },
-	title: 'Текущие заказы',
-    store: 'operator.CurrentOrdersStore',
+	title: 'Выполненные заказы',
+    store: 'operator.DeliveredOrdersStore',
 	stateful: false,
 	
 	tbar: [{
-        text: 'Добавить',
-        handler: 'showAddWindow'
-    }, {
-        text: 'Изменить',
-        handler: 'showEditWindow'
-    },{
-        text: 'Удалить',
-        handler: 'onDeleteRecord',
-    },{
-        text: 'Обновить',
-        handler: 'onRefreshStore',
+        text: 'Просмотр заказа',
+        handler: 'previewOrder'
+    },
+    {
+        text: 'Просмотреть историю',
+        handler: 'orderHistory'
     }],
 	
 	columns: [
 		//	{text: "ID", dataIndex: 'id', width: 50},
 			{text: "Номер заказа", dataIndex: 'orderNumber' , width: 110},
-			{text: "Дата доставки", dataIndex: 'deliveryDateKitchen', width: 150},
+			{text: "Дата доставки", dataIndex: 'deliveryDate', xtype: 'datecolumn', format: 'd.m.Y H.i.s', width: 150},
 			{text: "Осталось", dataIndex: 'timer', width: 150},
             {text: "Статус заказа", dataIndex: 'state', width: 100,
             	renderer : function(val) {
@@ -44,6 +43,7 @@ Ext.define('SushimiConsole.view.operator.orders.current.CurrentOrdersList' ,{
             },
 			{text: "Имя клиента", dataIndex: 'clientName' , flex: 1},
             {text: "Телефонный номер", dataIndex: 'clientPhone', flex:1},
+            {text: "Адрес", dataIndex: 'clientAddress', flex: 1},
             {text: "Тип заказа", dataIndex: 'type', width:100, 
             	renderer : function(val) {
                     if (val == 'DELIVERY') return 'Доставка';

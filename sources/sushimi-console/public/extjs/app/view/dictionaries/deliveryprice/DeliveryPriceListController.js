@@ -10,6 +10,7 @@ Ext.define('SushimiConsole.view.dictionaries.deliveryprice.DeliveryPriceListCont
             win = new SushimiConsole.view.dictionaries.deliveryprice.DeliveryPriceEditWindow();
             this.getView().add(win);
         }
+        this.lookupReference('deliverypriceEditWindowForm').getForm().reset();
         record = Ext.create('SushimiConsole.model.DeliveryPriceModel');
 		record.set(win.down("form").getValues());
 		win.down("form").loadRecord(record);

@@ -101,10 +101,13 @@ public class PromotionService {
 			if (StringUtils.isNotEmpty(promotionModel.getName()))
 				promotion.setName(promotionModel.getName());
 			
-			promotion.setDiscount(promotionModel.getDiscount());
+			//promotion.setDiscount(promotionModel.getDiscount());
 			
 			if (promotionModel.getOrderSum() != null)
 				promotion.setOrderSum(promotionModel.getOrderSum());
+			
+			if (promotionModel.getDiscount() != null)
+				promotion.setDiscount(promotionModel.getDiscount());
 			
 			promotion.setDeleted(false);
 			

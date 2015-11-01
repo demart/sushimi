@@ -60,7 +60,11 @@ Ext.define('SushimiConsole.Application', {
          'WarehouseOutcomeStore',
          'WarehouseOutcomeTypeStore',
          
-         'operator.CurrentOrdersStore',
+         //'operator.CurrentOrdersStore',
+         'operator.DeliveredOrdersStore',
+        // 'operator.NewSiteOrderStore',
+         'operator.CourierStore',
+         'operator.OrdersStore',
     ],
     
     launch: function () {

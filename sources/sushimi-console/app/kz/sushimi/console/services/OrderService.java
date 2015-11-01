@@ -721,7 +721,7 @@ public class OrderService {
 	 * @param order Заказ
 	 * @param user Пользователь совершивших действие
 	 */
-	private static void addOrderHistoryRecord(Order order, User user) {
+	public static void addOrderHistoryRecord(Order order, User user) {
 		Calendar ohCT = Calendar.getInstance();
 		OrderHistory orderHistory = new OrderHistory();
 		orderHistory.setOrder(order);

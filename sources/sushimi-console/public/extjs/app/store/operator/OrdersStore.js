@@ -1,4 +1,4 @@
-Ext.define('SushimiConsole.store.operator.CurrentOrdersStore', {
+Ext.define('SushimiConsole.store.operator.OrdersStore', {
     extend: 'Ext.data.Store',
     model: 'SushimiConsole.model.operator.CurrentOrdersModel',
     autoLoad: false,
@@ -9,13 +9,16 @@ Ext.define('SushimiConsole.store.operator.CurrentOrdersStore', {
         direction: 'ASC'
     }],
     
+    groupField: 'typeGrouping',
+    groupDir: 'ASC',
+
 
     
     
     proxy: {
 	    type: 'ajax',
         api: {
-            read: 'rest/operator/order/store/read',
+            read: 'rest/operator/order2/store/read',
             create: 'rest/operator/order/store/create',
             update: 'rest/operator/order/store/update',
             destroy: 'rest/operator/order/store/destroy'

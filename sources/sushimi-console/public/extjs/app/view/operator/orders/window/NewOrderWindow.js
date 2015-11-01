@@ -2,7 +2,7 @@ Ext.define('SushimiConsole.view.operator.orders.window.NewOrderWindow', {
     extend: 'Ext.window.Window',
     xtype: 'create-new-order-window',
     
-    reference: 'newOrderOperatorWindow',
+    reference: 'newOrderWindow',
     controller: 'operator.orders.window.newOrderWindow',
     
     requires: [

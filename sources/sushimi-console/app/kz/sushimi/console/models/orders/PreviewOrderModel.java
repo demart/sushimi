@@ -74,11 +74,18 @@ public class PreviewOrderModel {
 	
 	private String timer;
 	
+	//используется не только к курьерском, а еще и в операторской
 	private Integer statusType;
 	
 	private String deliveryDateDelivery;
 	
+	private String history;
+	
 	private List<ArmCourierManyOrdersModel> orders;
+	
+	public void setHistory (String history) {
+		this.history = history;
+	}
 	
 	public List<ArmCourierManyOrdersModel> getOrders() {
 		return orders;

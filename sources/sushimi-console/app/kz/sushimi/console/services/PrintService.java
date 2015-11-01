@@ -34,6 +34,21 @@ public class PrintService {
 		Order order = Order.findById(orderId);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy'  'HH:mm:ss");
 		
+		//int j=0;
+		for (OrderItem orderItem : order.getOrderItems()) {
+			//	PreviewOrderItemModel item = new PreviewOrderItemModel();
+				//j++;
+				if (orderItem.getProduct().getId() != 34301 && orderItem.getProduct().getId() != 34302 && 
+					orderItem.getProduct().getId() != 34300 && orderItem.getProduct().getId() != 34303 && 
+					orderItem.getProduct().getId() != 34304 && orderItem.getCount() != 0) {
+					//printer.write((orderItem.getProduct().getName() + " x" + orderItem.getCount() + "  " + orderItem.getSum()).getBytes("Cp1251"));
+					//размещение печати 
+					
+					System.out.println (orderItem.getProduct().getId());
+					
+				}
+			}
+		
 		Socket s = new Socket("192.168.1.87", 9100);
 		DataOutputStream printer = new DataOutputStream (s.getOutputStream());
 		
@@ -106,18 +121,51 @@ public class PrintService {
 		Integer j = 0;
 		Integer sumOrder = 0;
 
+		String vasabi = "Васаби";
+		Integer vasabiCount = 0;
+		Integer vasabiCost = 0;
+		Integer vasabiOne = 0;
+		
+		String imbir = "Имбирь";
+		Integer imbirCount = 0;
+		Integer imbirCost = 0;
+		Integer imbirOne = 0;
+		
+		
+		String soya = "Соевый соус";
+		Integer soyaCount = 0;
+		Integer soyaCost = 0;
+		Integer soyaOne = 0;
 		
 		for (OrderItem orderItem : order.getOrderItems()) {
 			//	PreviewOrderItemModel item = new PreviewOrderItemModel();
-				j++;
+				//j++;
 				if (orderItem.getProduct().getId() != 34301 && orderItem.getProduct().getId() != 34302 && 
 					orderItem.getProduct().getId() != 34300 && orderItem.getProduct().getId() != 34303 && 
 					orderItem.getProduct().getId() != 34304 && orderItem.getCount() != 0) {
 					//printer.write((orderItem.getProduct().getName() + " x" + orderItem.getCount() + "  " + orderItem.getSum()).getBytes("Cp1251"));
-					//размещение печати 
+					//размещение печати
+					if (orderItem.getProduct().getId() == 657) {
+						vasabiCount = orderItem.getCount();
+						vasabiCost = orderItem.getSum();
+						vasabiOne = orderItem.getProduct().getCost();
+					}
+					else if (orderItem.getProduct().getId() == 658) {
+						soyaCount = orderItem.getCount();
+						soyaCost = orderItem.getSum();
+						soyaOne = orderItem.getProduct().getCost();
+					}
+					else if (orderItem.getProduct().getId() == 659) {
+						imbirCount = orderItem.getCount();
+						imbirCost = orderItem.getSum();
+						imbirOne = orderItem.getProduct().getCost();
+					}
+				else {
+					j++;
 					printer.write(0x1B);
 					printer.write("a".getBytes());
 					printer.write(0); // 0 - лево, 1 - центр, 2 - право
+					System.out.println (orderItem.getProduct().getId());
 					printer.write((j + " " + orderItem.getProduct().getName()).getBytes("Cp1251"));
 					printer.write(0xA);
 					printer.write(0x1B);
@@ -135,7 +183,57 @@ public class PrintService {
 					sumOrder = sumOrder + orderItem.getSum();
 					printer.write(0xA);
 				}
+				}
 			}
+		
+		printer.write(0x1B);
+		printer.write("a".getBytes());
+		printer.write(0); // 0 - лево, 1 - центр, 2 - право
+		System.out.println (j + "   " + vasabi);
+		j++;
+		printer.write((j + " " + vasabi).getBytes("Cp1251"));
+
+		printer.write(0xA);
+		printer.write(0x1B);
+		printer.write("a".getBytes());
+		printer.write(2);
+		printer.write(("   " + vasabiCount + "x" + 
+		vasabiOne + "....................................." + vasabiCost).getBytes("Cp1251"));
+		sumOrder = sumOrder + vasabiCost;
+		printer.write(0xA);
+		
+		printer.write(0x1B);
+		printer.write("a".getBytes());
+		printer.write(0); // 0 - лево, 1 - центр, 2 - право
+		System.out.println (j + " " + imbir);
+		j++;
+		printer.write((j + " " + imbir).getBytes("Cp1251"));
+
+		printer.write(0xA);
+		printer.write(0x1B);
+		printer.write("a".getBytes());
+		printer.write(2);
+		printer.write(("   " + imbirCount + "x" + 
+		imbirOne + "....................................." + imbirCost).getBytes("Cp1251"));
+		sumOrder = sumOrder + imbirCost;
+		printer.write(0xA);
+		
+		printer.write(0x1B);
+		printer.write("a".getBytes());
+		printer.write(0); // 0 - лево, 1 - центр, 2 - право
+		System.out.println (j + "Соя");
+		j++;
+		printer.write((j + " " + soya).getBytes("Cp1251"));
+
+		printer.write(0xA);
+		printer.write(0x1B);
+		printer.write("a".getBytes());
+		printer.write(2);
+		printer.write(("   " + soyaCount + "x" + 
+		soyaOne + "....................................." + soyaCost).getBytes("Cp1251"));
+		sumOrder = sumOrder + soyaCost;
+		printer.write(0xA);
+		
 		
 		printer.write(0xA);
 		
