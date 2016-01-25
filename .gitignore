@@ -1,5 +1,11 @@
 .classpath
 .project
+apache-tomcat-7.0.47
+backups
+builds
+sushimi-rest-api
+sushimi-web
+sushimi-web-entity
 sources/sushimi-console/.classpath
 sources/sushimi-console/.project
 sources/sushimi-console/.settings
