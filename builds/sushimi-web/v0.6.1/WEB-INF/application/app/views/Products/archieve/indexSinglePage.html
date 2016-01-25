@@ -1,0 +1,94 @@
+#{extends 'main.html' /}
+#{set title:'Меню - Компания «Сушими»' /}
+#{set menu_nav: 'true' /}
+
+<link href="/public/stylesheets/loader.css" rel="stylesheet" type="text/css" />
+<div id="circularG_fullscreen">
+	<div id="circularG_main">
+		<div id="circularG">
+			<div id="circularG_1" class="circularG"></div>
+			<div id="circularG_2" class="circularG"></div>
+			<div id="circularG_3" class="circularG"></div>
+			<div id="circularG_4" class="circularG"></div>
+			<div id="circularG_5" class="circularG"></div>
+			<div id="circularG_6" class="circularG"></div>
+			<div id="circularG_7" class="circularG"></div>
+			<div id="circularG_8" class="circularG"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	//$('#circularG_fullscreen').css({width: $(document).width(), height: $(document).height()});
+	//function hideLoader() {$('#circularG_fullscreen').remove();}
+	//setTimeout(hideLoader, 3000);
+</script>
+
+<div class="container">                    
+	<div class="main" role="main">
+		<section>
+		    <div id="global_menu" class="menu">
+		    	<!-- <div class="container" style="text-align: center;">
+                	<ul class="nav nav-pills nav-sections" style="display: inline-block; vertical-align: text-top;">
+                		<li class="${catType.toString() == 'SUSHI' ? 'active' : ''}">
+                             		<a href="/menu/sushi/" rollapp-href="/menu/sushi/" style="border-radius: 0; font-size: 18px; ${catType.toString() == 'SUSHI' ? 'color: white;' : 'color: #555;'}">Суши</a>
+                          	</li>
+                          	<li class="${catType.toString() == 'ANTISUSHI' ? 'active' : ''}">
+                             		<a href="/menu/antisushi/" rollapp-href="/menu/antisushi/" style="border-radius: 0; font-size: 18px; ${catType.toString() == 'ANTISUSHI' ? 'color: white;' : 'color: #555;'}">Антисуши</a>
+                          	</li>
+                	</ul>
+               	</div> -->
+		        <div class="menu-sections">
+		            <div class="block">
+		                <div class="container" style="text-align: center;">
+		                    <ul class="nav nav-pills nav-sections" style="display: inline-block; vertical-align: text-top;">
+								%{ for(int i = 0; i < categories.size; i++) {   }%
+		                        	<li id="cat_menu_${categories[i].id}">
+                                		<a id="cat_${categories[i].id}Btn" data-target="#${categories[i].uniqueName}" href="#cat_${categories[i].uniqueName}" rollapp-href="#cat_${categories[i].uniqueName}">${categories[i].name}</a>
+	                            	</li>
+		                        %{ } }%
+                    		</ul>
+                		</div>
+            		</div>
+        		</div>
+        		%{ if (catType.toString() == 'ANTISUSHI') { }%
+        			<div style="text-align: center;"><h3 style="background-color: mediumseagreen; color: #fff;"> Меню находится в обработке.<br/>Вы сможете попробовать любимые  блюда Европейской кухни чуть позже!<br/>ПРИНОСИМ СВОИ ИЗВИНЕНИЯ!</h3><br/><br/></div>
+        		%{ } }%
+		        %{ for(category in categories) { }%
+			        <div>
+			        	<div id="cat_${category.id}" style="top: -65px; position: relative;"></div>
+			        	<div style="font-size: 25px; color: #ff0000; font-weight: bold; margin: 15px 0px;">${category.name}</div>
+			        </div>	
+		        	%{ if (category.categories != null && category.categories.size() > 0) { }%
+			        	%{ for(subcategory in category.categories) { }%
+			        		%{ if (subcategory.isAvailable()) { }%
+						        <div><div id="${subcategory.uniqueName}" style="color: #B0CB1F; font-size: 18px; margin: 15px 0px;">${subcategory.name}</div></div>
+								%{ if (subcategory.products != null && subcategory.products.size() > 0) { }%
+					        		<div class="menu-items" style="position: relative;">
+							        	%{ for(product in subcategory.products) { }%
+							        		%{ if (product.isAvailable()) { }%
+							        			#{productViewMin product:product /}
+											%{ } }%
+							        	%{ } }%
+							        </div>
+						        %{ } }%
+							%{ } }%
+						%{ } }%
+					%{ } else { }%
+						%{ if (category.products != null && category.products.size() > 0) { }%
+			        		<div class="menu-items" style="position: relative;">
+					        	%{ for(product in category.products) { }%
+						       		%{ if (product.isAvailable()) { }%
+					        			#{productViewMin product:product /}
+									%{ } }%
+					        	%{ } }%
+					        </div>
+				        %{ } }%
+					%{ } }%
+				%{ } }%
+    		</div>
+		</section>
+	</div>
+</div>
+<script type="text/javascript" src="/public/javascripts/scrolld.min.js"></script>
+<script type="text/javascript">$("[id*='Btn']").stop(true).on('click', function (e) {e.preventDefault();$(this).scrolld();})</script>

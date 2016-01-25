@@ -22,6 +22,9 @@
 		8D1C49131A7E9773004291CA /* MenuNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C49121A7E9773004291CA /* MenuNavigationViewController.m */; };
 		8D1C49161A7E9894004291CA /* CategoriesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C49151A7E9894004291CA /* CategoriesTableViewController.m */; };
 		8D1C491F1A7E9FA9004291CA /* CategoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C491E1A7E9FA9004291CA /* CategoryItem.m */; };
+		8D1D26881BC96DAF00204E1B /* NotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1D26871BC96DAF00204E1B /* NotificationManager.m */; settings = {ASSET_TAGS = (); }; };
+		8D1D268C1BC970B300204E1B /* DevicePushRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1D268B1BC970B300204E1B /* DevicePushRequestModel.m */; settings = {ASSET_TAGS = (); }; };
+		8D1D26901BC995AF00204E1B /* HDNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1D268F1BC995AF00204E1B /* HDNotificationView.m */; settings = {ASSET_TAGS = (); }; };
 		8D22185A1B500B74003A332C /* HeaderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D2218591B500B74003A332C /* HeaderManager.m */; };
 		8D3D576E1AF757D700798B11 /* ContactTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3D576C1AF757D700798B11 /* ContactTextFieldCell.m */; };
 		8D3D576F1AF757D700798B11 /* ContactTextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D3D576D1AF757D700798B11 /* ContactTextFieldCell.xib */; };
@@ -203,6 +206,12 @@
 		8D1C49151A7E9894004291CA /* CategoriesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesTableViewController.m; sourceTree = "<group>"; };
 		8D1C491D1A7E9FA9004291CA /* CategoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryItem.h; sourceTree = "<group>"; };
 		8D1C491E1A7E9FA9004291CA /* CategoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryItem.m; sourceTree = "<group>"; };
+		8D1D26861BC96DAF00204E1B /* NotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationManager.h; sourceTree = "<group>"; };
+		8D1D26871BC96DAF00204E1B /* NotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationManager.m; sourceTree = "<group>"; };
+		8D1D268A1BC970B300204E1B /* DevicePushRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevicePushRequestModel.h; sourceTree = "<group>"; };
+		8D1D268B1BC970B300204E1B /* DevicePushRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DevicePushRequestModel.m; sourceTree = "<group>"; };
+		8D1D268E1BC995AF00204E1B /* HDNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HDNotificationView.h; path = "../../../../../../Downloads/HDNotificationView-master/Demo/HDNotificationView/HDNotificationView.h"; sourceTree = "<group>"; };
+		8D1D268F1BC995AF00204E1B /* HDNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HDNotificationView.m; path = "../../../../../../Downloads/HDNotificationView-master/Demo/HDNotificationView/HDNotificationView.m"; sourceTree = "<group>"; };
 		8D2218561B5008BD003A332C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		8D2218581B500B74003A332C /* HeaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderManager.h; sourceTree = "<group>"; };
 		8D2218591B500B74003A332C /* HeaderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderManager.m; sourceTree = "<group>"; };
@@ -596,8 +605,28 @@
 				8DED95311B66779700583D77 /* FeedbackDataManager.m */,
 				8D1839191BC688F10095959C /* UrlHelper.h */,
 				8D18391A1BC688F10095959C /* UrlHelper.m */,
+				8D1D26861BC96DAF00204E1B /* NotificationManager.h */,
+				8D1D26871BC96DAF00204E1B /* NotificationManager.m */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		8D1D26891BC970A100204E1B /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				8D1D268A1BC970B300204E1B /* DevicePushRequestModel.h */,
+				8D1D268B1BC970B300204E1B /* DevicePushRequestModel.m */,
+			);
+			name = Device;
+			sourceTree = "<group>";
+		};
+		8D1D268D1BC9959300204E1B /* HDNotificationView */ = {
+			isa = PBXGroup;
+			children = (
+				8D1D268E1BC995AF00204E1B /* HDNotificationView.h */,
+				8D1D268F1BC995AF00204E1B /* HDNotificationView.m */,
+			);
+			name = HDNotificationView;
 			sourceTree = "<group>";
 		};
 		8D3D576A1AF757B900798B11 /* Cells */ = {
@@ -631,6 +660,7 @@
 		8D58EDD41AB68A7C00706257 /* RestObjects */ = {
 			isa = PBXGroup;
 			children = (
+				8D1D26891BC970A100204E1B /* Device */,
 				8DF00E6A1B62B732009812B3 /* Feedback */,
 				8D0FAB371AF7846900FC74D3 /* Order */,
 				8D75EFED1ADF778600AE9B54 /* Cart */,
@@ -697,6 +727,7 @@
 		8D67F28F1AA20552007BABB4 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				8D1D268D1BC9959300204E1B /* HDNotificationView */,
 				8DED955A1B67F1AB00583D77 /* TDArtemPicker */,
 				8DA467911B1E10110069164F /* JTNumberScrollAnimatedView */,
 				8DC7BCA21B0497D7003DEFC3 /* DataLoadingError */,
@@ -1344,6 +1375,7 @@
 				8DED95691B69628700583D77 /* CompletedFeedbackTableViewController.m in Sources */,
 				8DD0EEA01A8E0EE8007BE4EC /* ProductDetailViewController.m in Sources */,
 				8D0FAB401AF7A19300FC74D3 /* OrderItemModel.m in Sources */,
+				8D1D268C1BC970B300204E1B /* DevicePushRequestModel.m in Sources */,
 				8D56AD511B53FA0500BDA630 /* ExtraDevelopedByTableViewCell.m in Sources */,
 				8D75F0021AE0078000AE9B54 /* CartProductItemFileModel.m in Sources */,
 				8DF00E661B62AD4F009812B3 /* FeedbackTableViewController.m in Sources */,
@@ -1357,6 +1389,7 @@
 				8D62BC031A97D1CB006F08B4 /* AboutCompanySocialTableViewCell.m in Sources */,
 				8D0C6CB71A9F44F700FF6150 /* RestaurantTableViewCell.m in Sources */,
 				8DF00E731B62B835009812B3 /* FeedbackModel.m in Sources */,
+				8D1D26901BC995AF00204E1B /* HDNotificationView.m in Sources */,
 				8DED95631B67F1AB00583D77 /* TDPickerController.m in Sources */,
 				8D0F4EB21B03570A00441A1F /* DejalActivityView.m in Sources */,
 				8DD3762A1AFA5DAA00CA1880 /* SettingsNoteCell.m in Sources */,
@@ -1383,6 +1416,7 @@
 				8DB48C641B4BB65E0024190C /* RestaurantPhoto.m in Sources */,
 				8D3D576E1AF757D700798B11 /* ContactTextFieldCell.m in Sources */,
 				8DED95551B67561200583D77 /* FeedbackMetaInformationModel.m in Sources */,
+				8D1D26881BC96DAF00204E1B /* NotificationManager.m in Sources */,
 				8DED95651B67F1AB00583D77 /* TDPickerModalViewController.m in Sources */,
 				8DED954E1B6734EE00583D77 /* FeedbackTextViewTableViewCell.m in Sources */,
 				8D5D3BB51AD66E5000AEE607 /* CartItem.m in Sources */,

@@ -10,6 +10,7 @@
 #import "RKLog.h"
 
 #import "SettingsManager.h"
+#import "NotificationManager.h"
 
 @interface AppDelegate ()
 
@@ -25,10 +26,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    // Register notification
-    [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-    [[UIApplication sharedApplication] registerForRemoteNotifications];
-    
+    // Подаписываемся на получение пуш уведомлений
+    [NotificationManager registerForRemoteNotification];
     
     // =================
     //  Other settings
@@ -77,46 +76,32 @@
     return YES;
 }
 
+
+// ================
+//   NOTFICATIONS
+// ================
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSLog(@"PUSH: registered in APNS with deviceToken: %@", deviceToken);
-    
-    // Проверить есть ли такой ID в локальной БД если нет или не совпадает
-        // Сохранить в локальной БД
-        // Отправить на сервер
+    [NotificationManager application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"PUSH: error during regisntration in APNS, error: %@", error);
+    [NotificationManager application:application didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-    NSLog(@"PUSH: supported notificaiton settings: %@", notificationSettings);
-    // Посмотреть что поддерживается пользователем
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler {
-    NSLog(@"PUSH: receive push: %@", userInfo);
-    NSLog(@"PUSH: receive push (handler): %@", handler);
-    
-    // Проверить что работает только при выключенном приложении
-    if (application.applicationState == UIApplicationStateInactive) {
-    }
-    if (application.applicationState == UIApplicationStateActive) {
-    }
-    if (application.applicationState == UIApplicationStateBackground) {
-    }
+    [NotificationManager application:application didRegisterUserNotificationSettings:notificationSettings];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"PUSH: receive push and app is running: %@", userInfo);
-    // Проверить что работает только при включенном приложении
-    if (application.applicationState == UIApplicationStateInactive) {
-    }
-    if (application.applicationState == UIApplicationStateActive) {
-    }
-    if (application.applicationState == UIApplicationStateBackground) {
-    }
+    [NotificationManager application:application didReceiveRemoteNotification:userInfo];
 }
+
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    [NotificationManager application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
+
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {

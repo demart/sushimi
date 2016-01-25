@@ -114,7 +114,7 @@ public class SushimiWebOrderSynchronizer extends Job {
 		
 		m.items = convertOrderItems(order);
 		
-		m.orderDate = order.getDeliveryDate();
+		m.orderDate = order.getOrderDate();
 		m.orderState = order.getOrderState();
 		m.orderSum = order.getOrderSum();
 		

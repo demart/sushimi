@@ -16,6 +16,7 @@ static NSString *SYSTEM_VERSION = @"sushimi-system-version";
 static NSString *SYSTEM_UNIQUE_IDENTIFIER = @"sushimi-system-unique-identifier";
 static NSString *SYSTEM_APPLICATION_IDENTIFIER = @"sushimi-system-application-identifier";
 static NSString *APPLICATION_VERSION = @"sushimi-app-version";
+static NSString *SYSTEM_APPLICATION_DEVICE_TOKEN = @"sushimi-system-application-device-token";
 
 static NSString *AppVer = @"1.0";
 

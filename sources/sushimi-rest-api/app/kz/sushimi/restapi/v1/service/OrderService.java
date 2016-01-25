@@ -216,7 +216,7 @@ public class OrderService {
 		List<Order> orders = JPA.em().createQuery("from Order where processed = 'ON_DELIVERY' and courierCode = :courierCode")
 				.setParameter("courierCode", user.getCode()).getResultList();
 		
-		if (orders.size() < 0)
+		if (orders.size() < 1)
 			return;
 		
 		// TODO BAD ALGORIGHT, refactor for one update query
@@ -313,10 +313,33 @@ public class OrderService {
 	
 	
 	public static List<UserOrderModel> readOrders(User user, UserReadOrdersRequestModel model) {
-		List<Order> orders = JPA.em().createQuery("from Order where courierCode = :code and processed = :orderState")
-				.setParameter("code", user.getCode())
-				.setParameter("orderState", model.orderState)
-				.getResultList();
+		List<Order> orders = null;
+
+		if (model.orderState == OrderProcess.IN_PROGRESS) {
+			
+			List<OrderProcess> states = new ArrayList<OrderProcess>();
+			states.add(OrderProcess.IN_PROGRESS);
+			states.add(OrderProcess.WAITING_FOR_DELIVERY);
+
+			List<DeliveryType> deliveryTypes = new ArrayList<DeliveryType>();
+			deliveryTypes.add(DeliveryType.DELIVERY);
+			deliveryTypes.add(DeliveryType.DELIVERY_IN_TIME);
+			
+			orders = JPA.em().createQuery("from Order where processed in (:states) and deliveryType in (:deliveryTypes)")
+					.setParameter("deliveryTypes", deliveryTypes)
+					.setParameter("states", states)
+					.getResultList();
+		}
+
+		if (model.orderState == OrderProcess.ON_DELIVERY || model.orderState == OrderProcess.DELIVERED) {
+			orders = JPA.em().createQuery("from Order where courierCode = :code and processed = :orderState")
+					.setParameter("code", user.getCode())
+					.setParameter("orderState", model.orderState)
+					.getResultList();
+		}
+		
+		if (orders == null)
+			return null;
 		
 		if (orders.size() < 1)
 			return null;
@@ -328,6 +351,7 @@ public class OrderService {
 			om.clientComment = order.getPersonRemark();
 			om.clientName = order.getPersonName();
 			om.clientPhone = order.getPersonPhone();
+			om.clientCash = order.getPersonCash();
 			om.deliveryTime = order.getDeliveryTime();
 			om.deliveryType = order.getDeliveryType();
 			om.orderTime = order.getOrderTime();
@@ -342,6 +366,28 @@ public class OrderService {
 		}
 		
 		return models;
+	}
+
+	
+	/**
+	 * Метод возвращает список записей в истории зменений заказов, по которым нужно уведомить курьеров
+	 * @return
+	 */
+	public static List<OrderHistory> getOrdersHistoryForCouirerNotification(Calendar lastCheck) {
+		
+		// Статусы которые нам необходимы в выборке
+		List<OrderProcess> states = new ArrayList<OrderProcess>();
+		states.add(OrderProcess.IN_PROGRESS);
+		states.add(OrderProcess.WAITING_FOR_DELIVERY);
+		states.add(OrderProcess.ON_DELIVERY);
+
+		// Достать записи в истории изменений старше этой даты и которые являются IN_PROGRES and WAITING_FOR_DELIVERY or ON_DELIVERY
+		List<OrderHistory> orderHistories = JPA.em().createQuery("from OrderHistory where orderState in (:states) and date > :lastCheckTime")
+				.setParameter("states", states)
+				.setParameter("lastCheckTime", lastCheck)
+				.getResultList();
+		
+		return orderHistories;
 	}
 	
 	

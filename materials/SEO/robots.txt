@@ -1,0 +1,4 @@
+User-Agent: *
+Disallow:
+Host: sushimi.kz
+Sitemap: http://sushimi.kz/sitemap.xml

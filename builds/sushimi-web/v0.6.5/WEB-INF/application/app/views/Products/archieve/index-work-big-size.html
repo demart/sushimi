@@ -1,0 +1,105 @@
+#{extends 'main.html' /}
+#{set title:'Меню - Компания «Сушими»' /}
+#{set menu_nav: 'true' /}
+
+<div class="container">                    
+	<div class="main" role="main">
+		<section>
+		    <div class="menu">
+		        <div class="menu-sections">
+		            <div class="block">
+		                <div class="container" style="text-align: center;">
+		                    <ul class="nav nav-pills nav-sections" style="display: inline-block; vertical-align: text-top;">
+		                        %{ for(category in categories) { // TODO Active }%
+		                        	<li id="cat_menu_${category.id}"> 
+                                		<a id="${category.id}Btn" data-target="#${category.uniqueName}" href="#${category.uniqueName}" rollapp-href="#${category.uniqueName}">${category.name}</a>
+	                            	</li>
+		                        %{ } }%
+                    		</ul>
+		                    <div class="tab-content">
+		                    	%{ for(category in categories) { // TODO Active }%
+			                    	%{ if (category.categories.size() > 0) { }%
+			                    	<div id="#$sub_menu_${category.uniqueName}" class="tab-pane" style="margin-left: auto;">
+		                                <ul class="nav nav-pills">
+		                            		%{ for(subcategory in category.categories) { // TODO Active }%    	
+		                                        <li>
+		                                            <a href="#${subcategory.uniqueName}">${subcategory.name}</a>
+		                                        </li>
+		                                	%{ } }%
+		                                </ul>
+		                            </div>
+		                            %{ } }%
+		                    	%{ } }%
+		                    </div>
+                		</div>
+            		</div>
+        		</div>
+		        <div class="menu-filters" style="display: none;">
+		            <select class="menu-filter-sort">
+		                <option value="sort">по умолчанию</option>
+		                <option value="price">по цене</option>
+		                <option value="rating">по популярности</option>
+		                <option value="name">по названию</option>
+		            </select>
+		        </div>
+		        <script type="text/javascript">var selected_menu_items = null;</script>
+		        %{ for(category in categories) { }%
+			        <div>
+			        	<div id="${category.id}" style="top: -80px; position: relative;"></div>
+			        	<div style="font-size: 25px; color: #ff0000; font-weight: bold;">${category.name}</div>
+			        	<hr style="margin: 6px; margin-bottom: 10px;"/>
+			        </div>	
+					<script type="text/javascript">
+                  		$('#${category.id}').waypoint(function() {
+                  			if (selected_menu_items != null) {
+                  				selected_menu_items.removeClass("active").css({});
+                  				console.log(selected_menu_items);
+                  			}
+                  			var menuItem = $('#cat_menu_' + "${category.id}");
+                  			selected_menu_items = menuItem;
+                      		menuItem.addClass("active");
+                      		console.log('${category.uniqueName}');
+                  		});
+					</script>
+		        	%{ if (category.categories != null && category.categories.size() > 0) { }%
+			        	%{ for(subcategory in category.categories) { }%
+			        		%{ if (subcategory.isAvailable()) { }%
+						        <div>
+						        	<div id="${subcategory.uniqueName}" style="color: #B0CB1F; font-size: 18px;">${subcategory.name}</div>
+						        	<hr style="margin: 6px; margin-bottom: 10px;"/>
+						        </div>
+								%{ if (subcategory.products != null && subcategory.products.size() > 0) { }%
+					        		<div class="menu-items" style="position: relative;">
+							        	%{ for(product in subcategory.products) { }%
+							        		%{ if (product.isAvailable()) { }%
+							        			#{productViewMin product:product /}
+											%{ } }%
+							        	%{ } }%
+							        </div>
+						        %{ } else { }%
+						        	<div>В данной категории ничего нет.</div>
+						        	<hr style="margin: 6px;"/>
+						        %{ } }%
+							%{ } }%
+						%{ } }%
+					%{ } else { }%
+						%{ if (category.products != null && category.products.size() > 0) { }%
+			        		<div class="menu-items" style="position: relative;">
+					        	%{ for(product in category.products) { }%
+						       		%{ if (product.isAvailable()) { }%
+					        			#{productViewMin product:product /}
+									%{ } }%
+					        	%{ } }%
+					        </div>
+				        %{ } else { }%
+				        	<div>В данной категории ничего нет.</div>
+				        	<hr style="margin: 6px;"/>
+				        %{ } }%
+					%{ } }%
+				%{ } }%
+    		</div>
+		</section>
+	</div>
+</div>
+<script type="text/javascript" src="/public/javascripts/scrolld.min.js"></script>
+<script type="text/javascript">$("[id*='Btn']").stop(true).on('click', function (e) {e.preventDefault();$(this).scrolld();})</script>

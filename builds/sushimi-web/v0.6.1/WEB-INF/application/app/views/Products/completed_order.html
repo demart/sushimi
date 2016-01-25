@@ -1,0 +1,135 @@
+#{extends 'main.html' /}
+
+#{set title: page != null ? page.title : 'Sushimi.kz - Заказ' /}
+#{set metaTitle: page != null ? page.metaTitle : '' /}
+#{set metaContent: page != null ? page.metaContent : '' /}
+#{set metaDescription: page != null ? page.metaDescription : '' /}
+#{set metaKeywords: page != null ? page.metaKeywords : '' /}
+#{set htmlFooter: page != null ? page.htmlFooter : null /}
+
+<div class="container">
+	<div class="main" role="main">
+		<section>
+		    <h1>Заказ №${orderModel.order.orderNumber} получен</h1>
+		    <p>В ближайшее время наш оператор свяжется с вами для подтверждения заказа.</p>		
+		    <h2 style="margin-top:50px;">Информация о заказе</h2>
+		    <div class="row">
+		        <div class="span8">
+		            <table class="table" style="background: #fff;">
+		                <tbody>
+							<tr><td>№ заказа</td><td>${orderModel.order.orderNumber}</td></tr>
+							<tr><td>Заказ создан</td><td>${new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(orderModel.order.orderTime.time)}</td></tr>
+							<tr><td>Имя заказчика</td><td>${orderModel.order.personName}</td></tr>
+							<tr><td>Контактный телефон</td><td>${orderModel.order.personPhone}</td></tr>
+							%{ if (orderModel.order.personEmail != null) { }%
+							<tr><td>Email адрес</td><td>${orderModel.order.personEmail}</td></tr>
+							%{ } }%
+							<tr><td>Адрес доставки</td><td>${orderModel.order.address}</td></tr>
+							%{ if (orderModel.order.deliveryType.toString() == "DELIVERY") { }%
+								<tr><td>Комментарий</td><td style="white-space:pre-line;">
+									Количество персон: ${orderModel.order.personCount}
+									Способ получения заказа: Доставка
+								</td></tr>
+							%{ } }%
+							%{ if (orderModel.order.deliveryType.toString() == "DELIVERY_IN_TIME") { }%
+								<tr><td>Комментарий</td><td style="white-space:pre-line;">
+									Количество персон: ${orderModel.order.personCount}
+									Способ получения заказа: Доставка ко времени 
+									Время: ${new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(orderModel.order.deliveryTime.time)}
+								</td></tr>
+							%{ } }%
+							%{ if (orderModel.order.deliveryType.toString() == "SELF_SERVICE") { }%
+								<tr><td>Комментарий</td><td style="white-space:pre-line;">
+								Количество персон: ${orderModel.order.personCount}
+								Способ получения заказа: Самовывоз
+								Ресторан: ${orderModel.order.department.name}
+								Время: ${new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(orderModel.order.deliveryTime.time)}
+							</td></tr>
+							%{ } }%
+							%{ if (orderModel.order.GeoLatitude != null && orderModel.order.GeoLongitude != null) { }%
+							<tr>
+								<td>Местоположение</td>
+								<td>
+								<script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+								<script type="text/javascript">    
+									ymaps.ready(function () {        
+										var map = new ymaps.Map('YMapsID', {            
+											center: [${orderModel.order.GeoLatitude}, ${orderModel.order.GeoLongitude}], zoom: 16, behaviors: []       
+										});								        
+	
+										var myPlacemark = new ymaps.Placemark(
+											        [${orderModel.order.GeoLatitude}, ${orderModel.order.GeoLongitude}],
+											        {
+											            balloonContentHeader: 'Я тут',
+											            balloonContent: 'Везите мой заказ сюда!',
+											            balloonContentFooter: ymaps.geolocation.city
+											        }
+											    );
+									    map.geoObjects.add(myPlacemark);
+									});
+							    </script>
+									<div id="YMapsID"  style="width:100%;height:200px;">
+									</div>
+								</td>
+							</tr>
+							%{ } }%
+		                </tbody>
+		            </table>
+		        </div>
+		    </div>	
+		    <h2 style="margin-top:30px;"></h2>	
+	        <h2 style="margin-top:30px;">Заказ</h2>
+	        <table class="table" style="background: #fff;">
+	            <thead>
+	                <tr>
+	                    <th class="hidden-phone"></th>
+	                    <th>Наименование</th>
+	                    <th class="hidden-phone">Порция</th>
+	                    <th class="hidden-phone" style="text-align: right;">Цена</th>
+	                    <th>Кол-во</th>
+	                    <th style="text-align: right;">Стоимость</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                   %{ for(orderProduct in orderModel.order.orderItems) { }%
+							<tr>
+		                        <td class="hidden-phone" style="padding: 5px;">	                            
+	                                <!-- <img alt="${orderProduct.product.name}" src="/public/images/menu/items/nigiri-grebeshok-32x32.png" style="-webkit-border-radius:16px;-moz-border-radius:16px;border-radius:16px;"> -->
+	                                <img alt="${orderProduct.product.name}" src="/public/images/menu/items/${orderProduct.product.iconImageLink}" style="-webkit-border-radius:16px;-moz-border-radius:16px;border-radius:16px;">
+		                        </td>
+		                        <td>
+		                            ${orderProduct.product.name}
+		                            <div class="visible-phone">
+		                                ${orderProduct.price}&nbsp;<span class="tenge">тнг.</span>
+		                            </div>
+		                        </td>
+		                        <td class="hidden-phone">
+		                            ${orderProduct.product.weight} гр.  ${orderProduct.product.calories} ккал
+		                        </td>
+		                        <td class="hidden-phone" style="text-align: right;">
+		                            ${orderProduct.price}&nbsp;<span class="tenge">тнг.</span>
+		                        </td>
+		                        <td style="padding-left: 20px;">
+		                            x${orderProduct.count}
+		                        </td>
+		                        <td style="text-align: right;">
+		                            ${orderProduct.sum}&nbsp;<span class="tenge">тнг.</span>
+		                        </td>
+		                    </tr>
+	                   %{ } }%
+	            </tbody>
+	            <tfoot>
+	                <tr>
+	                    <th colspan="3" class="hidden-phone"></th>
+	                    <th colspan="3" style="text-align: right;">
+	                        Всего: ${orderModel.order.orderSum}&nbsp;<span class="tenge">тенге</span>
+	                    </th>
+	                </tr>
+	            </tfoot>
+	        </table>
+	        <div style="margin-top: 50px; text-align: right;">
+	            <a class="btn btn-info" href="/menu/" rollapp-href="/menu/">Вернуться в меню</a>
+	        </div>
+		</section>
+	</div>
+</div>

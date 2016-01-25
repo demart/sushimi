@@ -69,9 +69,9 @@ public class CourierGcmListenerService extends GcmListenerService {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.common_signin_btn_icon_light)
-                .setContentTitle("GCM Message")
+                .setContentTitle("Sushimi.kz")
                 .setContentText(message)
-                .setAutoCancel(true)
+                .setAutoCancel(false)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 

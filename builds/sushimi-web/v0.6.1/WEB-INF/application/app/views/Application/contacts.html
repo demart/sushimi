@@ -1,0 +1,59 @@
+#{extends 'main.html' /}
+#{set title: page != null ? page.title : 'Контакты - Компания «Сушими»' /}
+#{set metaTitle: page != null ? page.metaTitle : '' /}
+#{set metaContent: page != null ? page.metaContent : '' /}
+#{set metaDescription: page != null ? page.metaDescription : '' /}
+#{set metaKeywords: page != null ? page.metaKeywords : '' /}
+#{set htmlFooter: page != null ? page.htmlFooter : null /}
+
+#{set body_class:'body-5'/}
+
+<div class="container">
+	<div class="main" role="main">
+		<section>
+		    <div class="row">
+		        <div class="span8 offset2">
+		            <div class="lawn">
+		                <h1 style="margin-bottom:18px;">О Сушими</h1>
+		
+		                <ul class="nav nav-tabs">
+	                        <li>
+	                            <a href="/about/" rollapp-href="http://www.yaposha.com/about/">О нас</a>
+	                        </li>
+	                        <li class="active">
+	                            <a rollapp-href="">Контакты</a>
+	                        </li>
+	                        <li>
+	                            <a href="/about/vacancy/" rollapp-href="http://www.yaposha.com/about/vacancy/">Вакансии</a>
+	                        </li>
+		                </ul>
+						<div itemscope="" itemtype="http://schema.org/Organization">
+							<h3 itemprop="name">Доставка «Сушими»</h3>
+							<p>Телефоны:<br> 
+							<span itemprop="telephone">+7 (701) 252-8-252</span><br>
+							<span itemprop="telephone">+7 (777) 252-8-252</span><br>
+							<span itemprop="telephone">+7 (7172) 48-20-90</span><br>
+								Электронная почта: <a itemprop="email" href="mailto:info@sushimi.kz" rollapp-href="mailto:info@sushimi.kz">info@sushimi.kz</a></p>
+							<div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
+								<p>Наш адрес:</p>
+								<p>г. <span itemprop="addressLocality">Астана</span>, <span itemprop="streetAddress">ул. Жанибека Тархана, д. 9 (угол ул. Б. Бейсекбаева)</span><span class="extended-address"></span></p>
+							</div>
+						</div>
+						<div id="mapcontainer">
+							<script type="text/javascript" charset="utf-8" src="//api-maps.yandex.ru/services/constructor/1.0/js/?sid=SbngxFD2Ybwnw1OjvWTBmF5GAYlYlIY_&width=700&height=350"></script>
+							<!-- <script type="text/javascript" charset="utf-8" src="//api-maps.yandex.ru/services/constructor/1.0/js/?sid=uWM7eiluMHBJw1GiUvvarEOO4BhPg3Hf&width=700&height=350"></script> -->
+						</div>
+						<script type="text/javascript">
+							$(document).ready(function() {
+								setTimeout(function() {
+									$('#mapcontainer').children().css({width:''});
+									console.log($('#mapcontainer').children() );
+								}, 2000);
+							});
+						</script> 
+		            </div>
+		        </div>
+		    </div>
+		</section>
+	</div>
+</div>

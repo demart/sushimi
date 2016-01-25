@@ -1,0 +1,71 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.0
+-- Dumped by pg_dump version 9.4.0
+-- Started on 2015-02-16 18:20:17 ALMT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 190 (class 1259 OID 24639)
+-- Name: delivery_service_points; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE delivery_service_points (
+    id integer NOT NULL,
+    address character varying(255),
+    addres_geo_latitude real,
+    address_geo_longitude real,
+    delivery_area character varying(255),
+    delivery_area_image_url character varying(255),
+    delivery_area_remarks character varying(255),
+    deleted boolean,
+    published boolean,
+    min_order_sum character varying(255),
+    order_number integer,
+    phone_number character varying(255),
+    title character varying(255),
+    workhours character varying(255)
+);
+
+
+ALTER TABLE delivery_service_points OWNER TO postgres;
+
+--
+-- TOC entry 2319 (class 0 OID 24639)
+-- Dependencies: 190
+-- Data for Name: delivery_service_points; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO delivery_service_points (id, address, addres_geo_latitude, address_geo_longitude, delivery_area, delivery_area_image_url, delivery_area_remarks, deleted, published, min_order_sum, order_number, phone_number, title, workhours) VALUES (1, 'ул Абая д 8', 51, 51, 'от Богембая до Аль-Фараби', 'http://sushimi.kz/public/image/delivery_astana.png', 'в другие регионы цена доставки от 700 тенге', false, true, '2500 + бесплатная доставка', 1, '77012528252', 'Доставка в Астане', 'с 11:00 до 24:00');
+INSERT INTO delivery_service_points (id, address, addres_geo_latitude, address_geo_longitude, delivery_area, delivery_area_image_url, delivery_area_remarks, deleted, published, min_order_sum, order_number, phone_number, title, workhours) VALUES (2, 'проспект Бухар-Жирау', 50, 50, 'от Бухар-Жирау до Южного', 'http://sushimi.kz/public/image/delivery_karagandy.png', 'в другие регионы цена доставки от 700 тенге', false, true, '2500 + бесплатная доставка', 2, '77012528252', 'Доставка в Караганде', 'с 10:00 до 24:00');
+
+
+--
+-- TOC entry 2209 (class 2606 OID 24646)
+-- Name: delivery_service_points_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY delivery_service_points
+    ADD CONSTRAINT delivery_service_points_pkey PRIMARY KEY (id);
+
+
+-- Completed on 2015-02-16 18:20:17 ALMT
+
+--
+-- PostgreSQL database dump complete
+--
+

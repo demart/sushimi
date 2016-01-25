@@ -1,0 +1,30 @@
+﻿select  id, name, phonenumber, total_order_sum from client_sms
+
+update client_sms set phonenumber = replace(phonenumber, '-', '');
+update client_sms set phonenumber = replace(phonenumber, ' ', '');
+
+delete from client_sms where id  = 178788
+
+delete from client_sms where id in (SELECT id from client_sms where char_length(phonenumber) > 11)
+
+delete from client_sms where id in (select id from client_sms where char_length(phonenumber) <> 10)
+
+delete from client_sms where id in (select id from client_sms where substring(phonenumber from 1 for 4) = '7172')
+
+SELECT id, phonenumber, char_length(phonenumber) from client_sms where char_length(phonenumber) > 10
+SELECT id, phonenumber, char_length(phonenumber) from client_sms where char_length(phonenumber) > 11
+
+select id, phonenumber from client_sms where char_length(phonenumber) <> 10
+
+select id, phonenumber from client_sms where substring(phonenumber from 1 for 4) = '7172'
+
+select phonenumber, count(phonenumber) from client_sms group by phonenumber order by count(phonenumber) desc
+
+--update client_sms set phonenumber = substring(phonenumber from 2 for 11) where char_length(phonenumber) > 10
+
+SELECT id, substring(phonenumber from 2 for 11), char_length(phonenumber) from client_sms where char_length(phonenumber) > 10
+	
+
+SELECT count(phonenumber) from client_sms where char_length(phonenumber) > 11
+
+--UPDATE client_sms SET phonenumber = CASE WHEN should_update_x THEN new_value_for_x ELSE column_x END FROM client_sms

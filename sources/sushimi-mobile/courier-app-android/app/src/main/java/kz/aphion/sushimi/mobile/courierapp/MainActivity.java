@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
     private static String TAG = "MainActivity";
 
     Toolbar toolbar;
-    private LocationManager locationManager;
+    //private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Enable geolocaiton listeners
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        GeolocationManager.getInstance().initGeolocation(locationManager);
+        //LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        //GeolocationManager.getInstance().initGeolocation(locationManager);
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);

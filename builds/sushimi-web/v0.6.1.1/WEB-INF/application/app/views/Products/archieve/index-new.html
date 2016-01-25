@@ -1,0 +1,165 @@
+#{extends 'main.html' /}
+#{set title:'Sushimi.kz - Меню' /}
+
+<!-- <script type="text/javascript">
+                  		 $('#cat_${category.id}').waypoint(function() {
+                  			if (selected_menu_items != null)
+                  				selected_menu_items.removeClass("active").css({});
+                  			var menuItem = $('#cat_menu_' + "${category.id}");
+                  			selected_menu_items = menuItem;
+                      		menuItem.addClass("active");
+                  		});
+					</script> -->
+					
+					<!-- <div id="cat_${category.id}_end"></div>
+					<script type="text/javascript">
+                  		 $('#cat_${category.id}_end').waypoint(function() {
+                  			if (selected_menu_items != null)
+                  				selected_menu_items.removeClass("active").css({});
+                  			var menuItem = $('#cat_menu_' + "${category.id}");
+                  			selected_menu_items = menuItem;
+                      		menuItem.addClass("active");
+                  		});
+					</script> -->
+
+
+<!-- menu2 -->
+<div id="menublock" class="navbar navbar-inverse menu2">
+	<div class="navbar-inner">
+		<div class="container">
+			<div class="pull-right">
+				<ul class="nav">
+					%{ 	for(category in categories) { }%
+					<li>
+						<a href="#category_${category.id}">${category.name}</a>
+					</li>
+					%{ } }%
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- // menu2 end -->
+
+<script  type="text/javascript" charset="${_response_encoding}">
+	$(function() {
+	  $('a[href*=#]:not([href=#])').click(function() {
+	    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+	      var target = $(this.hash);
+	      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+	      if (target.length) {
+	        $('html,body').animate({
+	          scrollTop: target.offset().top
+	        }, 500);
+	        return false;
+	      }
+	    }
+	  });
+	});
+
+    $(function() {
+        var fixblock_height = $('#menublock').height(); // определяем высоты фиксированного блока
+        var fixblock_pos = $('#menublock').position().top; ; // определяем его первоначальное положение
+        $(window).scroll(function(){
+
+             if ($(window).scrollTop() > fixblock_pos){ // Если страницу прокрутили дальше, чем находится наш блок
+            	 var width = $('#menublock').css('width');
+
+                 $('#menublock').css({'position': 'fixed', 'top':'0px', 'z-index':'10', 'width': width}); // То мы этот блок фиксируем и отображаем сверху.
+                  
+                  /* var bg_image = $('#menublock').css('background-image');
+                  if (bg_image.indexOf("bg_menu3_long.png") > 0) {
+                	  $('#menublock').css({'background-image':'url(/public/images/bg_menu3_long_sushimi.png)'});
+                  } */
+                  $('#sitehead').css('padding-bottom', fixblock_height+'px'); // А чтобы это было плавно, добавляем отсуп снизу для верхнего блока (как будто этот блок там все еще есть)
+             }else{  // Если же позиция скрола меньше (выше), чем наш блок
+                  $('#menublock').css({'position': 'static'}); // то возвращаем все назад
+                  /* var bg_image = $('#menublock').css('background-image');
+                  if (bg_image.indexOf("bg_menu3_long_sushimi.png") >= 0) {
+                	  $('#menublock').css({'background':'url(/public/images/bg_menu3_long.png)'});
+                  } */
+                  $('#sitehead').css('padding-bottom', '0px'); // И убираем отступ
+             }
+        })
+   });
+
+</script>
+
+
+<div class="container">
+	%{ for(category in categories) { }%
+		<h2 id="category_${category.id}" style="margin-bottom: 40px;">${category.name}</h2>
+		%{ for(product in category.products) { }%
+
+		<div class="section_block  delivery_section delivery_catalog grups grupa73" style="position: absolute; top: 0px; left: 0px;">
+			<a href="#">
+				<img src="${product.imageLink}" height="150" width="220">
+			</a> 
+			<a href="#" class="section_h2">${product.name}</a> 
+			<span class="price left">34 грн</span>
+			<a id="${product.id}" style="display: block; color: white;" rel="34" class="button_green order_button right class_1564">Заказать</a>
+			<div style="" class="button_counter my_cart_counter right tov_1564" id="${product.name}" rel="34" cus="0">
+				<a class="counter_odd" style="color: white;" rollapp-href="">-</a> <span
+					class="counter_quantity">1</span> <a class="counter_add"
+					style="color: white;" rollapp-href="">+</a>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+			<div class="delivery_section_bottom" style="padding-bottom: 0;">
+				<div class="section_block delivery_section"
+					style="padding-top: 0; padding-bottom: 0; margin-right: 0;">
+					<a href="#">
+						<img src="${product.imageLink}" height="150" width="220">
+					</a> 
+					<a href="#" class="section_h2">${product.name}</a>
+					<span class="price left">${product.cost} тг.</span> 
+					<a id="1564" style="display: none; color: white;" rel="34" class="button_green order_button right class_1564">Заказать</a>
+					<div style="display: block;" class="button_counter my_cart_counter right tov_1564" id="1564" rel="34" cus="0">
+						<a class="counter_odd" style="color: white;">-</a>
+						<span class="counter_quantity">1</span>
+						<a class="counter_add" style="color: white;">+</a>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+					<div class="dish_info_full">
+						<span>${product.weight} г</span>
+						<span>%{product.itemCount}% кусочков</span>
+						<span>${product.calories} ккал</span>
+					</div>
+					<div class="component_block">
+						%{ for(ingredient in product.ingredients) { }%
+       							<span class="component_item" style="background: url(${ingredient.imageLink}) no-repeat 50% 0;">${ingredient.name}</span>
+   						%{	}	}%
+					</div>
+				</div>
+			</div>
+		</div>
+	%{ } }%
+	<div class="clr"></div>
+%{ } }%	
+</div>
+
+<script type="text/javascript" charset="${_response_encoding}">
+ // PRODUCTS
+	var prod_trigger = $('.thumbnail'),
+		prod_caption = $('.thumbnail .caption')
+
+	prod_trigger.hover( function(event) {
+		$(this).find('.caption').stop().animate({"height":"305px"}, 200)
+		// $(this).find('.caption p').show()
+
+		title = $(this).find('.caption h3')
+		//Cufon(title, { color: '#e10011' })
+
+		$(this).css('z-index', 5)	// bring to front
+
+	}, function(event) {
+		$(this).find('.caption').stop().animate({"height":"165px"}, 200)
+		// $(this).find('.caption p').hide()
+
+		title = $(this).find('.caption h3')
+		//Cufon(title, { color: '#555555' })
+
+		$(this).css('z-index', 1)	// bring to back
+	})
+</script>

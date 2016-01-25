@@ -1,0 +1,41 @@
+#{extends 'main.html' /}
+#{set title: page != null ? page.title : 'Новости - Компания «Сушими»' /}
+#{set metaTitle: page != null ? page.metaTitle : '' /}
+#{set metaContent: page != null ? page.metaContent : '' /}
+#{set metaDescription: page != null ? page.metaDescription : '' /}
+#{set metaKeywords: page != null ? page.metaKeywords : '' /}
+#{set htmlFooter: page != null ? page.htmlFooter : null /}
+
+#{set body_class:'body-4'/}
+
+<div class="container">
+	<div class="main" role="main">
+		<section>
+		    <div class="row">
+		        <div class="span8 offset2">
+		            <div class="blog lawn" data-type="news">
+		                <ul class="blog-nav nav nav-pills pull-right">
+	                        %{ for(year in years) { }%
+	                        
+	                        	<li data-year="${year}">
+	                            	<a>${year}</a>
+	                        	</li>
+	                        
+	                        %{ } }%
+		                </ul>
+		                <h1>Новости</h1>
+		                <div class="box">
+		                    <div class="items">
+		                        <div class="item next" style="display: none;">
+		                            <div class="content">
+		                                <i class="icon-aws-plus-sign"></i>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</section>
+	</div>
+</div>

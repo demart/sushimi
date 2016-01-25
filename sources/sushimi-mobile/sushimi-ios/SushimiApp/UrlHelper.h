@@ -13,6 +13,9 @@
 // Return base URL for all REST API contexts
 +(NSString*) getRestAPIBaseUrl;
 
+// PUSH DEVICE TOKEN URL
++(NSString*) getRegisterDeviceTokenUrl;
+
 // CATEGORIES
 +(NSString*) getCategoriesUrl;
 +(NSString*) getCategoriesUrlByParent:(NSString*) parentCategoryId;

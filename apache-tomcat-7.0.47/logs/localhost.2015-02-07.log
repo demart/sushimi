@@ -1,0 +1,27 @@
+Feb 07, 2015 10:35:22 PM org.apache.catalina.core.StandardContext listenerStart
+SEVERE: Exception sending context initialized event to listener instance of class play.server.ServletWrapper
+play.exceptions.DatabaseException: Cannot connected to the database, No suitable driver found for jdbc:postgresql://sushimi-api:sushimi-api@postgres-sushimi.j.dnr.kz/sushimi
+	at play.db.DBPlugin.onApplicationStart(DBPlugin.java:161)
+	at play.plugins.PluginCollection.onApplicationStart(PluginCollection.java:525)
+	at play.Play.start(Play.java:533)
+	at play.Play.init(Play.java:305)
+	at play.server.ServletWrapper.contextInitialized(ServletWrapper.java:78)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4939)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5434)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:901)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:877)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:633)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:983)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1660)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.sql.SQLException: No suitable driver found for jdbc:postgresql://sushimi-api:sushimi-api@postgres-sushimi.j.dnr.kz/sushimi
+	at java.sql.DriverManager.getConnection(DriverManager.java:596)
+	at java.sql.DriverManager.getConnection(DriverManager.java:233)
+	at play.db.DBPlugin.onApplicationStart(DBPlugin.java:107)
+	... 17 more
+

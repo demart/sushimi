@@ -13,12 +13,22 @@
 +(NSString*) getRestAPIBaseUrl {
 #if DEBUG
     NSLog(@"Base REST API Url: %@", @"http://localhost:9002");
-    return @"http://localhost:9002";
+//    return @"http://localhost:9002";
+    return @"http://172.20.10.2:9002";
 #else
     NSLog(@"Base REST API Url: %@", @"http://api.sushimi.kz/rest-api");
     return @"http://api.sushimi.kz/rest-api";
+    //return @"http://172.20.10.2:9002";
 #endif
 }
+
+// ================
+//   DEVICE TOKEN
+// ================
++(NSString*) getRegisterDeviceTokenUrl {
+    return [[NSString alloc] initWithFormat:@"%@/v1/app/device/push", [UrlHelper getRestAPIBaseUrl]];
+}
+
 
 // =============
 //   CATEGORIES
@@ -28,7 +38,7 @@
 }
 
 +(NSString*) getCategoriesUrlByParent:(NSString *)parentCategoryId {
-    return [[NSString alloc] initWithFormat:@"%@/v1/category/list/%@/children", [UrlHelper getRestAPIBaseUrl], parentCategoryId];
+    return [[NSString alloc] initWithFormat:@"%@/v1/category/%@/children", [UrlHelper getRestAPIBaseUrl], parentCategoryId];
 }
 
 
@@ -47,6 +57,7 @@
 // =============
 //   CART
 // =============
+
 +(NSString*) getCartInfoUrl {
     return [[NSString alloc] initWithFormat:@"%@/v1/cart/info", [UrlHelper getRestAPIBaseUrl]];
 }
@@ -62,6 +73,7 @@
 // =============
 //   ORDER
 // =============
+
 +(NSString*) getOrderUrlByKey:(NSString *)orderKey {
     return [[NSString alloc] initWithFormat:@"%@/v1/order/%@/read", [UrlHelper getRestAPIBaseUrl], orderKey];
 }
@@ -90,6 +102,7 @@
 // ===============
 //  COMPANY INFO
 // ===============
+
 +(NSString*) getCompanyInfoUrl {
     return [[NSString alloc] initWithFormat:@"%@/v1/company/info", [UrlHelper getRestAPIBaseUrl]];
 }

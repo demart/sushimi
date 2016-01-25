@@ -26,6 +26,8 @@ public class OrderModel {
 	public String clientPhone;
 	
 	public String clientComment;
+
+    public Integer clientCash;
 	
 	public Calendar orderTime;
 	
@@ -69,6 +71,8 @@ public class OrderModel {
 							model.clientComment = jsonObject.getString("clientComment");
 						if (!jsonObject.isNull("clientPhone"))
 							model.clientPhone = jsonObject.getString("clientPhone");
+                        if (!jsonObject.isNull("clientCash"))
+                            model.clientCash = jsonObject.getInt("clientCash");
 						if (!jsonObject.isNull("orderNumber"))
 							model.orderNumber = jsonObject.getString("orderNumber");
 						if (!jsonObject.isNull("deliveryTime"))

@@ -1,6 +1,7 @@
 package kz.aphion.sushimi.mobile.courierapp.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
 
 import kz.aphion.sushimi.mobile.courierapp.R;
 import kz.aphion.sushimi.mobile.courierapp.data.DataService;
@@ -91,7 +94,25 @@ public class OrderDetailFragment extends Fragment {
                 returnOrderTask.execute((Void) null);
                 }
             });
+
         }
+
+        Button callButton = (Button) view.findViewById(R.id.inpCallButton);
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.print("Phone call clicked");
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+
+                String phoneNumber = orderModel.clientPhone;
+                if (phoneNumber.startsWith("8"))
+                    phoneNumber = phoneNumber.substring(1);
+                callIntent.setData(Uri.parse("tel:+7" + phoneNumber));
+                startActivity(callIntent);
+            }
+
+        });
+
         return view;
     }
 
@@ -134,7 +155,7 @@ public class OrderDetailFragment extends Fragment {
             orderStateView.setText("Заказ доставлен");
         if (orderModel.orderState == OrderState.CANCELED)
             orderStateView.setText("Заказ отменен");
-        if (orderModel.orderState == OrderState.CANCELED)
+        if (orderModel.orderState == OrderState.RETURNED)
             orderStateView.setText("Заказ вернули");
 
         TextView payMethodView = (TextView) view.findViewById(R.id.inpPayMethod);
@@ -145,6 +166,21 @@ public class OrderDetailFragment extends Fragment {
         if (orderModel.payMethod == PayMethod.CREDIT_CARD_ON_DELIVERY)
             payMethodView.setText("Оплата картой курьеру");
 
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        TextView orderTimeView = (TextView) view.findViewById(R.id.inpOderTime);
+        if (orderModel.orderTime != null) {
+            orderTimeView.setText(format.format(orderModel.orderTime.getTime()));
+        } else {
+            orderTimeView.setText("Ошибка!");
+        }
+
+        TextView deliveryTimeView = (TextView) view.findViewById(R.id.inpDeliveryTime);
+        if (orderModel.deliveryTime != null) {
+            deliveryTimeView.setText(format.format(orderModel.deliveryTime.getTime()));
+        } else {
+            deliveryTimeView.setText("Ошибка!");
+        }
+
         TextView addressView = (TextView) view.findViewById(R.id.inpClientAddress);
         addressView.setText(orderModel.address);
 
@@ -152,9 +188,14 @@ public class OrderDetailFragment extends Fragment {
         clientCommentView.setText(orderModel.clientComment);
 
         TextView orderSumView = (TextView) view.findViewById(R.id.inpOrderSum);
-        orderSumView.setText(String.valueOf(orderModel.orderSum));
+        orderSumView.setText(String.valueOf(orderModel.orderSum) + " тнг.");
 
-
+        TextView orderClientCashView = (TextView) view.findViewById(R.id.inpOrderClientCash);
+        if (orderModel.clientCash != null && orderModel.clientCash > 0) {
+            orderClientCashView.setText(orderModel.clientCash - orderModel.orderSum + " тнг. (" + orderModel.clientCash + " тнг.)");
+        } else {
+            orderClientCashView.setText("");
+        }
     }
 
     public void onButtonPressed(Uri uri) {

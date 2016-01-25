@@ -1,0 +1,85 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       		Application.index
+
+GET		/about/											Application.about
+GET		/about/vacancy/									Application.vacancy
+POST	/about/vacancy/									Application.vacancy
+POST	/about/vacancy/get/								Application.vacancies
+GET		/about/contacts/								Application.contacts
+GET		/ship/											Application.delivery
+GET		/terms/delivery/								Application.terms
+
+# Products
+#GET		/menu/{type}/								ProductController.index
+GET		/menu											ProductController.index
+GET		/menu/											ProductController.index
+GET		/menu/{category}								ProductController.index
+GET		/menu/{category}/								ProductController.index
+GET		/menu/{category}/{subcategory}					ProductController.index
+GET		/menu/{category}/{subcategory}/					ProductController.index
+GET		/menu/{category}/{subcategory}/{productId}/		ProductController.detail
+GET		/menu/item/{product}/							ProductController.detail
+
+# Cart
+POST	/client/cart/get/								CartController.getCartAjax
+POST	/client/cart/add/								CartController.addProductToCartAjax
+POST	/client/cart/remove/							CartController.removeProductInCartAjax
+POST	/client/cart/replace/							CartController.replaceProductInCartAjax
+POST	/client/cart/changed/							CartController.changeCartAjax
+
+# Order
+GET		/client/order/									OrderController.order
+POST	/client/order/									OrderController.registerOrderAjax
+GET		/client/ordered/{orderId}						OrderController.completedOrder
+POST	/dictionary/street/								OrderController.searchStreetAjax
+
+POST	/system/orders/list								IntegrationController.getOrders
+POST	/system/orders/confirm							IntegrationController.confirmOrders
+POST	/system/orders/synchronize						IntegrationController.synchronizeOrder
+POST	/system/orders/history/synchronize				IntegrationController.synchronizeOrderHistory
+POST	/system/orders/history/get/updates				IntegrationController.getOrderHistoryUpdates
+POST	/system/orders/history/confirm/updates			IntegrationController.comfirmOrderHistoryUpdates
+POST	/system/register/phone							IntegrationController.registerPhone
+
+# News pages
+GET		/news/											AnnouncementController.news
+POST	/news/get/										AnnouncementController.newsListAjax
+GET		/news/{year}/{month}/{date}/{uniqueName}		AnnouncementController.newsPreview
+GET		/news/{year}/{month}/{date}/{uniqueName}/		AnnouncementController.newsPreview
+
+
+# Actions pages
+GET		/actions/										AnnouncementController.actions
+POST	/actions/get/									AnnouncementController.actionsListAjax
+GET		/actions/{year}/{month}/{date}/{uniqueName}		AnnouncementController.actionsPreview
+GET		/actions/{year}/{month}/{date}/{uniqueName}/	AnnouncementController.actionsPreview
+
+
+GET		/feedback										FeedbackController.index
+GET		/feedback/										FeedbackController.index
+GET		/feedback/{id}									FeedbackController.getFeedbackDetail
+GET		/feedback/{id}/									FeedbackController.getFeedbackDetail
+POST	/dictionary/cities								FeedbackController.getCities
+POST	/dictionary/cities/								FeedbackController.getCities
+POST	/dictionary/departments							FeedbackController.getRestaurants
+POST	/dictionary/departments/						FeedbackController.getRestaurants
+POST	/feedback/										FeedbackController.getFeedbacks
+POST	/feedback/send/									FeedbackController.registerFeedback
+
+
+GET		/188105c048ad.html								Application.yandex
+GET		/sitemap.xml									Application.sitemap
+
+
+# Ignore favicon requests
+GET     /favicon.ico                            		404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                		staticDir:public
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}
