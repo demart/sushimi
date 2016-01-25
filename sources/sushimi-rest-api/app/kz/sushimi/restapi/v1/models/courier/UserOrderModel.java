@@ -26,6 +26,8 @@ public class UserOrderModel {
 	
 	public String clientComment;
 	
+	public Integer clientCash;
+	
 	public Calendar orderTime;
 	
 	public Calendar deliveryTime;

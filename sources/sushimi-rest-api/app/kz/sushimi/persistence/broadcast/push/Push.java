@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
@@ -13,8 +14,9 @@ import javax.persistence.Table;
 @Table(name = "brc_pushes")
 public class Push {
 	
-	@Id
-	@GeneratedValue()
+	@Id	
+	@GeneratedValue(generator="brc_push_seq")
+	@SequenceGenerator(name="brc_push_seq",sequenceName="brc_push_seq", allocationSize=1)
 	@Column(name="id")
 	private long id;
 

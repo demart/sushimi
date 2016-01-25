@@ -11,14 +11,8 @@
 
 @implementation Constants
 
-
-
-//NSString* const SYSTEM_FIST_TIME_OPENED = @"system.firstTimeOpened";
-
-
 static UIColor *systemGreenColor;
 static UIColor *systemOrangeColor;
-
 
 +(UIColor*) getSystemGreenColor {
     if (systemGreenColor == nil)
@@ -31,6 +25,5 @@ static UIColor *systemOrangeColor;
         systemOrangeColor = [UIColor colorWithRed:255/255.0f green:153.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
     return systemOrangeColor;
 }
-
 
 @end

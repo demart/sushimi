@@ -11,7 +11,18 @@
 
 @interface SettingsManager : NSObject
 
+// Ключ Флаг первый ли раз открывается приложение
 #define SYSTEM_SETTINGS_FIST_TIME_OPENED @"system.firstTimeOpened";
+
+// Ключ где храниться токен для отпраки PUSH
+#define SYSTEM_APPLICATION_DEVICE_TOKEN @"system.deviceToken";
+
+// Ключ Флаг для указания отправили на сервер Токен или нет
+#define SYSTEM_APPLICATION_DEVICE_TOKEN_SYNCHRONIZED @"system.deviceToken.isSynchronized";
+
+// Ключ старый токен который не был замененм на новый в период синхронизаци
+#define SYSTEM_APPLICATION_DEVICE_TOKEN_OLD @"system.deviceToken.old";
+
 
 // Singleton Instance
 + (SettingsManager *) sharedInstance;

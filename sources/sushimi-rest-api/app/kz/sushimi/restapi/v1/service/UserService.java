@@ -96,6 +96,25 @@ public class UserService {
 		// TODO получить кол-во записей в трэкинге и если больше 200 удалить их нафиг
 		// ...
 	}
+
+	/**
+	 * Метод возвращает список курьеров которые были активный (заходили) в течении времении
+	 * @return
+	 */
+	public static List<User> getActiveCouriers() {
+		// TODO добавить в таблицу время последнего входа и фильтровать по ней
+		List<User> couriers = JPA.em().createQuery("from User where role = 'COURIER' and enabled = true").getResultList();
+		return couriers;
+	}
+
+	public static User getUserByCode(String userCode) {
+		List<User> users = JPA.em().createQuery("from User where code = :code")
+				.setParameter("code", userCode)
+				.getResultList();
+		if (users != null && users.size() > 0)
+			return users.get(0);
+		return null;
+	}
 	
 	
 }

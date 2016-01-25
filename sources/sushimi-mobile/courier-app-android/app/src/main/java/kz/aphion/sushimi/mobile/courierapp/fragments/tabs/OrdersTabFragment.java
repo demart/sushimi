@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,10 +24,12 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.List;
 
+import kz.aphion.sushimi.mobile.courierapp.LoginActivity;
 import kz.aphion.sushimi.mobile.courierapp.R;
 import kz.aphion.sushimi.mobile.courierapp.adapters.OrdersRecycleViewAdapter;
 import kz.aphion.sushimi.mobile.courierapp.adapters.RecycleViewItemClickListener;
 import kz.aphion.sushimi.mobile.courierapp.data.DataService;
+import kz.aphion.sushimi.mobile.courierapp.data.LocalStorage;
 import kz.aphion.sushimi.mobile.courierapp.data.models.OrderModel;
 import kz.aphion.sushimi.mobile.courierapp.data.models.OrderState;
 import kz.aphion.sushimi.mobile.courierapp.data.models.WrappedResponse;
@@ -46,6 +49,8 @@ public class OrdersTabFragment extends Fragment {
 
     private ProgressBar progressBar;
 
+    public OrdersTabFragment() {
+    }
 
     public OrdersTabFragment(OrderState orderState) {
         this.orderState = orderState;
@@ -180,6 +185,7 @@ public class OrdersTabFragment extends Fragment {
         RecyclerView ordersRecyclerView;
         OrdersRecycleViewAdapter ordersRecycleViewAdapter;
         OrderState orderState;
+        WrappedResponse<List<OrderModel>> response;
 
         ReadOrdersTask(RecyclerView ordersRecyclerView, OrdersRecycleViewAdapter ordersRecycleViewAdapter, OrderState orderState) {
             this.ordersRecyclerView = ordersRecyclerView;
@@ -190,8 +196,9 @@ public class OrdersTabFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                WrappedResponse<List<OrderModel>> response = DataService.readOrdersByState(orderState);
+                response = DataService.readOrdersByState(orderState);
                 ordersRecycleViewAdapter.setData(response.data);
+
                 return true;
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -206,8 +213,14 @@ public class OrdersTabFragment extends Fragment {
         protected void onPostExecute(final Boolean success) {
             showProgress(false);
             if (success) {
-                //System.out.println("SUCCESS");
-                ordersRecycleViewAdapter.notifyDataSetChanged();
+                if ("004".equals(response.errorCode)) {
+                    // NEED LOGIN
+                    LocalStorage.setSsoToken(null);
+                    LocalStorage.setUsername(null);
+                    startActivityForResult(new Intent(ordersRecyclerView.getRootView().getContext(), LoginActivity.class), 0);
+                } else {
+                    ordersRecycleViewAdapter.notifyDataSetChanged();
+                }
             } else {
                 System.out.println("FAILED");
             }

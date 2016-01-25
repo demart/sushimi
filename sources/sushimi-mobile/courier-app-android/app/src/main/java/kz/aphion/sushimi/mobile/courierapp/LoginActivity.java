@@ -55,8 +55,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kz.aphion.sushimi.mobile.courierapp.data.AppConstants;
+import kz.aphion.sushimi.mobile.courierapp.data.DataService;
 import kz.aphion.sushimi.mobile.courierapp.data.GeolocationManager;
 import kz.aphion.sushimi.mobile.courierapp.data.LocalStorage;
+import kz.aphion.sushimi.mobile.courierapp.data.models.OrderModel;
+import kz.aphion.sushimi.mobile.courierapp.data.models.OrderState;
 import kz.aphion.sushimi.mobile.courierapp.data.models.ResponseStatus;
 import kz.aphion.sushimi.mobile.courierapp.data.models.UserAuthenticateResultModel;
 import kz.aphion.sushimi.mobile.courierapp.data.models.WrappedResponse;
@@ -80,6 +83,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      */
     private UserLoginTask mAuthTask = null;
 
+    private CheckLoginTask checkAuthTask = null;
+
     // UI references.
     private AutoCompleteTextView mLoginView;
     private View mProgressView;
@@ -88,26 +93,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // get last open Activity
-        String lastActivity = PreferenceManager.getDefaultSharedPreferences(this).getString("last_activity", "");
-        if (lastActivity.equals("MainActivity")) {
-            System.out.println("LastActivity: " + lastActivity);
-            if (LocalStorage.getSsoToken() != null) { // first start
-                // CHECK IF SESSION IS ALIVE, if not show message and suggest to login
-                // SAVE USER CODE if pressed "Save my code"
-                finish();
-                startActivity(new Intent(this, MainActivity.class));
-            } else {
-                // Maybe crashed apps
-            }
-        } else {
-            System.out.println("LastActivity not found: " + lastActivity);
-        }
 
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
         mLoginView = (AutoCompleteTextView) findViewById(R.id.login);
+        if (LocalStorage.getLoginKey() != null)
+            mLoginView.setText(LocalStorage.getLoginKey());
+
         populateAutoComplete();
 
         Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
@@ -141,6 +134,25 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
+        }
+
+        // get last open Activity
+        String lastActivity = PreferenceManager.getDefaultSharedPreferences(this).getString("last_activity", "");
+        if (lastActivity.equals("MainActivity")) {
+            System.out.println("LastActivity: " + lastActivity);
+            if (LocalStorage.getSsoToken() != null) { // first start
+                // CHECK IF SESSION IS ALIVE, if not show message and suggest to login
+                // SAVE USER CODE if pressed "Save my code"
+                showProgress(true);
+                checkAuthTask = new CheckLoginTask();
+                checkAuthTask.execute((Void) null);
+                //finish();
+                //startActivity(new Intent(this, MainActivity.class));
+            } else {
+                // Maybe crashed apps
+            }
+        } else {
+            System.out.println("LastActivity not found: " + lastActivity);
         }
 
 
@@ -408,6 +420,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 WrappedResponse<UserAuthenticateResultModel> userAuthResponse = UserAuthenticateResultModel.parseJSONObject(result);
                 if (userAuthResponse.status == ResponseStatus.SUCCESS) {
                     if (userAuthResponse.data != null) {
+                        LocalStorage.setLoginKey(mLogin);
                         LocalStorage.setSsoToken(userAuthResponse.data.authToken);
                         LocalStorage.setUsername(userAuthResponse.data.username);
                     }
@@ -441,6 +454,54 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 finish();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+            } else {
+                mLoginView.setError("Ошибка входа, проверьте логин");
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
+        }
+    }
+
+
+
+    /**
+     * Represents an asynchronous check login task used to authenticate
+     * the user.
+     */
+    public class CheckLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+        CheckLoginTask() {}
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                WrappedResponse<List<OrderModel>> response = DataService.readOrdersByState(OrderState.ON_DELIVERY);
+                if (response.status == ResponseStatus.SUCCESS) {
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+            showProgress(false);
+            mLoginView.clearFocus();
+            if (success) {
+                finish();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                //finish();
+                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                //startActivity(intent);
             } else {
                 mLoginView.setError("Ошибка входа, проверьте логин");
             }

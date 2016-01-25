@@ -75,6 +75,7 @@ POST	/feedback/send/									FeedbackController.registerFeedback
 GET		/188105c048ad.html								Application.yandex
 GET		/sitemap.xml									Application.sitemap
 
+GET		/iOSpush										Application.sendPush
 
 # Ignore favicon requests
 GET     /favicon.ico                            		404

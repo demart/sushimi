@@ -29,6 +29,8 @@
 #import "SettingsManager.h"
 #import "Settings.h"
 
+#import "UrlHelper.h"
+
 @implementation OrderManager
 
 static OrderManager *orderManagerInstance = nil;
@@ -144,7 +146,7 @@ static RegisterOrderModel *registerOrderModel;
          RKObjectManager *objectManager = [self buildOrderRequestObjectManager];
          [objectManager
           postObject:registerOrderModel
-          path:@"order/new/register"
+          path:@"register"
           parameters:nil
           success:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
               NSLog(@"%@",[[result.array objectAtIndex:0] valueForKey:@"status"]);
@@ -286,9 +288,12 @@ static RegisterOrderModel *registerOrderModel;
     
     [controller startLoading:YES];
     
+    /*
     NSURL *targetUrl = [NSURL URLWithString:
                         [[NSString alloc] initWithFormat:@"http://api.sushimi.kz/rest-api/v1/order/%@/read", orderKey]];
+    */
     
+    NSURL *targetUrl = [NSURL URLWithString:[UrlHelper getOrderUrlByKey:orderKey]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:targetUrl];
     [HeaderManager addApplicationHeaderToObjectRequestOperations:request];
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseWrapperDescriptor ]];
@@ -308,8 +313,7 @@ static RegisterOrderModel *registerOrderModel;
 
 
 -(RKObjectManager *) buildOrderRequestObjectManager {
-    NSURL *targetUrl = [NSURL URLWithString: @"http://api.sushimi.kz/rest-api/v1/"];
-    
+    NSURL *targetUrl = [NSURL URLWithString: [UrlHelper getOrderSendUrl]];
     RKObjectMapping* categoryMapping = [RKObjectMapping mappingForClass:[CategoryItem class]];
     [categoryMapping addAttributeMappingsFromDictionary:@{
                                                           @"id": @"id",

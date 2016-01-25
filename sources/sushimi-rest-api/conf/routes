@@ -6,6 +6,9 @@ GET     /                                       	404
 
 POST	/v1/app/phone/register						PhoneController.registerPhone
 
+# Device
+POST	/v1/app/device/push							DeviceController.registerOrUpdateDeviceToken
+POST	/v1/app/device/push/						DeviceController.registerOrUpdateDeviceToken
 
 # Category
 GET		/v1/category/list							CategoryController.getCategories
@@ -58,10 +61,15 @@ GET		/v1/order/{orderKey}/read					OrderController.readOrder
 ###############################################
 
 POST	/v1/courier/auth							CourierAppController.authenticate
+POST	/v1/courier/auth/							CourierAppController.authenticate
 POST	/v1/courier/geolocation						CourierAppController.updateGeolocationCoordinate
+POST	/v1/courier/geolocation/					CourierAppController.updateGeolocationCoordinate
 POST	/v1/courier/orders/read						CourierAppController.readOrders
+POST	/v1/courier/orders/read/					CourierAppController.readOrders
 POST	/v1/courier/orders/complete					CourierAppController.completeOrder
+POST	/v1/courier/orders/complete/				CourierAppController.completeOrder
 POST	/v1/courier/orders/return					CourierAppController.returnOrder
+POST	/v1/courier/orders/return/					CourierAppController.returnOrder
 
 
 # Ignore favicon requests

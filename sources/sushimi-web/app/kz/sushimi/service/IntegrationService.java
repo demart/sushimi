@@ -138,6 +138,10 @@ public class IntegrationService {
 					order.setCourierCode(user.getCode());
 			}
  		
+		if (user != null)
+			if (orderHistoryModel.orderState == OrderProcess.IN_PROGRESS)
+				if (user.getRole() == UserRole.COOK)
+					order.setCookCode(user.getCode());
 		
 		if (order.getProcessed() == OrderProcess.REGISTERED) {
 			if (orderHistoryModel.orderState == OrderProcess.IN_PROGRESS ||

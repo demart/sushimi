@@ -100,22 +100,23 @@ public class SushimiWebOrderHistoryUpdatesSynchronizer extends Job {
 			// По идее с сайта могут приходить либо изменения точке ON_DELIVERY либо DELIVERED, но так как 
 			// есть вероятность того что заказ могут закрыть в консоле а тут синхронизация пойдет позже
 			// То может получиться изменения статуса с DELIVERED обрабтно на ON_DELIVERY
-			if (model.orderState == OrderState.DELIVERED && order.getOrderState() != OrderState.DELIVERED) {
-				order.setOrderState(OrderState.DELIVERED);
+			if (model.orderState == OrderState.DELIVERED || model.orderState == OrderState.RETURNED) {
+				order.setOrderState(model.orderState);
 				order.save();
 				
-				// Вставить добавление к общей сумме заказа клиента
-				Client client = order.getClient();
-				if (client != null) {
-					Integer totalOrderSum = client.getTotalOrderSum();
-					if (totalOrderSum == null)
-						totalOrderSum = 0;
-					totalOrderSum = totalOrderSum + order.getOrderSum();
-					client.setTotalOrderSum(totalOrderSum);
-					client.save();
+				if (model.orderState == OrderState.DELIVERED && order.getOrderState() != OrderState.DELIVERED) {
+					// Вставить добавление к общей сумме заказа клиента
+					Client client = order.getClient();
+					if (client != null) {
+						Integer totalOrderSum = client.getTotalOrderSum();
+						if (totalOrderSum == null)
+							totalOrderSum = 0;
+						totalOrderSum = totalOrderSum + order.getOrderSum();
+						client.setTotalOrderSum(totalOrderSum);
+						client.save();
+					}
 				}
 			}
-			
 			
 			ids.add(model.id);
 		}
