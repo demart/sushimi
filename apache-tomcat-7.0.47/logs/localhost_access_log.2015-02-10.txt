@@ -1,7 +1,0 @@
-0:0:0:0:0:0:0:1 - - [10/Feb/2015:17:25:00 +0600] "GET / HTTP/1.1" 200 49351
-0:0:0:0:0:0:0:1 - - [10/Feb/2015:17:25:01 +0600] "GET /public/images/favicon.ico HTTP/1.1" 200 2826
-0:0:0:0:0:0:0:1 - - [10/Feb/2015:17:25:01 +0600] "GET /public/images/icon/apple-touch-icon-144x144-precomposed.png HTTP/1.1" 404 380
-0:0:0:0:0:0:0:1 - - [10/Feb/2015:17:25:01 +0600] "GET / HTTP/1.1" 200 49351
-0:0:0:0:0:0:0:1 - - [10/Feb/2015:17:25:01 +0600] "GET /public/images/icon/apple-touch-icon-144x144-precomposed.png HTTP/1.1" 404 380
-0:0:0:0:0:0:0:1 - - [10/Feb/2015:17:25:01 +0600] "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 334
-0:0:0:0:0:0:0:1 - - [10/Feb/2015:17:25:01 +0600] "GET /apple-touch-icon.png HTTP/1.1" 404 322
