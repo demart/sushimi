@@ -13,7 +13,7 @@ import play.jobs.Job;
 import play.libs.WS;
 
 
-@Every("12s")
+//@Every("12s")
 public class PhoneSynchronizer extends Job {
 	
 	/**
