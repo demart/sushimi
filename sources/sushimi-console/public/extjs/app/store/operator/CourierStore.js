@@ -7,7 +7,7 @@ Ext.define('SushimiConsole.store.operator.CourierStore', {
     proxy: {
 	    type: 'ajax',
         api: {
-            read: 'rest/operator/courier/store/read',
+            read: '/rest/operator/courier/console/store/read',
             create: 'rest/operator/order/store/create',
             update: 'rest/operator/order/store/update',
             destroy: 'rest/operator/order/store/destroy'

@@ -18,6 +18,7 @@ Ext.define('SushimiConsole.controller.Root', {
     	'dictionaries/ingredient' : 'onDictionaryIngredientList',
     	'dictionaries/category' : 'onDictionaryCategoryList',
     	'dictionaries/product' : 'onDictionaryProductList',
+    	'dictionaries/couriers' : 'onDictionaryCouriersList',
     	
     	'clients/information' : 'onInfoClientsList',
     	'clients/integration' : 'onIntegrationClientsList',
@@ -36,6 +37,8 @@ Ext.define('SushimiConsole.controller.Root', {
     	'operator/courier' : 'onCourierList',
     	//'operator/orders' : 'onOrdersList',
     	'operator/orders' : 'onOrdersTwoList',
+    	'logout' : 'onLogoutRoute',
+    	
     },
     
     //Операторская: заказы
@@ -63,7 +66,15 @@ Ext.define('SushimiConsole.controller.Root', {
         this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.operator.orders.delivered.DeliveredOrdersList'));
     },
     
- 
+    
+    // справочник курьеров
+    onDictionaryCouriersList : function() {
+        console.log("onDictionaryCouriersList route");
+        this.getMain().getComponent('mainBody').removeAll(true);
+        this.getMain().getComponent('mainBody').add(Ext.create('SushimiConsole.view.dictionaries.couriers.CouriersList'));
+    },
+    
+    
     // справочник городов
     onDictionaryCityList : function() {
         console.log("onDictionaryCityList route");
@@ -163,6 +174,27 @@ Ext.define('SushimiConsole.controller.Root', {
         var cmp = Ext.create('SushimiConsole.view.temp.ContactForm');
         console.log(cmp);
         this.getMain().getComponent('mainBody').add(cmp);
+    },
+    
+    onLogoutRoute : function() {
+        console.log("onLogoutRoute route");
+        
+        Ext.Ajax.request({
+    	    url: '/console/logout',
+    	    method: 'POST',          
+    	    params: { },
+    	    success: function(response, conn, options, eOpts) {
+    	    	var json = Ext.util.JSON.decode(response.responseText);
+    	    	if (json.success) {}
+    	    },
+    	    failure: function(conn, response, options, eOpts){
+    	    	var respObj = Ext.JSON.decode(response.responseText);
+    	    	Ext.Msg.alert("Error", respObj.status.statusMessage);
+    	    	console.log('failure' + response);
+	    	}
+    	});
+    	
+		window.document.location = "/login";
     },
 
 

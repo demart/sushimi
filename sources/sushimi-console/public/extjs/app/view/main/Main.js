@@ -106,6 +106,10 @@ Ext.define('SushimiConsole.view.main.Main', {
 	            scale: 'small',
 	            hidden: true,
 	            menu:[
+	                  {
+	                	  text:'Справочник: Курьеров',
+	                	  listeners: { click : 'onCouriersDicClick', },
+	                  }, 
                   {
                 	  text:'Справочник: Городов',
                 	  listeners: { click : 'onCityDicClick', },
@@ -199,7 +203,16 @@ Ext.define('SushimiConsole.view.main.Main', {
 	            alignTarget: 'right',
 	            scale: 'small',
 	        },
-	        
+	        '->',
+	        {
+	        	id: 'logoutBtn',
+	            text:'Выход',
+	            iconCls: null,
+	            //glyph: 70,
+	            scale: 'small',
+	            hidden: false,
+	            listeners : {click : 'onLogoutClick', },
+	        }
 
 	        
 	        ]
@@ -245,6 +258,9 @@ Ext.define('SushimiConsole.view.main.Main', {
     			}
     		});
           
+    		var role = document.getElementById('console_user_role').innerHTML;
+        	console.log(role);
+        	if (role == 'OPERATOR') {
     		Ext.Ajax.request({
         	    url: 'rest/order/delivery/count/store/read',
         	    method: 'POST',
@@ -287,9 +303,10 @@ Ext.define('SushimiConsole.view.main.Main', {
         	    	Ext.MessageBox.alert('Внимание','Ошибка выполнения запроса');
         		}
         	});
+        	}
     	    task.delay(10000);
     	}, this);
-
+    	
     	//The function will start after 0 milliseconds - so we want to start instantly at first
     	task.delay(10000);
     	
@@ -330,7 +347,7 @@ Ext.define('SushimiConsole.view.main.Main', {
         		Ext.getCmp('courierListBtn').setVisible(false);
         		//Ext.getCmp('deliveredOrdersMoneyCountField').setVisible(true);
         		Ext.getCmp('deliveredOrdersCountField').setVisible(true);
-        		window.document.location = "#operator/orders";
+        		window.document.location = "/#";
         	}
     	}
     },

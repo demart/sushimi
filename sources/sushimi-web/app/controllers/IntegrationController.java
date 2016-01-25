@@ -206,7 +206,8 @@ public class IntegrationController extends Controller {
 			couriers.setName(model.getName());
 			couriers.setGeoLatitude(model.getLastLatitude());
 			couriers.setGeoLongitude(model.getLastLongitude());
-			couriers.setDate(model.getLastGeolocationSyncTime().getTime());
+			if (model.getLastGeolocationSyncTime() != null)
+				couriers.setDate(model.getLastGeolocationSyncTime().getTime());
 			models.add(couriers);
 			//ids.add(model.getId());
 		}

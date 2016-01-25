@@ -1,7 +1,10 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.google.gson.Gson;
 
@@ -11,10 +14,13 @@ import kz.sushimi.console.models.dictionaries.DeliveryPriceModel;
 import kz.sushimi.console.models.dictionaries.ProductCostingModel;
 import kz.sushimi.console.models.orders.DeliveryExtraPriceModel;
 import kz.sushimi.console.models.orders.PromotionModel;
+import kz.sushimi.console.models.users.UserModel;
+import kz.sushimi.console.persistence.users.User;
 import kz.sushimi.console.services.PromotionService;
 import kz.sushimi.console.services.dictionaries.DeliveryPriceService;
 import kz.sushimi.console.services.dictionaries.ProductService;
 import play.Logger;
+import play.db.jpa.JPA;
 import play.mvc.Controller;
 
 /**
@@ -132,6 +138,88 @@ public class DeliveryController extends Controller {
 	public static void destroy(long id) throws ValidationException {
 		Logger.info("ID:" + id);
 		DeliveryPriceService.deleteDeliveryPrice(id, Security.connected());
+		StoreWrapper wrapper = new StoreWrapper();
+		wrapper.success = true;
+		renderJSON(wrapper);
+	}
+	
+	/**
+	 * Список всех курьеров
+	 * @throws ValidationException
+	 */
+	public static void readAllCouriers () throws ValidationException {
+		Logger.info("Read All Couriers: User " + Security.connected());
+		
+		List<User> couriers = JPA.em().createQuery("from User where role = 'COURIER' order by id").getResultList();
+		
+		ArrayList<UserModel> users = new ArrayList<UserModel>();
+		
+		for (User user: couriers) {
+			UserModel model = new UserModel();
+			model.setId(user.getId());
+			model.setName(user.getName());
+			model.setLogin(user.getLogin());
+			model.setPassword(user.getPassword());
+			
+			if (user.getModifiedDate() != null)
+				model.setModifiedDate(user.getModifiedDate().getTime());
+			
+			if (user.getCreatedDate() != null)
+				model.setCreatedDate(user.getCreatedDate().getTime());
+			
+			users.add(model);
+		}
+		
+		StoreWrapper wrapper = new StoreWrapper();
+		wrapper.success = true;
+		wrapper.totalCount = users.size();
+		wrapper.data = users.toArray();
+		renderJSON(wrapper);
+	}
+	
+	/**
+	 * редактирование курьера
+	 * @throws ValidationException
+	 */
+	public static void updateCourier () throws ValidationException {
+		String requestBody = params.current().get("body");
+		Logger.info("Update: " + requestBody);
+		if (!requestBody.startsWith("["))
+			requestBody = "[" + requestBody + "]";
+		Gson gson = new Gson();
+		Logger.info("Update: " + requestBody);
+		UserModel[] models = gson.fromJson(requestBody, UserModel[].class);
+		Logger.info("Model.lenght: " + models.length);
+		
+		for (UserModel user: models) {
+			if (user == null)
+				throw new ValidationException ("model null");
+			
+			User courier = User.findById(user.getId());
+			
+			if (courier == null)
+				throw new ValidationException ("Not found courier");
+			
+			try {
+			if (StringUtils.isNotEmpty(user.getLogin())) 
+				courier.setLogin(user.getLogin());
+			
+			if (StringUtils.isNotEmpty(user.getPassword()))
+				courier.setPassword(user.getPassword());
+			
+			if (StringUtils.isNotEmpty(user.getName()))
+				courier.setName(user.getName());
+			
+			courier.setModifiedDate(Calendar.getInstance());
+			courier.save();
+			}
+			catch (Exception e) {
+				throw new ValidationException (e.getMessage());
+			}
+				
+				
+		}
+		
 		StoreWrapper wrapper = new StoreWrapper();
 		wrapper.success = true;
 		renderJSON(wrapper);

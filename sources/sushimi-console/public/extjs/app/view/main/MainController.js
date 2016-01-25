@@ -50,10 +50,24 @@ Ext.define('SushimiConsole.view.main.MainController', {
     	this.redirectTo('dictionaries/city');
     },
     
+    // Справочник курьеров
+    onCouriersDicClick : function() {
+    	console.log('Couriers dictionary clicked');
+    	this.redirectTo('dictionaries/couriers');
+    },
+    
+    
+    
     // Справочник районов доставки
     onDeliveryPriceDicClick : function() {
     	console.log('DeliveryPrice dictionary clicked');
     	this.redirectTo('dictionaries/deliveryprice');
+    },
+    
+    // Выход
+    onLogoutClick: function() {
+    	console.log('Logout clicked');
+    	this.redirectTo('logout');
     },
     
     // Справочник акций

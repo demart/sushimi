@@ -30,6 +30,7 @@ GET		/rest/operator/site/order/store/read				OperatorController.readNewSiteOrder
 POST	/operator/order/history								OperatorController.readOrderHistory
 POST	/operator/order/courier								OperatorController.readCourierOrder
 GET		/rest/operator/courier/store/read					OperatorController.readCourierPosition
+GET		/rest/operator/courier/console/store/read			OperatorController.readCouriers
 GET		/rest/operator/order2/store/read					OperatorController.read2
 POST 	/rest/order/delivery/count/store/read				OperatorController.coutDeliveredOrders
 POST	/rest/operator/order								OperatorController.read2
@@ -42,12 +43,16 @@ GET     /													Application.index
 GET		/rest/reports/orderPeriodStat/store/read			Report.readOrderPeriodStat	
 GET		/rest/reports/productPeriodStat/store/read			Report.readProductPeriodStat
 GET		/rest/reports/ingredientPeriodStat/store/read		Report.readIngredientPeriodStat
+POST	/console/logout										Application.logout
 
 # REST
 GET		/rest/dictionary/city/store/read					CityController.read
 POST	/rest/dictionary/city/store/create					CityController.create
 POST	/rest/dictionary/city/store/update					CityController.update
 POST	/rest/dictionary/city/store/destroy					CityController.destroy
+
+GET 	/rest/operator/courier/list/store/read				DeliveryController.readAllCouriers
+POST	/rest/operator/courier/list/store/update				DeliveryController.updateCourier
 
 GET		/rest/dictionary/deliveryprice/store/read			DeliveryController.read
 POST	/rest/dictionary/deliveryprice/store/create			DeliveryController.create

@@ -18,7 +18,7 @@ import play.libs.WS.HttpResponse;
 import com.google.gson.Gson;
 
 
-//@Every("15s")
+@Every("15s")
 public class SushimiWebOrderHistoryUpdatesSynchronizer extends Job {
 
 	/**

@@ -155,24 +155,28 @@ Ext.define('SushimiConsole.view.operator.orders.OrdersTwoListController', {
  		Ext.getCmp('maps').myCollection.removeAll();
  		//var store = Ext.getCmp('couriersOnMapId');
  		store.getStore().each(function(record){
- 			var i = 0;
- 			//задаем точки курьеров
- 			var point = new YMaps.GeoPoint(record.data.geoLatitude, record.data.geoLongitude);
- 			
- 			if (record.data.status == 0)
- 				styleIcon = "twirl#greyStretchyIcon";
- 			else
- 				styleIcon = "twirl#greenStretchyIcon";
- 		
- 			var myPlacemark = new ymaps.Placemark([record.data.geoLatitude, record.data.geoLongitude], {
- 		   
- 					iconContent: record.data.name
- 				}, {
- 					preset: styleIcon,
- 					balloonCloseButton: false,
- 					hideIconOnBalloonOpen: false
- 				});
- 			Ext.getCmp('maps').myCollection.add(myPlacemark);
+			if (record.data.status == 2)
+				console.log(record.data.name);
+			else {
+	 			var i = 0;
+	 			//задаем точки курьеров
+	 			var point = new YMaps.GeoPoint(record.data.geoLatitude, record.data.geoLongitude);
+	 			
+	 			if (record.data.status == 0)
+	 				styleIcon = "twirl#greyStretchyIcon";
+	 			else
+	 				styleIcon = "twirl#greenStretchyIcon";
+	 		
+	 			var myPlacemark = new ymaps.Placemark([record.data.geoLatitude, record.data.geoLongitude], {
+	 		   
+	 					iconContent: record.data.name
+	 				}, {
+	 					preset: styleIcon,
+	 					balloonCloseButton: false,
+	 					hideIconOnBalloonOpen: false
+	 				});
+	 			Ext.getCmp('maps').myCollection.add(myPlacemark);
+			}
  		});
     	Ext.getCmp('maps').map.geoObjects.add( Ext.getCmp('maps').myCollection );	
     },
@@ -238,31 +242,41 @@ Ext.define('SushimiConsole.view.operator.orders.OrdersTwoListController', {
 		Ext.getCmp('maps').myCollection.removeAll();
 		var store = Ext.getCmp('couriersOnMapId');
 		store.getStore().each(function(record){
-			var i = 0;
-			//задаем точки курьеров
-			var point = new YMaps.GeoPoint(record.data.geoLatitude, record.data.geoLongitude);
+			console.log(record.data.status);
+			if (record.data.status == 2)
+				console.log(record.data.name);
+			else {
+				var i = 0;
+				//задаем точки курьеров
+				var point;
+				
+					point = new YMaps.GeoPoint(record.data.geoLatitude, record.data.geoLongitude);
+				
+				if (record.data.status == 0)
+					styleIcon = "twirl#greyStretchyIcon";
+				else
+					styleIcon = "twirl#greenStretchyIcon";
 			
-			if (record.data.status == 0)
-				styleIcon = "twirl#greyStretchyIcon";
-			else
-				styleIcon = "twirl#greenStretchyIcon";
-		
-			var myPlacemark = new ymaps.Placemark([record.data.geoLatitude, record.data.geoLongitude], {
-		   
-					iconContent: record.data.name
-				}, {
-					preset: styleIcon,
-					balloonCloseButton: false,
-					hideIconOnBalloonOpen: false
-				});
-			Ext.getCmp('maps').myCollection.add(myPlacemark);
-		});
-   	Ext.getCmp('maps').map.geoObjects.add( Ext.getCmp('maps').myCollection );	
+				var myPlacemark = new ymaps.Placemark([record.data.geoLatitude, record.data.geoLongitude], {
+			   
+						iconContent: record.data.name
+					}, {
+						preset: styleIcon,
+						balloonCloseButton: false,
+						hideIconOnBalloonOpen: false
+					});
+				Ext.getCmp('maps').myCollection.add(myPlacemark);
+			}
+			
+
+			});
+	   	Ext.getCmp('maps').map.geoObjects.add( Ext.getCmp('maps').myCollection );	
 		
     },
     
     //Вызов окна Информация по курьерам
     courierInfo: function() {
+    	/*
     	var store = Ext.getCmp('ordersAll');
     	var selectedRecord = store.getSelectionModel().getSelection()[0];
     	
@@ -278,7 +292,7 @@ Ext.define('SushimiConsole.view.operator.orders.OrdersTwoListController', {
 				Ext.getCmp('maps').myCollection.removeAll();
     	   
 				store.getStore().each(function(record){
-					var i = 0;
+					var i = 0;*/
 					/*
 					 * Блок с ломаной линией
 					var array = [];
@@ -300,7 +314,7 @@ Ext.define('SushimiConsole.view.operator.orders.OrdersTwoListController', {
                Ext.getCmp('maps').map.geoObjects.add(pl);
                */
 					//задаем точки курьеров
-					var point = new YMaps.GeoPoint(record.data.geoLatitude, record.data.geoLongitude);
+				/*	var point = new YMaps.GeoPoint(record.data.geoLatitude, record.data.geoLongitude);
 					
 					if (record.data.status == 0)
 						styleIcon = "twirl#greyStretchyIcon";
@@ -318,9 +332,9 @@ Ext.define('SushimiConsole.view.operator.orders.OrdersTwoListController', {
 					Ext.getCmp('maps').myCollection.add(myPlacemark);
 				});
 		   	Ext.getCmp('maps').map.geoObjects.add( Ext.getCmp('maps').myCollection );	
-    	   
+    	   */
     	   // show the window
-    	   this.thewindow.show();
+    	 //  this.thewindow.show();
     	   
     },
     

@@ -18,6 +18,7 @@ public class SecuredController extends Controller  {
             renderArgs.put("user_name", user.getName());
             renderArgs.put("user_login", user.getLogin());
             renderArgs.put("user_role", user.getRole());
+          
         }
     }
     

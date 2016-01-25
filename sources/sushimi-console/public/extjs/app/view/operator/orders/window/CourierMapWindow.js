@@ -65,12 +65,14 @@ Ext.define('SushimiConsole.view.operator.orders.window.CourierMapWindow', {
          		        var record = iView.getRecord(iRowEl);
          		        var point = new YMaps.GeoPoint(record.data.geoLatitude, record.data.geoLongitude);
          		        console.log(record.data.geoLatitude, record.data.geoLongitude);
-         		        Ext.getCmp('maps').map.setZoom( 16 );
-         		        Ext.getCmp('maps').map.setCenter([record.data.geoLatitude, record.data.geoLongitude], 16, {checkZoomRange: true});
-         		        console.log(Ext.getCmp('maps').map.getZoom());
-         		        console.log(Ext.getCmp('maps').map.getCenter());
-         		       // Ext.getCmp('maps').map.setCenter(point ,13);
          		        
+         		        if (record.data.geoLatitude != "no" && record.data.geoLongitude != "no") {
+	         		        Ext.getCmp('maps').map.setZoom( 16 );
+	         		        Ext.getCmp('maps').map.setCenter([record.data.geoLatitude, record.data.geoLongitude], 16, {checkZoomRange: true});
+	         		        console.log(Ext.getCmp('maps').map.getZoom());
+	         		        console.log(Ext.getCmp('maps').map.getCenter());
+	         		       // Ext.getCmp('maps').map.setCenter(point ,13);
+         		        }
          		    },
          		    
             		viewready: function () {
@@ -78,28 +80,31 @@ Ext.define('SushimiConsole.view.operator.orders.window.CourierMapWindow', {
             			this.store.load();
             			var styleIcon = null;
             	    	grid.getStore().each(function(record){
-            	    		//console.log(record.data.geoLatitude + "   " + record.data.geoLongitude);
-            	    		var point = new YMaps.GeoPoint(record.data.geoLatitude, record.data.geoLongitude);
-            	    		//console.log(record.data.status);
-            	    		if (record.data.status == 0)
-            	    			styleIcon = "twirl#greyStretchyIcon";
-            	    		else
-            	    			styleIcon = "twirl#greenStretchyIcon";
-            	    			
-            	    		 var myPlacemark = new ymaps.Placemark([record.data.geoLatitude, record.data.geoLongitude], {
-            	    			   
-            	    			    iconContent: record.data.name
-            	    			}, {
-            	    			    preset: styleIcon,
-            	    			    balloonCloseButton: false,
-            	    			    hideIconOnBalloonOpen: false
-            	    			});
-            	    		Ext.getCmp('maps').myCollection.add(myPlacemark);
+            				if (record.data.status == 2)
+            					console.log(record.data.name);
+            				else {
+	            	    		var point = new YMaps.GeoPoint(record.data.geoLatitude, record.data.geoLongitude);
+	            	    		//console.log(record.data.status);
+	            	    		if (record.data.status == 0)
+	            	    			styleIcon = "twirl#greyStretchyIcon";
+	            	    		else
+	            	    			styleIcon = "twirl#greenStretchyIcon";
+	            	    			
+	            	    		 var myPlacemark = new ymaps.Placemark([record.data.geoLatitude, record.data.geoLongitude], {
+	            	    			   
+	            	    			    iconContent: record.data.name
+	            	    			}, {
+	            	    			    preset: styleIcon,
+	            	    			    balloonCloseButton: false,
+	            	    			    hideIconOnBalloonOpen: false
+	            	    			});
+	            	    		Ext.getCmp('maps').myCollection.add(myPlacemark);
+            				}
               	    	});
             	    	Ext.getCmp('maps').map.geoObjects.add( Ext.getCmp('maps').myCollection );
             		},
             		
-            		
+            		/*
             		itemcontextmenu: function(view, record, item, index, e){
             			
              			e.stopEvent();
@@ -108,14 +113,14 @@ Ext.define('SushimiConsole.view.operator.orders.window.CourierMapWindow', {
             				this.rowMenu = new SushimiConsole.view.operator.orders.ActionCourierMenu();
 
             				 this.rowMenu.showAt(e.getXY());
-            			 }
+            			 }*/
             	}
             		
         	},
             
         	{
         		region: 'center',
-        		myCollection: new ymaps.GeoObjectCollection(),
+        		//myCollection: new ymaps.GeoObjectCollection(),
         		polyline: new ymaps.Polyline([], {hintContent: "Ломаная линия"}, {draggable: true, strokeColor: '#ff0000', strokeWidth: 5}),
         		contentEl: 'YMapsID',
         		id: 'maps',

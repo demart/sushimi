@@ -362,8 +362,10 @@ public class OperatorService {
 							if (order3 != null) {
 								//System.out.println(order.getId());
 							//model.setCourierId(order3.getUser().getId());
-								if (order3.getUser().getName() != null)
-							model.setCourierName(order3.getUser().getName());
+								if (order3.getUser() != null) {
+									if (order3.getUser().getName() != null)
+										model.setCourierName(order3.getUser().getName());
+								}
 								else
 									model.setCourierName("Не указан");	
 							}

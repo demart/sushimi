@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.xml.transform.TransformerException;
 
+import org.apache.commons.lang.StringUtils;
+
 import kz.sushimi.console.exceptions.ValidationException;
 import kz.sushimi.console.models.ResponseWrapper;
 import kz.sushimi.console.models.users.CourierGeoPosition;
@@ -65,7 +67,7 @@ public class OperatorController extends Controller {
 		
 		StoreWrapper wrapper = new StoreWrapper();
 		wrapper.success = true;
-		wrapper.totalCount = ProductService.getProductsCount();
+		//wrapper.totalCount = ProductService.getProductsCount();
 		wrapper.data = models.toArray();
 		renderJSON(wrapper);
 		
@@ -122,7 +124,8 @@ public class OperatorController extends Controller {
 	
 	
 	/**
-	 * Чтение курьеров
+	 * чтение курьеров
+	 * @throws ValidationException
 	 */
 	public static void readCouriers () throws ValidationException {
 		System.out.println ("read courier list");
@@ -141,7 +144,9 @@ public class OperatorController extends Controller {
 	}
 	
 	/**
-	 * Новая версия для операторской чтение заказов
+	 * читаем список курьеров для операторской
+	 * @param mode
+	 * @throws ValidationException
 	 */
 	public static void read2 (Long mode) throws ValidationException {
 		System.out.println ("read orders2 list");
@@ -162,9 +167,11 @@ public class OperatorController extends Controller {
 		renderJSON(wrapper);
 	}
 	
-	/*
-	 * 
-	 * Выбор курьера
+	/**
+	 * Выбор курьера для доставки заказа
+	 * @param orderId
+	 * @param courierId
+	 * @throws ValidationException
 	 */
 	public static void takeCourier(Long orderId, Long courierId) throws ValidationException {
 		System.out.println("Order " + orderId + ", Courier " + courierId);
@@ -178,7 +185,9 @@ public class OperatorController extends Controller {
 	
 	
 	/**
-	 * Изменение статусов
+	 * Проверка на изменение статусов заказа
+	 * @param lastUpdateTime
+	 * @throws ValidationException
 	 */
 	public static void lastOrderState (Long lastUpdateTime) throws ValidationException {
 		System.out.println ("last order state: " + lastUpdateTime);
@@ -222,6 +231,12 @@ public class OperatorController extends Controller {
     		renderJSON(rw);
     	}
 	}
+	/**
+	 * Изменение курьера
+	 * @param orderId
+	 * @param courierId
+	 * @throws ValidationException
+	 */
 	
 	public static void updateCourier (Long orderId, Long courierId) throws ValidationException {
 		System.out.println ("updateCourier" + orderId + "; " + courierId);
@@ -279,29 +294,48 @@ public class OperatorController extends Controller {
 				
 				
 				model.setName(couriers.getName());
-				model.setGeoLatitude(couriers.getGeoLatitude());
-				model.setGeoLongitude(couriers.getGeoLongitude());
-				model.setDate(couriers.getDate());
 				
-				if (System.currentTimeMillis() - couriers.getDate().getTime() > 3600000l)
-					model.setTimeActive("более часа назад");
-				else {
-					SimpleDateFormat timer = new SimpleDateFormat("mm");
-					String str = "";
-					str = timer.format(System.currentTimeMillis() -  couriers.getDate().getTime()) + " минут(-ы) назад";
-					char c = str.charAt(0);
-					char d = 0;
-					if (c == d) {
-						str.substring(1);
+				//model.setDate(couriers.getDate());
+				
+				if (couriers.getDate() != null){
+					if (System.currentTimeMillis() - couriers.getDate().getTime() > 3600000l)
+						model.setTimeActive("более часа назад");
+					else {
+						SimpleDateFormat timer = new SimpleDateFormat("mm");
+						String str = "";
+						str = timer.format(System.currentTimeMillis() -  couriers.getDate().getTime()) + " минут(-ы) назад";
+						char c = str.charAt(0);
+						char d = 0;
+						if (c == d) {
+							str.substring(1);
+						}
+						model.setTimeActive(str);
 					}
-					model.setTimeActive(str);
 				}
 				
-				if (timeStatus - couriers.getDate().getTime() > 600000l) {
-					model.setStatus(0);
+				else {
+					model.setTimeActive("Отсутствует информация");
 				}
+				
+				if (couriers.getDate() != null) {
+					if (timeStatus - couriers.getDate().getTime() > 600000l) {
+						model.setStatus(0);
+					}
+					else
+						model.setStatus(1);
+				}
+				
 				else
 					model.setStatus(1);
+				
+				if (couriers.getGeoLatitude() != null && couriers.getGeoLongitude() != null) {
+					model.setGeoLatitude(couriers.getGeoLatitude());
+					model.setGeoLongitude(couriers.getGeoLongitude());
+				}
+				
+				else{
+					model.setStatus(2);
+				}
 				
 				for (kz.sushimi.console.persistence.orders.OrderHistory order2 : list2) {
 					//System.out.println (order.getUser().getName() + "----" + order2.getUser().getName());
@@ -319,6 +353,7 @@ public class OperatorController extends Controller {
 					}
 				}
 				model.setAddressesOnDelivery(info);
+				if (StringUtils.isNotEmpty(orders))
 				model.setOrdersOnDelivery(orders.substring(0, orders.length() - 2));
 				courierFinish.add(model);
 				}

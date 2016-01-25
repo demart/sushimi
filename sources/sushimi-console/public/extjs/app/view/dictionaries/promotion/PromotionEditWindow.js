@@ -95,9 +95,15 @@ Ext.define('SushimiConsole.view.dictionaries.promotion.PromotionEditWindow', {
 			  // allowBlank: false
 	        },
 	        {
-	            xtype      : 'fieldcontainer',
+	            xtype: 'radiogroup',
 	            fieldLabel : 'Публикация',
-	            defaultType: 'checkboxfield',
+	           // defaultType: 'radiogroup',
+	            columns: 1,
+	            vertical: true,
+	            allowBlank: false,
+	            afterLabelTextTpl: [
+	            	                '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>'
+	            	            ],
 	            items: [
 	                {
 	                    boxLabel  : 'Да',
@@ -113,35 +119,44 @@ Ext.define('SushimiConsole.view.dictionaries.promotion.PromotionEditWindow', {
 	                    id        : 'checkbox2'
 	                }]
 	        },
-	       
 	        {
-	            xtype      : 'fieldcontainer',
+	            xtype: 'radiogroup',
 	            fieldLabel : 'Тип акции',
-	            defaultType: 'checkboxfield',
+	           // defaultType: 'radiogroup',
+	            columns: 1,
+	            vertical: true,
+	            allowBlank: false,
+	            afterLabelTextTpl: [
+	            	                '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>'
+	            	            ],
 	            items: [
-	                {
-	                    boxLabel  : 'По времени',
-	                    name      : 'type',
-	                    inputValue: 'PERIOD',
-	                    id        : 'checkbox3'
-	                   // checked: true,
-	                   // id        : 'checkbox1'
-	                }, {
-	                    boxLabel  : 'День рождение',
-	                    name      : 'type',
-	                    inputValue: 'BIRTHDATE',
-	                    id        : 'checkbox4'
-	                   // checked   : true,
-	                    //id        : 'checkbox2'
-	                },
-	                
-	                ]
-	        },
-	        
+	                    {
+		                    boxLabel  : 'По времени',
+		                    name      : 'type',
+		                    inputValue: 'PERIOD',
+		                    id        : 'checkbox3'
+		                   // checked: true,
+		                   // id        : 'checkbox1'
+		                }, {
+		                    boxLabel  : 'День рождение',
+		                    name      : 'type',
+		                    inputValue: 'BIRTHDATE',
+		                    id        : 'checkbox4'
+		                   // checked   : true,
+		                    //id        : 'checkbox2'
+		                }]
+	        },	       
+	        	        
 	        {
-	            xtype      : 'fieldcontainer',
+	        	xtype: 'radiogroup',
 	            fieldLabel : 'Тип подарка',
-	            defaultType: 'checkboxfield',
+	           // defaultType: 'radiogroup',
+	            columns: 1,
+	            vertical: true,
+	            allowBlank: false,
+	            afterLabelTextTpl: [
+	            	                '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>'
+	            	            ],
 	            items: [
 	                {
 	                    boxLabel: 'Скидка',

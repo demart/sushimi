@@ -65,6 +65,7 @@ Ext.define('SushimiConsole.Application', {
         // 'operator.NewSiteOrderStore',
          'operator.CourierStore',
          'operator.OrdersStore',
+         'CourierStore',
     ],
     
     launch: function () {

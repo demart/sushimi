@@ -26,7 +26,7 @@ import com.google.gson.Gson;
  * Процесс запускает службу по получением заказов с сайта
  * 
  * @author Demart
- *
+ *z
  */
 //@Every("30s")
 public class SiteOrderMonitor extends Job {
