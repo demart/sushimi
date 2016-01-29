@@ -2,8 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Import Secure routes
+*       /admin/panel/                                   module:secure
+
 # Home page
 GET     /                                       		Application.index
+
+
 
 GET		/about/											Application.about
 GET		/about/vacancy/									Application.vacancy
@@ -82,6 +87,7 @@ GET     /favicon.ico                            		404
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                		staticDir:public
+GET     /admin/panel/*									staticDir:public/extjs
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

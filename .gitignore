@@ -31,6 +31,14 @@ sources/sushimi-web/tmp/*
 sources/sushimi-web/eclipse/*
 sources/sushimi-web/precompiled/*
 sources/sushimi-web/conf/application.conf
+sources/sushimi-web-admin/.classpath
+sources/sushimi-web-admin/.project
+sources/sushimi-web-admin/.settings
+sources/sushimi-web-admin/.DS_Store
+sources/sushimi-web-admin/tmp/*
+sources/sushimi-web-admin/eclipse/*
+sources/sushimi-web-admin/precompiled/*
+sources/sushimi-web-admin/conf/application.conf
 sources/sushimi-rest-api/.classpath
 sources/sushimi-rest-api/.project
 sources/sushimi-rest-api/.settings

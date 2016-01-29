@@ -78,6 +78,8 @@ public class Application extends Controller {
     	
         render(model, page);
     }
+    
+    
 
     public static void about() {
     	// PAGE
@@ -150,5 +152,6 @@ public class Application extends Controller {
     	
     	renderJSON(groups);
     }
+    
        
 }

@@ -1,0 +1,37 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Import Secure routes
+*       /                                       module:secure
+
+# Home page
+GET     /                                       Application.index
+
+
+# Dictionaries
+GET		/rest/staff/information/store/read				    UserController.readAllStaff
+POST	/rest/staff/information/store/create				UserController.addNewStaff
+POST	/rest/staff/information/store/update				UserController.updateCurrentStaff
+
+GET		/rest/category/store/read							CategoryController.readAllCategories
+GET		/rest/category/combo/store/read					    CategoryController.readComboListCategory
+POST	/rest/category/store/update							CategoryController.updateCurrentCategory
+
+GET		/rest/products/store/read							ProductController.readAllProducts
+POST	/rest/products/store/update							ProductController.updateCurrentProduct
+GET		/rest/products/search/store/read					ProductController.searchProduct
+
+GET		/rest/announcements/store/read						AnnouncementController.readAllAnnouncements
+POST	/rest/announcements/store/update					AnnouncementController.updateCurrentAnnouncement
+
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+GET     /*										staticDir:public/extjs
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}

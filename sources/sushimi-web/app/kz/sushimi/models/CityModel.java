@@ -37,7 +37,7 @@ public class CityModel {
 		this.startWorkHour = city.getStartWorkHour();
 		this.endWorkHour = city.getEndWorkHour();
 		
-		;
+		
 		
 		for (Department dep : DictionaryService.getCityDepartments(city)) {
 			departments.add(new DepartmentModel(dep));

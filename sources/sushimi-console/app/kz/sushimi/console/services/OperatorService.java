@@ -246,12 +246,13 @@ public class OperatorService {
 		ArrayList<CourierModel> models = new ArrayList<CourierModel>(); 
 		for (kz.sushimi.console.persistence.users.User courierList : list) {
 			CourierModel model = new CourierModel();
-			String orders = "";
-			String  addresses = "";
+		//	String orders = "";
+		//	String  addresses = "";
+			System.out.println ("I am");
 			model.setName(courierList.getName());
 			model.setId(courierList.getId());
 			//model.setModifiedDate(order.getModifiedDate().getTime());
-			
+			/*
 			for (kz.sushimi.console.persistence.orders.OrderHistory order2 : list2) {
 				//System.out.println (order.getUser().getName() + "----" + order2.getUser().getName());
 				if (courierList.getId() == order2.getUser().getId()) {
@@ -272,9 +273,11 @@ public class OperatorService {
 						
 				}
 			}
+			*/
+			/*
 			model.setOrdersOnDelivery(orders.substring(0, orders.length() - 2));
 			model.setAddressesOnDelivery(addresses);
-			
+			*/
 			models.add(model);
 		}
 		

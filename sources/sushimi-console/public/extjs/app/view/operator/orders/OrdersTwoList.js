@@ -18,7 +18,7 @@ Ext.define('SushimiConsole.view.operator.orders.OrdersTwoList' ,{
    		'SushimiConsole.view.operator.orders.window.CancelSiteOrderWindow',
    		'SushimiConsole.view.order.window.NewOrderWindow',
    		'SushimiConsole.view.operator.orders.window.CourierWindow',
-   		'SushimiConsole.view.operator.orders.window.CourierMapWindow',
+   		//'SushimiConsole.view.operator.orders.window.CourierMapWindow',
    		'SushimiConsole.view.operator.orders.window.NewCourierWindow',
    		],
 
