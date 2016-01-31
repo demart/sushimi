@@ -255,6 +255,15 @@
 				        			<td>- ${(int)order.clientDiscountCurrentPercent}%</td>
 				        		</tr>
 				        		%{ } }%
+				        		%{ if (order.clientDiscountCurrentPercent != null && 
+				        						        		order.clientDiscountCurrentPercent != 10 && order.clientDiscountNextSum != null && 
+				        						        		order.clientDiscountNextPercent != null && order.clientDiscountTotalOrderSum != null) { }%
+			        			<tr>
+				        			<td></td>
+				        			<td style="text-align: left;" colspan="2">Сумма до скидки ${order.clientDiscountNextPercent }%</td>
+				        			<td> ${order.clientDiscountNextSum - order.clientDiscountTotalOrderSum}</td>
+				        		</tr>
+				        		%{ } }%
 				        		%{ if (order.sourceDiscount != null && order.sourceDiscount > 0) { }%
 			        			<tr>
 				        			<td></td>
@@ -433,6 +442,15 @@
 				        			<td></td>
 				        			<td style="text-align: left;" colspan="2">Скидка постоянным клиентам</td>
 				        			<td>- ${(int)order.clientDiscountCurrentPercent}%</td>
+				        		</tr>
+				        		%{ } }%
+				        						        		%{ if (order.clientDiscountCurrentPercent != null && 
+				        						        		order.clientDiscountCurrentPercent != 10 && order.clientDiscountNextSum != null && 
+				        						        		order.clientDiscountNextPercent != null && order.clientDiscountTotalOrderSum != null) { }%
+			        			<tr>
+				        			<td></td>
+				        			<td style="text-align: left;" colspan="2">Сумма до скидки ${order.clientDiscountNextPercent }%</td>
+				        			<td> ${order.clientDiscountNextSum - order.clientDiscountTotalOrderSum}</td>
 				        		</tr>
 				        		%{ } }%
 				        		%{ if (order.sourceDiscount != null && order.sourceDiscount > 0) { }%

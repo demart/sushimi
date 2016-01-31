@@ -267,6 +267,12 @@ public class PrintService {
 			printer.write(0xA);
 		}
 		
+		if (order.getClientDiscountCurrentPercent() != null && order.getClientDiscountCurrentPercent() != 10 &&
+				order.getClientDiscountTotalOrderSum() != null && order.getClientDiscountNextSum() != null) {
+			printer.write(("Сумма до скидки " + order.getClientDiscountNextPercent() + "%:                "  + (order.getClientDiscountNextSum() - order.getClientDiscountTotalOrderSum())).getBytes("Cp1251"));
+			printer.write(0xA);
+		}
+		
 		if (order.getSourceDiscount() != null || order.getSourceDiscount() != 0) {
 			printer.write(("Дополнительная скидка:                     " + order.getSourceDiscount() + "%").getBytes("Cp1251"));
 			printer.write(0xA);
